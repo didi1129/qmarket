@@ -15,20 +15,15 @@ const ItemRow = ({ item }: ItemRowProps) => {
     >
       <div className="flex items-start space-x-4">
         {/* 아이템 이미지 */}
-        <div className="relative w-16 h-16 flex-shrink-0 rounded overflow-hidden">
+        <figure className="relative w-[100px] h-[122px] flex-shrink-0 rounded-lg overflow-hidden">
           <Image
-            src={item.image}
+            src={item.image ?? "/images/empty.png"}
             alt={item.item_name}
-            fill
-            sizes="64px"
+            width={100}
+            height={122}
             className="object-cover"
           />
-          {item.is_sold && (
-            <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-              <span className="text-white font-bold text-sm">완료</span>
-            </div>
-          )}
-        </div>
+        </figure>
 
         {/* 아이템 정보 */}
         <div className="flex-grow min-w-0">
