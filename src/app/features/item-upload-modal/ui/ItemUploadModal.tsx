@@ -20,53 +20,57 @@ import { sanitize } from "@/shared/lib/sanitize";
 import { Label } from "@/shared/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/shared/ui/radio-group";
 import { ScrollArea } from "@/shared/ui/scroll-area";
+import { ItemFormValues, ItemFormSchema } from "../model/schema";
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ITEM_SOURCES_MAP } from "@/shared/config/constants";
 
 export default function ItemUploadModal() {
-  const [category, setCategory] = useState("");
-  const [question, setQuestion] = useState("");
-  const [answer, setAnswer] = useState("");
-  const [nickname, setNickname] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const queryClient = useQueryClient();
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+  const form = useForm<ItemFormValues>({
+    resolver: zodResolver(ItemFormSchema),
+    defaultValues: {
+      item_name: "",
+      price: 0,
+      is_sold: "selling",
+      is_online: "online",
+      item_source: "gatcha",
+      nickname: "",
+    },
+  });
 
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { isSubmitting },
+    reset,
+  } = form;
+
+  const onSubmit = async (values: ItemFormValues) => {
     try {
-      const tableName = `${category}`;
+      const dataToInsert = {
+        item_name: sanitize(values.item_name),
+        price: values.price,
+        is_sold: values.is_sold === "sold",
+        is_online: values.is_online === "online",
+        item_source: ITEM_SOURCES_MAP[values.item_source],
+        nickname: sanitize(values.nickname),
+      };
 
-      const createdAt = new Date().toISOString();
+      const { error } = await supabase.from("items").insert([dataToInsert]);
 
-      const { error } = await supabase.from(tableName).insert([
-        {
-          question: sanitize(question),
-          answer: sanitize(answer),
-          created_at: createdAt,
-          nickname: [sanitize(nickname)],
-        },
-      ]);
-
-      if (error) throw error;
-
-      toast.success("문제가 성공적으로 추가되었습니다!");
-
-      // React Query 캐시 갱신
-      queryClient.invalidateQueries({ queryKey: ["items"] });
-
-      setCategory("");
-      setQuestion("");
-      setAnswer("");
-      setNickname("");
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error(`상품 등록 실패: ${error.message}`);
-      } else {
-        toast.error("알 수 없는 오류가 발생했습니다.");
+      if (error) {
+        throw new Error(error.message);
       }
-      console.error(error);
-    } finally {
-      setIsSubmitting(false);
+
+      toast.success("상품이 등록되었습니다!");
+      queryClient.invalidateQueries({ queryKey: ["items"] });
+      reset(); // 폼 초기화
+    } catch (err) {
+      toast.error("상품 등록에 실패했습니다.");
+      console.error(err);
     }
   };
 
@@ -91,84 +95,111 @@ export default function ItemUploadModal() {
         </DialogHeader>
 
         <ScrollArea className="max-h-[50vh] pr-4">
-          <form onSubmit={handleSubmit} className="mb-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="mb-4">
             <div className="grid gap-8">
               <div className="grid gap-3">
-                <label htmlFor="question" className="text-sm">
+                <label htmlFor="item_name" className="text-sm">
                   상품명
                 </label>
                 <Input
-                  id="answer"
-                  name="answer"
+                  id="item_name"
                   placeholder="상품명"
-                  value={answer}
-                  onChange={(e) => setAnswer(e.target.value)}
+                  {...register("item_name")}
                 />
               </div>
 
               <div className="grid gap-3">
-                <label htmlFor="answer" className="text-sm">
+                <label htmlFor="price" className="text-sm">
                   가격
                 </label>
                 <Input
-                  id="answer"
-                  name="answer"
+                  id="price"
+                  type="number"
                   placeholder="가격"
-                  value={answer}
-                  onChange={(e) => setAnswer(e.target.value)}
+                  {...register("price", { valueAsNumber: true })}
                 />
               </div>
 
+              {/* 판매중/판매완료 */}
               <div className="grid gap-3">
                 <label htmlFor="selling1" className="text-sm">
-                  판매중/판매완료
+                  판매 상태
                 </label>
-                <RadioGroup defaultValue="selling">
-                  <div className="flex items-center gap-3">
-                    <RadioGroupItem value="selling" id="selling1" />
-                    <Label htmlFor="selling1">판매중</Label>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <RadioGroupItem value="sold" id="selling2" />
-                    <Label htmlFor="selling2">판매완료</Label>
-                  </div>
-                </RadioGroup>
+                <Controller
+                  name="is_sold"
+                  control={control}
+                  render={({ field }) => (
+                    <RadioGroup
+                      onValueChange={field.onChange}
+                      value={field.value}
+                    >
+                      <div className="flex items-center gap-3">
+                        <RadioGroupItem value="selling" id="selling1" />
+                        <Label htmlFor="selling1">판매중</Label>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <RadioGroupItem value="sold" id="selling2" />
+                        <Label htmlFor="selling2">판매완료</Label>
+                      </div>
+                    </RadioGroup>
+                  )}
+                />
               </div>
 
+              {/* 온라인/미접속 */}
               <div className="grid gap-3">
                 <label htmlFor="online1" className="text-sm">
-                  온라인/미접속
+                  접속 상태
                 </label>
-                <RadioGroup defaultValue="online">
-                  <div className="flex items-center gap-3">
-                    <RadioGroupItem value="online" id="online1" />
-                    <Label htmlFor="online1">온라인</Label>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <RadioGroupItem value="offline" id="online2" />
-                    <Label htmlFor="online2">미접속</Label>
-                  </div>
-                </RadioGroup>
+                <Controller
+                  name="is_online"
+                  control={control}
+                  render={({ field }) => (
+                    <RadioGroup
+                      onValueChange={field.onChange}
+                      value={field.value}
+                    >
+                      <div className="flex items-center gap-3">
+                        <RadioGroupItem value="online" id="online1" />
+                        <Label htmlFor="online1">온라인</Label>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <RadioGroupItem value="offline" id="online2" />
+                        <Label htmlFor="online2">미접속</Label>
+                      </div>
+                    </RadioGroup>
+                  )}
+                />
               </div>
 
+              {/* 아이템 출처 */}
               <div className="grid gap-3">
                 <label htmlFor="source1" className="text-sm">
                   아이템 출처
                 </label>
-                <RadioGroup defaultValue="gatcha">
-                  <div className="flex items-center gap-3">
-                    <RadioGroupItem value="gatcha" id="source1" />
-                    <Label htmlFor="source1">뽑기</Label>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <RadioGroupItem value="shop" id="source2" />
-                    <Label htmlFor="source2">상점</Label>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <RadioGroupItem value="lottery" id="source3" />
-                    <Label htmlFor="source3">복권</Label>
-                  </div>
-                </RadioGroup>
+                <Controller
+                  name="item_source"
+                  control={control}
+                  render={({ field }) => (
+                    <RadioGroup
+                      onValueChange={field.onChange}
+                      value={field.value}
+                    >
+                      <div className="flex items-center gap-3">
+                        <RadioGroupItem value="gatcha" id="source1" />
+                        <Label htmlFor="source1">뽑기</Label>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <RadioGroupItem value="shop" id="source2" />
+                        <Label htmlFor="source2">상점</Label>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <RadioGroupItem value="lottery" id="source3" />
+                        <Label htmlFor="source3">복권</Label>
+                      </div>
+                    </RadioGroup>
+                  )}
+                />
               </div>
 
               <div className="grid gap-3">
@@ -177,24 +208,22 @@ export default function ItemUploadModal() {
                 </label>
                 <Input
                   id="nickname"
-                  name="nickname"
                   placeholder="인게임/디스코드 닉네임"
-                  value={nickname}
-                  onChange={(e) => setNickname(e.target.value)}
+                  {...register("nickname")}
                 />
               </div>
             </div>
+
+            <DialogFooter className="mt-6">
+              <DialogClose asChild>
+                <Button variant="outline">닫기</Button>
+              </DialogClose>
+              <Button type="submit" disabled={isSubmitting}>
+                {isSubmitting ? "등록 중..." : "등록하기"}
+              </Button>
+            </DialogFooter>
           </form>
         </ScrollArea>
-
-        <DialogFooter className="mt-6">
-          <DialogClose asChild>
-            <Button variant="outline">닫기</Button>
-          </DialogClose>
-          <Button type="submit">
-            {isSubmitting ? "등록 중..." : "등록하기"}
-          </Button>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
