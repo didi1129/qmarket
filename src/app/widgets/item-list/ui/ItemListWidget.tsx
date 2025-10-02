@@ -37,13 +37,13 @@ export const ItemListWidget = ({ items, isLoading }: ItemListWidgetProps) => {
               판매상태
             </TableHead>
             <TableHead className="text-center font-medium text-sm text-gray-700">
-              온라인
-            </TableHead>
-            <TableHead className="text-center font-medium text-sm text-gray-700">
               뽑기/상점/복권
             </TableHead>
             <TableHead className="text-center font-medium text-sm text-gray-700">
               판매자
+            </TableHead>
+            <TableHead className="text-center font-medium text-sm text-gray-700">
+              온라인
             </TableHead>
           </TableRow>
         </TableHeader>
@@ -85,18 +85,6 @@ export const ItemListWidget = ({ items, isLoading }: ItemListWidgetProps) => {
                   </TableCell>
                   <TableCell className="text-center">
                     <Badge
-                      variant="secondary"
-                      className={`${
-                        item.is_online
-                          ? "bg-green-600 text-white"
-                          : "bg-gray-200 text-gray-600"
-                      } px-2 py-1 rounded-full`}
-                    >
-                      {item.is_online ? "온라인" : "미접속"}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="text-center">
-                    <Badge
                       variant="outline"
                       className="bg-yellow-100 text-yellow-800 border-yellow-200 px-2 py-1 rounded-full"
                     >
@@ -112,6 +100,18 @@ export const ItemListWidget = ({ items, isLoading }: ItemListWidgetProps) => {
                       <span className="font-medium text-gray-900">
                         {item.nickname}
                       </span>
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="text-center">
+                    <Badge
+                      variant="secondary"
+                      className={`${
+                        item.is_online
+                          ? "bg-green-600 text-white"
+                          : "bg-gray-200 text-gray-600"
+                      } px-2 py-1 rounded-full`}
+                    >
+                      {item.is_online ? "온라인" : "미접속"}
                     </Badge>
                   </TableCell>
                 </TableRow>
