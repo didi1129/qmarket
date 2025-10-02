@@ -44,7 +44,11 @@ const ItemRow = ({ item }: ItemRowProps) => {
 
         <div className="flex space-x-2 text-xs font-medium">
           {/* 판매 완료 여부 (is_sold) */}
-          <Badge className="bg-green-600 text-white">
+          <Badge
+            className={`${
+              item.is_sold ? "bg-black" : "bg-green-600"
+            } text-white`}
+          >
             {item.is_sold ? "판매완료" : "판매중"}
           </Badge>
 
