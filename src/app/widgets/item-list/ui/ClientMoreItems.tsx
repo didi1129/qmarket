@@ -57,7 +57,7 @@ export default function ClientMoreItems({
         <SearchInput
           value={searchQuery}
           className="w-auto"
-          onChange={(e: string) => setSearchQuery(e)}
+          onSearch={(e: string) => setSearchQuery(e)}
         />
       </div>
 
