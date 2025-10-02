@@ -1,16 +1,10 @@
 import { Item } from "../model/types";
 import Image from "next/image";
+import { Badge } from "@/components/ui/badge";
 
 interface ItemRowProps {
   item: Item;
 }
-
-const statusColor = {
-  online: "text-green-600",
-  offline: "text-gray-500",
-  selling: "bg-blue-100 text-blue-800",
-  sold: "bg-red-100 text-red-800",
-};
 
 const ItemRow = ({ item }: ItemRowProps) => {
   return (
@@ -39,39 +33,41 @@ const ItemRow = ({ item }: ItemRowProps) => {
         {/* 아이템 정보 */}
         <div className="flex-grow min-w-0">
           <h3 className="text-lg font-semibold truncate">{item.item_name}</h3>
-          <p className="text-2xl font-bold text-indigo-700 mt-1">
-            {item.price.toLocaleString()} 원
+          <p className="text-2xl font-bold text-blue-700 mt-1 flex items-center gap-0.5">
+            {item.price.toLocaleString()}
+            <span className="text-base mt-1">원</span>
           </p>
         </div>
       </div>
 
       {/* 메타 정보 (닉네임, 상태) */}
       <div className="mt-3 text-sm flex items-center justify-between">
-        <p className="font-medium text-gray-700 truncate">
-          판매자: {item.nickname}
-        </p>
+        <Badge variant="secondary" className="text-gray-700 truncate">
+          판매자:{" "}
+          <span className="font-bold text-gray-900">{item.nickname}</span>
+        </Badge>
 
         <div className="flex space-x-2 text-xs font-medium">
           {/* 판매 완료 여부 (is_sold) */}
-          <span
-            className={`px-2 py-0.5 rounded-full ${statusColor[item.is_sold]}`}
-          >
+          <Badge className="bg-green-600 text-white">
             {item.is_sold ? "판매완료" : "판매중"}
-          </span>
+          </Badge>
 
           {/* 판매자 온라인 여부 (is_online) */}
-          <span
-            className={`px-2 py-0.5 rounded-full ${
-              item.is_online === "online" ? "bg-green-100" : "bg-gray-100"
-            } ${statusColor[item.is_online]}`}
+          <Badge
+            variant="secondary"
+            className={item.is_online ? "bg-blue-500 text-white" : undefined}
           >
-            {item.is_online === "online" ? "온라인" : "미접속"}
-          </span>
+            {item.is_online ? "온라인" : "미접속"}
+          </Badge>
 
           {/* 상품 출처 (is_gatcha) */}
-          <span className="px-2 py-0.5 rounded-full bg-yellow-100 text-yellow-800">
+          <Badge
+            variant="outline"
+            className="bg-yellow-100 text-yellow-800 border-yellow-200"
+          >
             {item.item_source}
-          </span>
+          </Badge>
         </div>
       </div>
     </div>
