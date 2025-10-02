@@ -74,7 +74,7 @@ export default function ClientMoreItems({
   };
 
   return (
-    <div className="mt-6 pt-6">
+    <div className="mt-6">
       <div className="flex items-center justify-between mb-4 gap-2">
         {/* 검색창 */}
         <div className="flex flex-1 justify-end">
