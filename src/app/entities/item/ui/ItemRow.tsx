@@ -14,17 +14,6 @@ const ItemRow = ({ item }: ItemRowProps) => {
       }`}
     >
       <div className="flex items-start space-x-4">
-        {/* 아이템 이미지 */}
-        <figure className="relative w-[100px] h-[122px] flex-shrink-0 rounded-lg overflow-hidden">
-          <Image
-            src={item.image ?? "/images/empty.png"}
-            alt={item.item_name}
-            width={100}
-            height={122}
-            className="object-cover"
-          />
-        </figure>
-
         {/* 아이템 정보 */}
         <div className="flex-grow min-w-0">
           <h3 className="text-lg font-semibold truncate">{item.item_name}</h3>
