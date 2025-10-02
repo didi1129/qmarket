@@ -1,0 +1,14 @@
+export type IsOnline = "online" | "offline";
+export type ItemSource = "gatcha" | "shop" | "lottery" | "etc";
+export type SaleStatus = "selling" | "sold";
+
+export interface Item {
+  id: string; // 상품 ID
+  item_name: string; // 상품명
+  price: number; // 가격
+  image: string; // 이미지 URL (컬럼명 변경)
+  is_online: IsOnline; // 온라인/미접속
+  item_source: ItemSource; // 뽑기/상점/복권/기타 아이템
+  nickname: string; // 판매자 닉네임 (인게임 닉네임)
+  is_sold: SaleStatus; // 판매중/판매완료
+}
