@@ -27,22 +27,22 @@ export const ItemListWidget = ({ items, isLoading }: ItemListWidgetProps) => {
         <TableCaption className="sr-only">아이템 목록</TableCaption>
         <TableHeader className="bg-gray-100">
           <TableRow>
-            <TableHead className="text-center font-semibold text-gray-700">
+            <TableHead className="text-center font-medium text-sm text-gray-700">
               상품명
             </TableHead>
-            <TableHead className="text-center font-semibold text-gray-700">
-              가격
+            <TableHead className="text-center font-medium text-sm text-gray-700">
+              가격 (원)
             </TableHead>
-            <TableHead className="text-center font-semibold text-gray-700">
+            <TableHead className="text-center font-medium text-sm text-gray-700">
               판매상태
             </TableHead>
-            <TableHead className="text-center font-semibold text-gray-700">
+            <TableHead className="text-center font-medium text-sm text-gray-700">
               온라인
             </TableHead>
-            <TableHead className="text-center font-semibold text-gray-700">
+            <TableHead className="text-center font-medium text-sm text-gray-700">
               뽑기/상점/복권
             </TableHead>
-            <TableHead className="text-center font-semibold text-gray-700">
+            <TableHead className="text-center font-medium text-sm text-gray-700">
               판매자
             </TableHead>
           </TableRow>
@@ -65,11 +65,11 @@ export const ItemListWidget = ({ items, isLoading }: ItemListWidgetProps) => {
                   onMouseEnter={() => setOpenIndex(index)}
                   onMouseLeave={() => setOpenIndex(null)}
                 >
-                  <TableCell className="text-center font-medium text-gray-800">
+                  <TableCell className="text-center font-bold text-gray-800">
                     {item.item_name}
                   </TableCell>
-                  <TableCell className="text-center text-gray-700">
-                    {item.price.toLocaleString()}원
+                  <TableCell className="text-center font-bold text-gray-700">
+                    {item.price.toLocaleString()}
                   </TableCell>
                   <TableCell className="text-center">
                     <Badge
