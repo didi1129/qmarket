@@ -21,10 +21,14 @@ export default function ClientMoreItems({
 
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
-  const allItems = useMemo(() => {
+  const filteredItems = useMemo(() => {
     if (!data) return [];
-    return data.pages.flatMap((page) => page);
-  }, [data]);
+    return data.pages
+      .flatMap((page) => page)
+      .filter((item) =>
+        item.item_name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+  }, [data, searchQuery]);
 
   useEffect(() => {
     if (!loadMoreRef.current || !hasNextPage) return;
@@ -62,7 +66,7 @@ export default function ClientMoreItems({
       </div>
 
       {/* 아이템 목록 */}
-      <ItemListWidget items={allItems} isLoading={isFetchingNextPage} />
+      <ItemListWidget items={filteredItems} isLoading={isFetchingNextPage} />
 
       {/* 무한 스크롤 */}
       <div ref={loadMoreRef} className="h-10">
