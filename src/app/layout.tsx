@@ -3,6 +3,7 @@ import "./globals.css";
 import { QueryProvider } from "./shared/providers/QueryProvider";
 import { pretendard } from "./shared/config/fonts";
 import { Toaster } from "sonner";
+import Header from "./widgets/header/ui/Header";
 
 export const metadata: Metadata = {
   title: "Q-Market",
@@ -17,6 +18,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={`${pretendard.className} antialiased`}>
+        <Header />
         <QueryProvider>{children}</QueryProvider>
         <Toaster
           position="bottom-center"

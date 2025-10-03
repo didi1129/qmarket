@@ -1,5 +1,6 @@
 "use client";
 
+import { login, signup } from "../model/actions";
 import { useForm } from "react-hook-form";
 import {
   SignInFormSchema,
@@ -28,16 +29,20 @@ export default function SignInForm() {
 
   const onSubmit = async (data: SignInFormValues) => {
     try {
-      const {
-        data: { user },
-        error,
-      } = await supabase.auth.signInWithPassword({
-        email: data.email.trim().toLowerCase(),
-        password: data.password,
-      });
+      const formData = new FormData();
+      formData.append("email", data.email);
+      formData.append("password", data.password);
+      await login(formData); // ✅ 서버 액션 호출
 
-      if (error) {
-        const errMsg = error.message;
+      toast.success("로그인 성공!");
+
+      // 메인 페이지로 이동
+      router.push("/");
+    } catch (err) {
+      console.log(err);
+
+      if (err instanceof Error) {
+        const errMsg = err.message;
         if (
           errMsg.includes("Invalid login credentials") ||
           errMsg.includes("not confirmed")
@@ -46,35 +51,10 @@ export default function SignInForm() {
             "이메일 인증이 완료되지 않았거나, 비밀번호가 올바르지 않습니다."
           );
         } else {
-          toast.error(error.message);
+          toast.error(err.message);
         }
         return;
       }
-
-      if (!user) {
-        toast.error("로그인에 실패했습니다. 다시 시도해주세요.");
-        return;
-      }
-
-      // ✅ 로그인 성공 후 users 테이블에서 nickname 가져오기
-      const { data: profile, error: profileError } = await supabase
-        .from(USERS_TABLE_NAME)
-        .select("nickname")
-        .eq("id", user.id)
-        .maybeSingle();
-
-      if (profileError) {
-        console.error("닉네임 조회 실패:", profileError.message);
-        toast.success("로그인 성공! (닉네임 조회 실패)");
-      } else {
-        toast.success(`환영합니다, ${profile?.nickname ?? "유저"}님!`);
-      }
-
-      // 메인 페이지로 이동
-      router.push("/");
-    } catch (err) {
-      console.log(err);
-      toast.error("알 수 없는 에러가 발생했습니다.");
     }
   };
 
