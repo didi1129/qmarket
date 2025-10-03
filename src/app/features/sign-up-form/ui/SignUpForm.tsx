@@ -11,7 +11,6 @@ import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
 import { Button } from "@/shared/ui/button";
 import { useEffect } from "react";
-import { supabase } from "@/shared/api/supabase-client";
 import { useRouter } from "next/navigation";
 
 export default function SignUpForm() {
