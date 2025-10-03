@@ -11,8 +11,12 @@ import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
 import { Button } from "@/shared/ui/button";
 import { useEffect } from "react";
+import { supabase } from "@/shared/api/supabase-client";
+import { useRouter } from "next/navigation";
 
 export default function SignUpForm() {
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -56,8 +60,13 @@ export default function SignUpForm() {
       if (!res.ok) {
         toast.error(result.error);
       } else {
-        toast.success("회원가입에 성공했습니다!");
+        toast.success(
+          "회원가입에 성공했습니다. 이메일 계정 인증을 완료해주세요."
+        );
         reset();
+
+        // 이메일 인증 페이지로 이동
+        router.push(`/auth-email?email=${encodeURIComponent(payload.email)}`);
       }
     } catch (err) {
       console.log(err);
