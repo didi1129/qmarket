@@ -87,15 +87,15 @@ export default function ItemUploadModal() {
           variant="default"
           className="w-auto mx-auto font-bold bg-blue-600 hover:bg-blue-700"
         >
-          상품 등록하기
+          아이템 등록
         </Button>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader className="mb-4">
-          <DialogTitle>상품 등록하기</DialogTitle>
+          <DialogTitle>아이템 등록하기</DialogTitle>
           <DialogDescription className="flex flex-col">
-            <span>판매하실 상품 정보를 등록해주세요.</span>
+            <span>판매중인 아이템 정보를 등록해주세요.</span>
           </DialogDescription>
         </DialogHeader>
 
@@ -104,7 +104,7 @@ export default function ItemUploadModal() {
             <div className="grid gap-8 px-2">
               <div className="grid gap-3">
                 <label htmlFor="item_name" className="text-sm">
-                  상품명
+                  아이템명
                 </label>
                 <Input
                   id="item_name"

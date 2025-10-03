@@ -113,11 +113,11 @@ export default function ClientMoreItems({
       <div ref={loadMoreRef} className="h-10">
         {isFetchingNextPage ? (
           <p className="text-center mt-4 text-gray-500 text-sm">
-            추가 상품 로드 중...
+            아이템 로드 중...
           </p>
         ) : hasNextPage ? null : (
           <p className="text-center mt-4 text-gray-500 text-sm">
-            모든 상품을 불러왔습니다.
+            마지막 페이지입니다.
           </p>
         )}
       </div>
