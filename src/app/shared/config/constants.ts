@@ -8,3 +8,8 @@ export const ITEM_SOURCES_MAP = {
   shop: "상점템",
   lottery: "복권템",
 };
+
+export const ITEM_GENDER_MAP = {
+  w: "여",
+  m: "남",
+};

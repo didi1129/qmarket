@@ -22,7 +22,7 @@ import { ScrollArea } from "@/shared/ui/scroll-area";
 import { ItemFormValues, ItemFormSchema } from "../model/schema";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ITEM_SOURCES_MAP } from "@/shared/config/constants";
+import { ITEM_SOURCES_MAP, ITEM_GENDER_MAP } from "@/shared/config/constants";
 import { Lock, Plus } from "lucide-react";
 import { useUser } from "@/shared/providers/UserProvider";
 
@@ -39,6 +39,7 @@ export default function ItemUploadModal() {
         is_online: values.is_online === "online",
         item_source: ITEM_SOURCES_MAP[values.item_source],
         nickname: sanitize(values.nickname),
+        item_gender: ITEM_GENDER_MAP[values.item_gender],
       };
 
       const { data, error } = await supabase
@@ -70,6 +71,7 @@ export default function ItemUploadModal() {
       is_online: "online",
       item_source: "gatcha",
       nickname: "",
+      item_gender: "m",
     },
   });
 
@@ -125,6 +127,36 @@ export default function ItemUploadModal() {
                   type="number"
                   placeholder="가격"
                   {...register("price", { valueAsNumber: true })}
+                />
+              </div>
+
+              {/* 아이템 성별 */}
+              <div className="grid gap-3">
+                <label htmlFor="item_gender1" className="text-sm">
+                  아이템 성별
+                </label>
+                <Controller
+                  name="item_gender"
+                  control={control}
+                  render={({ field }) => (
+                    <RadioGroup
+                      onValueChange={field.onChange}
+                      value={field.value}
+                    >
+                      <div className="flex items-center gap-3">
+                        <RadioGroupItem value="m" id="item_gender1" />
+                        <Label htmlFor="item_gender1">
+                          {ITEM_GENDER_MAP.m}
+                        </Label>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <RadioGroupItem value="w" id="item_gender2" />
+                        <Label htmlFor="item_gender2">
+                          {ITEM_GENDER_MAP.w}
+                        </Label>
+                      </div>
+                    </RadioGroup>
+                  )}
                 />
               </div>
 

@@ -1,6 +1,7 @@
 export type IsOnline = "online" | "offline";
 export type ItemSource = "gatcha" | "shop" | "lottery" | "etc";
 export type SaleStatus = "selling" | "sold";
+export type ItemGender = "w" | "m";
 
 export interface Item {
   id: string; // 상품 ID
@@ -11,4 +12,5 @@ export interface Item {
   item_source: ItemSource; // 뽑기/상점/복권/기타 아이템
   nickname: string; // 판매자 닉네임 (인게임 닉네임)
   is_sold: SaleStatus; // 판매중/판매완료
+  item_gender: ItemGender; // 아이템 성별
 }

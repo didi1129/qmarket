@@ -66,7 +66,7 @@ export const ItemListWidget = ({ items, isLoading }: ItemListWidgetProps) => {
                   onMouseLeave={() => setOpenIndex(null)}
                 >
                   <TableCell className="text-center font-bold text-gray-800">
-                    {item.item_name}
+                    {item.item_name}({item.item_gender})
                   </TableCell>
                   <TableCell className="text-center font-bold text-gray-700">
                     {item.price.toLocaleString()}
