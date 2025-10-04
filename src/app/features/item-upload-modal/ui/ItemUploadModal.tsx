@@ -38,7 +38,7 @@ export default function ItemUploadModal() {
         is_sold: values.is_sold === "sold",
         is_online: values.is_online === "online",
         item_source: ITEM_SOURCES_MAP[values.item_source],
-        nickname: sanitize(values.nickname),
+        nickname: user?.nickname,
         item_gender: ITEM_GENDER_MAP[values.item_gender],
       };
 
@@ -70,7 +70,6 @@ export default function ItemUploadModal() {
       is_sold: "selling",
       is_online: "online",
       item_source: "gatcha",
-      nickname: "",
       item_gender: "m",
     },
   });
@@ -239,17 +238,6 @@ export default function ItemUploadModal() {
                       </div>
                     </RadioGroup>
                   )}
-                />
-              </div>
-
-              <div className="grid gap-3">
-                <label htmlFor="nickname" className="text-sm">
-                  판매자
-                </label>
-                <Input
-                  id="nickname"
-                  placeholder="인게임/디스코드 닉네임"
-                  {...register("nickname")}
                 />
               </div>
             </div>
