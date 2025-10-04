@@ -1,6 +1,6 @@
 "use client";
 
-import { login, signup } from "../model/actions";
+import { login } from "../model/actions";
 import { useForm } from "react-hook-form";
 import {
   SignInFormSchema,
@@ -12,8 +12,6 @@ import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
 import { Button } from "@/shared/ui/button";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/shared/api/supabase-client";
-import { USERS_TABLE_NAME } from "@/shared/config/constants";
 
 export default function SignInForm() {
   const router = useRouter();
