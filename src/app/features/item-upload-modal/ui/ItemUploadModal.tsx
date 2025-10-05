@@ -25,8 +25,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ITEM_SOURCES_MAP, ITEM_GENDER_MAP } from "@/shared/config/constants";
 import { Lock, Plus } from "lucide-react";
 import { useUser } from "@/shared/providers/UserProvider";
+import { useState } from "react";
 
 export default function ItemUploadModal() {
+  const [open, setOpen] = useState(false);
   const queryClient = useQueryClient();
   const user = useUser();
 
@@ -84,16 +86,24 @@ export default function ItemUploadModal() {
     });
   };
 
+  const handleItemUploadOpen = () => {
+    if (user) {
+      setOpen(true);
+    } else {
+      setOpen(false);
+      toast.error("로그인이 필요합니다.");
+    }
+  };
+
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button
-          variant="default"
-          className="w-auto mx-auto font-bold bg-blue-600 hover:bg-blue-700"
-        >
-          {user ? <Plus /> : <Lock />} 아이템 등록
-        </Button>
-      </DialogTrigger>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <Button
+        variant="default"
+        className="w-auto mx-auto font-bold bg-blue-600 hover:bg-blue-700"
+        onClick={handleItemUploadOpen}
+      >
+        {user ? <Plus /> : <Lock />} 아이템 등록
+      </Button>
 
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader className="mb-4">
