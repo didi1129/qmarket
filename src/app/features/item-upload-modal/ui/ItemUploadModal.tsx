@@ -9,7 +9,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/shared/ui/dialog";
 import { Input } from "@/shared/ui/input";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
@@ -42,6 +41,7 @@ export default function ItemUploadModal() {
         item_source: ITEM_SOURCES_MAP[values.item_source],
         nickname: user?.nickname,
         item_gender: ITEM_GENDER_MAP[values.item_gender],
+        user_id: user?.id,
       };
 
       const { data, error } = await supabase

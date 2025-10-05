@@ -13,4 +13,5 @@ export interface Item {
   nickname: string; // 판매자 닉네임 (인게임 닉네임)
   is_sold: SaleStatus; // 판매중/판매완료
   item_gender: ItemGender; // 아이템 성별
+  user_id: string; // 아이템 등록 유저 uuid
 }

@@ -39,6 +39,7 @@ export default async function RootLayout({
       .maybeSingle();
 
     serverUser = {
+      id: user.id,
       email: user.email!,
       nickname: profile?.nickname ?? undefined,
     };

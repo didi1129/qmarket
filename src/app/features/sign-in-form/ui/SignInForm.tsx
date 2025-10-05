@@ -30,7 +30,7 @@ export default function SignInForm() {
       const formData = new FormData();
       formData.append("email", data.email);
       formData.append("password", data.password);
-      await login(formData); // ✅ 서버 액션 호출
+      await login(formData);
 
       toast.success("로그인 성공!");
 

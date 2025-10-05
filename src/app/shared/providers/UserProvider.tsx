@@ -3,6 +3,7 @@
 import { createContext, useContext, ReactNode } from "react";
 
 export interface UserType {
+  id?: string;
   email?: string;
   nickname?: string;
 }
