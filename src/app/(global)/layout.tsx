@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import "./globals.css";
-import { QueryProvider } from "./shared/providers/QueryProvider";
-import { pretendard } from "./shared/config/fonts";
+import "@/globals.css";
+import { QueryProvider } from "@/shared/providers/QueryProvider";
+import { pretendard } from "@/shared/config/fonts";
 import { Toaster } from "sonner";
-import Header from "./widgets/header/ui/Header";
-import { UserProvider, UserType } from "./shared/providers/UserProvider";
+import Header from "@/widgets/header/ui/Header";
+import { UserProvider, UserType } from "@/shared/providers/UserProvider";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 

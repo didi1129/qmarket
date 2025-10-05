@@ -1,5 +1,5 @@
-import { fetchInitialItems } from "./entities/item/model/server-fetch";
-import TabView from "./widgets/tab-view/ui/TabView";
+import { fetchInitialItems } from "@/entities/item/model/server-fetch";
+import TabView from "@/widgets/tab-view/ui/TabView";
 
 export default async function Home() {
   const initialItems = await fetchInitialItems(10, 0);
