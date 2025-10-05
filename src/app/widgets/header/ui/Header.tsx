@@ -23,12 +23,17 @@ export default function Header() {
     <header className="py-8 max-w-4xl mx-auto flex items-center">
       <div className="ml-auto">
         {user ? (
-          <>
+          <div className="flex gap-2 items-center">
             <span className="text-sm mr-4">
-              <b>{user.nickname ?? user.email}</b>님, 환영합니다.
+              로그인 유저: <b>{user.nickname ?? user.email}</b>
             </span>
-            <Button onClick={handleSignOut}>로그아웃</Button>
-          </>
+            <Button variant="outline" onClick={() => router.push("/my-items")}>
+              내 아이템
+            </Button>
+            <Button variant="outline" onClick={handleSignOut}>
+              로그아웃
+            </Button>
+          </div>
         ) : (
           <Button onClick={() => router.push("/signin")}>로그인</Button>
         )}
