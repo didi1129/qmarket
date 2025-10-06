@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useUser } from "@/shared/providers/UserProvider";
 import { logout } from "@/features/sign-in-form/model/actions";
 import { toast } from "sonner";
+import Link from "next/link";
 
 export default function Header() {
   const router = useRouter();
@@ -20,7 +21,12 @@ export default function Header() {
   };
 
   return (
-    <header className="py-8 max-w-4xl mx-auto flex items-center">
+    <header className="py-8 max-w-4xl mx-auto flex items-center justify-between">
+      <Link href="/" className="text-3xl  font-bold">
+        <span className="text-yellow-400">Q</span>
+        <span className="text-blue-600">Market</span>
+      </Link>
+
       <div className="ml-auto">
         {user ? (
           <div className="flex gap-2 items-center">
