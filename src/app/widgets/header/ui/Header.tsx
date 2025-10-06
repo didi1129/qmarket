@@ -22,9 +22,8 @@ export default function Header() {
 
   return (
     <header className="py-8 max-w-4xl mx-auto flex items-center justify-between">
-      <Link href="/" className="text-3xl  font-bold">
-        <span className="text-yellow-400">Q</span>
-        <span className="text-blue-600">Market</span>
+      <Link href="/" className="text-3xl text-blue-600 font-bold">
+        Q-Market
       </Link>
 
       <div className="ml-auto">
