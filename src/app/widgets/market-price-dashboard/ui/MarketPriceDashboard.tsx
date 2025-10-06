@@ -15,6 +15,7 @@ import SaleHistoryChart from "@/widgets/sale-history-chart/ui/SaleHistoryChart";
 
 export default function MarketPriceDashboard() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [itemGender, setItemGender] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   // 시세 상태
@@ -73,6 +74,8 @@ export default function MarketPriceDashboard() {
 
       {/* 검색창 */}
       <div className="flex flex-1 justify-center mt-8 gap-2">
+        {/* setItemGender를 '남', '여' 둘 중 하나로 선택할 수 있는 shadcn/ui RadioGroup */}
+
         <SearchInput
           value={searchQuery}
           className="text-sm w-auto"

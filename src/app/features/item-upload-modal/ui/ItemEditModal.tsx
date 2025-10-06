@@ -60,7 +60,12 @@ export default function ItemEditModal({ item }: ItemEditModalProps) {
     },
   });
 
-  const { register, handleSubmit, control } = form;
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = form;
 
   const updateItemMutation = useMutation({
     mutationFn: async (values: ItemFormValues) => {
@@ -152,8 +157,14 @@ export default function ItemEditModal({ item }: ItemEditModalProps) {
                 <Input
                   id="price"
                   type="number"
+                  min="0"
                   {...register("price", { valueAsNumber: true })}
                 />
+                {errors.price && (
+                  <p className="text-red-600 text-sm mt-1">
+                    {errors.price.message}
+                  </p>
+                )}
               </div>
 
               {/* 아이템 성별 */}

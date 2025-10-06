@@ -75,7 +75,13 @@ export default function ItemUploadModal() {
     },
   });
 
-  const { register, handleSubmit, control, reset } = form;
+  const {
+    register,
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors },
+  } = form;
 
   const onSubmit = (values: ItemFormValues) => {
     createItemMutation.mutate(values, {
@@ -121,9 +127,14 @@ export default function ItemUploadModal() {
                 </label>
                 <Input
                   id="item_name"
-                  placeholder="상품명"
+                  placeholder="아이템명"
                   {...register("item_name")}
                 />
+                {errors.item_name && (
+                  <p className="text-red-600 text-sm mt-1">
+                    {errors.item_name.message}
+                  </p>
+                )}
               </div>
 
               <div className="grid gap-3">
@@ -134,8 +145,14 @@ export default function ItemUploadModal() {
                   id="price"
                   type="number"
                   placeholder="가격"
+                  min="0"
                   {...register("price", { valueAsNumber: true })}
                 />
+                {errors.price && (
+                  <p className="text-red-600 text-sm mt-1">
+                    {errors.price.message}
+                  </p>
+                )}
               </div>
 
               {/* 아이템 성별 */}
