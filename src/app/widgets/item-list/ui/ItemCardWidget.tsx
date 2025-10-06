@@ -4,6 +4,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import ItemCard from "@/entities/item/ui/ItemCard";
 import { Item } from "@/entities/item/model/types";
 import { supabase } from "@/shared/api/supabase-client";
+import ItemUploadModal from "@/features/item-upload-modal/ui/ItemUploadModal";
 
 interface Props {
   userId: string;
@@ -18,7 +19,7 @@ export const fetchMyItems = async (
     .from("items")
     .select(
       `
-        id, item_name, price, image, 
+        id, item_name, price, image,
         is_online, item_source, nickname, is_sold, user_id, item_gender
     `
     )
@@ -47,6 +48,15 @@ export default function ItemCardWidget({ userId }: Props) {
     });
 
   const items = data?.pages.flat() ?? [];
+
+  if (items.length === 0) {
+    return (
+      <div className="flex flex-col gap-4 items-center justify-center">
+        등록한 아이템이 없습니다.
+        <ItemUploadModal />
+      </div>
+    );
+  }
 
   return (
     <div>
