@@ -75,7 +75,7 @@ export async function getTradedMarketPrice(itemName: string) {
   }
 
   if (!soldListings || soldListings.length === 0) {
-    return "거래 내역 없음";
+    return "0"; // NaN 방지
   }
 
   const prices = soldListings
