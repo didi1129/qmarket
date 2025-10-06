@@ -13,6 +13,7 @@ import { Button } from "@/shared/ui/button";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 export default function SignUpForm() {
   const router = useRouter();
@@ -78,11 +79,13 @@ export default function SignUpForm() {
 
   return (
     <div className="w-md mx-auto mt-10 p-6 pb-12">
+      <Button variant="ghost" className="mb-4" onClick={() => router.push("/")}>
+        <ArrowLeft />
+        메인으로
+      </Button>
+
       <div className="mb-12 text-center">
         <h2 className="text-2xl font-bold mb-1">회원가입</h2>
-        <p className="text-gray-500 text-sm">
-          회원가입 후 아이템 등록 기능을 사용할 수 있습니다.
-        </p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
@@ -104,6 +107,10 @@ export default function SignUpForm() {
           {errors.email && (
             <p className="text-red-600 text-sm mt-1">{errors.email.message}</p>
           )}
+          <p className="text-gray-500 text-xs mt-2">
+            * 이메일 인증 후 가입이 완료됩니다. 인증 메일을 받을 수 있는 주소를
+            입력해주세요.
+          </p>
         </div>
 
         {/* 비밀번호 */}

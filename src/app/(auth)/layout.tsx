@@ -1,6 +1,7 @@
 import "@/globals.css";
 import { pretendard } from "@/shared/config/fonts";
 import { Toaster } from "sonner";
+import Link from "next/link";
 
 export default function AuthLayout({
   children,
