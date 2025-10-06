@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import {
   getItemMarketPrice,
   getTradedMarketPrice,
@@ -15,8 +15,9 @@ import SaleHistoryChart from "@/widgets/sale-history-chart/ui/SaleHistoryChart";
 import { RadioGroup, RadioGroupItem } from "@/shared/ui/radio-group";
 
 export default function MarketPriceDashboard() {
+  const [searchInput, setSearchInput] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
-  const [itemGender, setItemGender] = useState("");
+  const [itemGender, setItemGender] = useState("남");
   const [isLoading, setIsLoading] = useState(false);
 
   // 시세 상태
@@ -27,15 +28,17 @@ export default function MarketPriceDashboard() {
   const [saleHistory, setSaleHistory] = useState<SaleHistory[]>([]);
 
   const handleSearch = useCallback(async () => {
-    const trimmedInput = searchQuery.trim();
+    const trimmedInput = searchInput.trim();
     if (!trimmedInput) {
       setMarketPrice("");
       setTradedPrice("");
       setSaleHistory([]);
+      setSearchQuery(""); // 검색어도 초기화
       return;
     }
 
     setIsLoading(true);
+    setSearchQuery(trimmedInput);
 
     try {
       const [market, traded, history] = await Promise.all([
@@ -52,9 +55,16 @@ export default function MarketPriceDashboard() {
     } finally {
       setIsLoading(false);
     }
-  }, [searchQuery, itemGender]);
+  }, [searchInput, itemGender]);
 
   const hasMarketPrice = marketPrice !== "" && tradedPrice !== "";
+
+  // itemGender 변경 후, searchQuery가 존재하면 자동 재조회
+  useEffect(() => {
+    if (searchQuery.trim()) {
+      handleSearch();
+    }
+  }, [itemGender, handleSearch, searchQuery]);
 
   return (
     <section className="max-w-4xl mx-auto">
@@ -97,9 +107,9 @@ export default function MarketPriceDashboard() {
         {/* 검색바 */}
         <div className="flex gap-2">
           <SearchInput
-            value={searchQuery}
+            value={searchInput}
             className="text-sm w-auto"
-            onSearch={(e: string) => setSearchQuery(e)}
+            onSearch={(e: string) => setSearchInput(e)}
             onKeyDown={(e) => {
               if (e.key === "Enter") handleSearch();
             }}
