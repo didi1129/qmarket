@@ -6,6 +6,10 @@ import { supabase } from "@/shared/api/supabase-client";
  * - 등록 10건 미만: 중앙값(Median)
  */
 export default async function getItemMarketPrice(itemName: string) {
+  if (!itemName || itemName.trim().length === 0) {
+    return 0;
+  }
+
   const TRIM_RATE = 0.05; // 상하위 5%
 
   const { data: listings, error } = await supabase
