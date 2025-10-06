@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { supabaseServer } from "@/shared/api/supabase-server";
-import { nanoid } from "nanoid";
 import { ITEMS_TABLE_NAME } from "@/shared/config/constants";
 
 export const GET = async (req: Request) => {

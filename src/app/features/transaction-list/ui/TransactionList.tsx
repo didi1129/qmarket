@@ -1,5 +1,9 @@
 import { TransactionListProps } from "../model/types";
 
+export interface TransactionPrice {
+  price: number;
+}
+
 export default function TransactionList({
   payload,
   label,
@@ -17,7 +21,7 @@ export default function TransactionList({
 
       {transactions.length > 0 ? (
         <ol style={{ maxHeight: "150px", overflowY: "auto" }}>
-          {transactions.map((tx: any, idx: number) => (
+          {transactions.map((tx: TransactionPrice, idx: number) => (
             <li key={idx} className="pb-0.5 text-sm text-gray-500">
               <p>- {tx.price.toLocaleString()}원</p>
             </li>

@@ -1,6 +1,17 @@
 import TransactionList from "@/features/transaction-list/ui/TransactionList";
+import { SaleHistory } from "../lib/getItemSaleHistory";
 
-export default function CustomChartTooltip({ active, payload, label }: any) {
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: { value: number; payload: SaleHistory }[];
+  label?: string;
+}
+
+export default function CustomChartTooltip({
+  active,
+  payload,
+  label,
+}: CustomTooltipProps) {
   if (active && payload && payload.length) {
     const avgPrice = payload[0].value.toLocaleString();
 
@@ -12,7 +23,7 @@ export default function CustomChartTooltip({ active, payload, label }: any) {
         <p className="font-bold text-sm text-blue-600 mb-2">
           🧮 평균 거래 가격: {avgPrice}원
         </p>
-        <TransactionList payload={payload} label={label} />{" "}
+        <TransactionList payload={payload} label={label!} />{" "}
       </div>
     );
   }

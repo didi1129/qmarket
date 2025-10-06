@@ -54,10 +54,12 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({ user: userData.user });
-  } catch (err: any) {
-    return NextResponse.json(
-      { error: err.message ?? "서버 오류" },
-      { status: 500 }
-    );
+  } catch (err) {
+    if (err instanceof Error) {
+      return NextResponse.json(
+        { error: err.message ?? "서버 오류" },
+        { status: 500 }
+      );
+    }
   }
 }

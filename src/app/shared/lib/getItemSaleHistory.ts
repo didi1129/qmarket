@@ -4,7 +4,23 @@ import { Transaction } from "@/features/transaction-list/model/types";
 export interface SaleHistory {
   date: string;
   avgPrice: number;
+  total_sales: number;
   transactions: Transaction[];
+}
+
+// items 테이블 쿼리 결과 타입
+interface ItemRow {
+  item_name: string;
+  price: number;
+  updated_at: string; // ISO 문자열
+  is_sold?: boolean;
+}
+
+// RPC 결과 타입 정의
+interface DailySaleHistoryRow {
+  sale_date: string;
+  avg_price: number;
+  total_sales: number;
 }
 
 /**
@@ -44,7 +60,7 @@ export default async function getItemSaleHistory(
   // 3. 상세 내역을 날짜별로 그룹핑
   const transactionsByDate: { [date: string]: Transaction[] } = {};
   if (detailData) {
-    detailData.forEach((row: any) => {
+    detailData.forEach((row: ItemRow) => {
       // updated_at (timestamptz)에서 날짜 ('YYYY-MM-DD')만 추출
       const saleDate = new Date(row.updated_at).toISOString().split("T")[0];
 
@@ -62,7 +78,7 @@ export default async function getItemSaleHistory(
   }
 
   // 4. RPC 결과(집계)와 상세 내역 병합
-  const historyData: SaleHistory[] = rpcData.map((row: any) => {
+  const historyData: SaleHistory[] = rpcData.map((row: DailySaleHistoryRow) => {
     const date = row.sale_date;
     return {
       date: date,

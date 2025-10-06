@@ -1,7 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQueryClient,
+  InfiniteData,
+} from "@tanstack/react-query";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -88,16 +92,19 @@ export default function ItemEditModal({ item }: ItemEditModalProps) {
       setOpen(false);
 
       // 캐시 업데이트 (UI 즉시 반영)
-      queryClient.setQueryData(["my-items", item.user_id], (oldData: any) => {
-        if (!oldData) return oldData;
+      queryClient.setQueryData<InfiniteData<Item[]> | undefined>(
+        ["my-items", item.user_id],
+        (oldData) => {
+          if (!oldData) return oldData;
 
-        return {
-          ...oldData,
-          pages: oldData.pages.map((page: Item[]) =>
-            page.map((i: Item) => (i.id === updatedItem.id ? updatedItem : i))
-          ),
-        };
-      });
+          return {
+            ...oldData,
+            pages: oldData.pages.map((page) =>
+              page.map((i) => (i.id === updatedItem.id ? updatedItem : i))
+            ),
+          };
+        }
+      );
     },
     onError: (err) => {
       toast.error("아이템 수정에 실패했습니다.");

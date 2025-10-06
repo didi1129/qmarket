@@ -38,7 +38,7 @@ export default function SignUpForm() {
     if (password.length >= 8 && passwordChk) {
       trigger("passwordChk");
     }
-  }, [password, trigger]);
+  }, [password, trigger, getValues]);
 
   const onSubmit = async (data: SignUpFormValues) => {
     const payload = {
