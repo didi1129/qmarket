@@ -12,6 +12,7 @@ import { Label } from "@/shared/ui/label";
 import { Button } from "@/shared/ui/button";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function SignUpForm() {
   const router = useRouter();
@@ -76,7 +77,7 @@ export default function SignUpForm() {
   };
 
   return (
-    <div className="w-md mx-auto mt-10 p-6">
+    <div className="w-md mx-auto mt-10 p-6 pb-12">
       <div className="mb-12 text-center">
         <h2 className="text-2xl font-bold mb-1">회원가입</h2>
         <p className="text-gray-500 text-sm">
@@ -156,7 +157,7 @@ export default function SignUpForm() {
           <Input
             id="nickname"
             type="text"
-            placeholder="인게임/디스코드 닉네임"
+            placeholder="큐플레이 또는 디스코드 닉네임"
             {...register("nickname")}
           />
           {errors.nickname && (
@@ -175,6 +176,16 @@ export default function SignUpForm() {
           {isSubmitting ? "가입 중..." : "가입하기"}
         </Button>
       </form>
+
+      <p className="text-sm text-gray-500 mt-4 text-center">
+        계정이 있으신가요?{" "}
+        <Link
+          href="/signin"
+          className="font-medium text-blue-600 underline underline-offset-4"
+        >
+          로그인하기
+        </Link>
+      </p>
     </div>
   );
 }

@@ -12,6 +12,7 @@ import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
 import { Button } from "@/shared/ui/button";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function SignInForm() {
   const router = useRouter();
@@ -110,6 +111,16 @@ export default function SignInForm() {
           {isSubmitting ? "로그인 중..." : "로그인"}
         </Button>
       </form>
+
+      <p className="text-sm text-gray-500 mt-4 text-center">
+        계정이 없으신가요?{" "}
+        <Link
+          href="/signup"
+          className="font-medium text-blue-600 underline underline-offset-4"
+        >
+          회원가입하기
+        </Link>
+      </p>
     </div>
   );
 }
