@@ -13,7 +13,8 @@ export default function CustomChartTooltip({
   label,
 }: CustomTooltipProps) {
   if (active && payload && payload.length) {
-    const avgPrice = payload[0].value.toLocaleString();
+    const avgPrice = payload[0].value.toFixed(0);
+    const formattedAvgPrice = Number(avgPrice).toLocaleString();
 
     return (
       <div
@@ -21,7 +22,7 @@ export default function CustomChartTooltip({
         style={{ minWidth: "250px" }}
       >
         <p className="font-bold text-sm text-blue-600 mb-2">
-          🧮 평균 거래 가격: {avgPrice}원
+          🧮 평균 거래 가격: {formattedAvgPrice}원
         </p>
         <TransactionList payload={payload} label={label!} />{" "}
       </div>
