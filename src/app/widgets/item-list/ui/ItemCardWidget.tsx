@@ -13,7 +13,7 @@ interface Props {
   userId: string;
 }
 
-export const fetchMyItems = async (
+const fetchMyItems = async (
   userId: string,
   limit: number = 10,
   offset: number = 0

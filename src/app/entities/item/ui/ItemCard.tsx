@@ -1,15 +1,9 @@
 import { Badge } from "@/shared/ui/badge";
 import Image from "next/image";
-import ItemEditModal from "@/features/item-upload-modal/ui/ItemEditModal";
 import { Item } from "../model/types";
+import MyItemActions from "@/widgets/my-item-actions/ui/MyItemActions";
 
-type ItemCardType = Omit<Item, "nickname">;
-
-interface ItemCardProps {
-  item: ItemCardType;
-}
-
-const ItemCard = ({ item }: ItemCardProps) => {
+const ItemCard = ({ item }: { item: Item }) => {
   return (
     <div
       className={`relative flex p-4 border rounded-lg shadow-sm ${
@@ -25,7 +19,7 @@ const ItemCard = ({ item }: ItemCardProps) => {
         />
       </figure>
 
-      <ItemEditModal item={item} />
+      <MyItemActions item={item} />
 
       <div className="flex items-start self-start">
         {/* 아이템 정보 */}

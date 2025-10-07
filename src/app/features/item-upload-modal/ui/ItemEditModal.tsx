@@ -126,7 +126,6 @@ export default function ItemEditModal({ item }: ItemEditModalProps) {
       <Button
         variant="outline"
         aria-label="아이템 수정"
-        className="absolute right-4 top-4"
         onClick={() => setOpen(true)}
       >
         <Pencil /> 수정하기
