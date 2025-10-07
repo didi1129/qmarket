@@ -13,7 +13,6 @@ import { Button } from "@/shared/ui/button";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
 import ButtonToMain from "@/shared/ui/LinkButton/ButtonToMain";
 
 export default function SignUpForm() {

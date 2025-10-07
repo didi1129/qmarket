@@ -87,8 +87,8 @@ export default function ClientMoreItems({
         </p> */}
         <p className="text-gray-500 text-sm">
           * 보다 정확한 시세 반영을 위해, 판매된 아이템은{" "}
-          <b>'내 아이템' &gt; '수정하기'</b>에서 <b>'판매완료'</b> 상태로
-          변경해주세요.
+          <b>&apos;내 아이템&apos; &gt; &apos;수정하기&apos;</b>에서{" "}
+          <b>&apos;판매완료&apos;</b> 상태로 변경해주세요.
         </p>
       </div>
 
