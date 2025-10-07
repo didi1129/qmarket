@@ -1,7 +1,5 @@
 import ItemCardWidget from "@/widgets/item-list/ui/ItemCardWidget";
 import { createClient } from "@/shared/api/supabase-server-cookie";
-import ItemUploadModal from "@/features/item-upload-modal/ui/ItemUploadModal";
-import ButtonToMain from "@/shared/ui/LinkButton/ButtonToMain";
 
 export default async function MyItemsPage() {
   const supabase = await createClient();
@@ -37,11 +35,6 @@ export default async function MyItemsPage() {
         <p className="text-gray-500 text-sm">
           * 시세 조작 방지를 위해 아이템 삭제 기능은 제공되지 않습니다.
         </p>
-      </div>
-
-      <div className="flex w-full mb-8 justify-between">
-        <ButtonToMain />
-        <ItemUploadModal />
       </div>
 
       <ItemCardWidget userId={user.id} />

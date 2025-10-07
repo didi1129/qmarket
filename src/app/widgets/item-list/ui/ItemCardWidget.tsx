@@ -5,7 +5,9 @@ import ItemCard from "@/entities/item/ui/ItemCard";
 import { Item } from "@/entities/item/model/types";
 import { supabase } from "@/shared/api/supabase-client";
 import ItemUploadModal from "@/features/item-upload-modal/ui/ItemUploadModal";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
+import ButtonToMain from "@/shared/ui/LinkButton/ButtonToMain";
+import SearchInput from "@/features/item-search/ui/SearchInput";
 
 interface Props {
   userId: string;
@@ -37,9 +39,11 @@ export const fetchMyItems = async (
 };
 
 export default function ItemCardWidget({ userId }: Props) {
+  const [searchQuery, setSearchQuery] = useState("");
+
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+  const { data, isPending, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
       queryKey: ["my-items", userId],
       queryFn: ({ pageParam = 0 }) => fetchMyItems(userId, 10, pageParam),
@@ -51,6 +55,15 @@ export default function ItemCardWidget({ userId }: Props) {
     });
 
   const items = data?.pages.flat() ?? [];
+
+  const filteredItems = useMemo(() => {
+    if (!data) return [];
+    return data.pages
+      .flatMap((page) => page)
+      .filter((item) =>
+        item.item_name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+  }, [data, searchQuery]);
 
   useEffect(() => {
     if (!loadMoreRef.current || !hasNextPage) return;
@@ -68,19 +81,50 @@ export default function ItemCardWidget({ userId }: Props) {
     return () => observer.disconnect();
   }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
-  if (items.length === 0) {
+  const isEmpty = !isPending && items.length === 0;
+
+  if (isEmpty) {
     return (
-      <div className="flex flex-col gap-4 items-center justify-center">
-        등록한 아이템이 없습니다.
-        <ItemUploadModal />
-      </div>
+      <>
+        <div className="flex w-full mb-8 justify-between">
+          <ButtonToMain />
+          <ItemUploadModal />
+        </div>
+
+        <div className="flex flex-col gap-4 items-center justify-center text-sm text-gray-500">
+          등록한 아이템이 없습니다.
+        </div>
+      </>
     );
   }
 
+  if (isPending)
+    return (
+      <div className="flex flex-col gap-4 items-center justify-center text-sm text-gray-500">
+        아이템 목록 불러오는 중...
+      </div>
+    );
+
   return (
     <div className="pb-10">
+      <div className="flex w-full mb-8 justify-between">
+        <ButtonToMain />
+
+        <div className="flex gap-2">
+          {/* 검색창 */}
+          <SearchInput
+            value={searchQuery}
+            className="border border-gray-300 rounded-lg shadow-sm text-sm w-auto"
+            onSearch={(e: string) => setSearchQuery(e)}
+          />
+
+          {/* 아이템 등록 모달 */}
+          <ItemUploadModal />
+        </div>
+      </div>
+
       <ol className="space-y-4">
-        {items.map((item) => (
+        {filteredItems.map((item) => (
           <ItemCard key={item.id} item={item} />
         ))}
       </ol>
