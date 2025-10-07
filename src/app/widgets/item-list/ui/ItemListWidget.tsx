@@ -12,6 +12,7 @@ import { Badge } from "@/shared/ui/badge";
 import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/popover";
 import { useState } from "react";
 import ItemImage from "@/shared/ui/ItemImage";
+import { formatDate } from "@/shared/lib/formatters";
 
 interface ItemListWidgetProps {
   items: Item[];
@@ -39,12 +40,15 @@ export const ItemListWidget = ({ items, isLoading }: ItemListWidgetProps) => {
             <TableHead className="text-center font-medium text-sm text-gray-700">
               뽑기/상점/복권
             </TableHead>
-            {/* <TableHead className="text-center font-medium text-sm text-gray-700">
+            <TableHead className="text-center font-medium text-sm text-gray-700">
               판매자
-            </TableHead> */}
+            </TableHead>
             {/* <TableHead className="text-center font-medium text-sm text-gray-700">
               온라인
             </TableHead> */}
+            <TableHead className="text-center font-medium text-sm text-gray-700">
+              등록일
+            </TableHead>
           </TableRow>
         </TableHeader>
 
@@ -66,7 +70,14 @@ export const ItemListWidget = ({ items, isLoading }: ItemListWidgetProps) => {
                   onMouseLeave={() => setOpenIndex(null)}
                 >
                   <TableCell className="text-center font-bold text-gray-800">
-                    {item.item_name}({item.item_gender})
+                    <div className="flex items-center gap-4 mx-auto w-[65%]">
+                      <ItemImage
+                        name={item.item_name}
+                        imgUrl={item.image}
+                        size="sm"
+                      />
+                      {item.item_name}({item.item_gender})
+                    </div>
                   </TableCell>
                   <TableCell className="text-center font-bold text-gray-700">
                     {item.price.toLocaleString()}
@@ -91,7 +102,7 @@ export const ItemListWidget = ({ items, isLoading }: ItemListWidgetProps) => {
                       {item.item_source}
                     </Badge>
                   </TableCell>
-                  {/* <TableCell className="text-center">
+                  <TableCell className="text-center">
                     <Badge
                       variant="secondary"
                       className="text-gray-700 truncate px-2 py-1 rounded"
@@ -101,7 +112,7 @@ export const ItemListWidget = ({ items, isLoading }: ItemListWidgetProps) => {
                         {item.nickname}
                       </span>
                     </Badge>
-                  </TableCell> */}
+                  </TableCell>
                   {/* <TableCell className="text-center">
                     <Badge
                       variant="secondary"
@@ -114,6 +125,9 @@ export const ItemListWidget = ({ items, isLoading }: ItemListWidgetProps) => {
                       {item.is_online ? "온라인" : "미접속"}
                     </Badge>
                   </TableCell> */}
+                  <TableCell className="text-center text-sm text-gray-500">
+                    {formatDate(item.updated_at)}
+                  </TableCell>
                 </TableRow>
               </PopoverTrigger>
 
@@ -123,13 +137,14 @@ export const ItemListWidget = ({ items, isLoading }: ItemListWidgetProps) => {
                 align="end"
               >
                 <div className="flex flex-col items-center gap-2">
-                  <ItemImage name={item.item_name} imgUrl={item.image} />
+                  <ItemImage
+                    name={item.item_name}
+                    imgUrl={item.image}
+                    size="lg"
+                  />
                   <p className="text-center font-medium text-gray-900">
                     {item.item_name}
                   </p>
-                  <span className="text-gray-500 text-sm">
-                    판매자: {item.nickname}
-                  </span>
                 </div>
               </PopoverContent>
             </Popover>
