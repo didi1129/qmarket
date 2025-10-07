@@ -138,7 +138,7 @@ export default function MarketPriceDashboard() {
           </h2>
 
           <p className="text-sm text-gray-500">
-            * <b>현재 시세</b>: 현재 <b>판매중</b>인 가격 기준
+            * <b>현재 시세</b>: 현재 <b>판매중</b>인 가격 기준 (호가)
           </p>
           <p className="text-sm text-gray-500">
             * <b>거래 시세</b>: <b>판매 완료</b>된 가격 기준 (실거래가)

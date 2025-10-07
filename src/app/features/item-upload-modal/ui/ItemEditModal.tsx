@@ -154,11 +154,30 @@ export default function ItemEditModal({ item }: ItemEditModalProps) {
                 <label htmlFor="price" className="text-sm">
                   가격
                 </label>
-                <Input
-                  id="price"
-                  type="number"
-                  min="0"
-                  {...register("price", { valueAsNumber: true })}
+                <Controller
+                  name="price"
+                  control={control}
+                  render={({ field: { value, onChange, onBlur } }) => (
+                    <Input
+                      id="price"
+                      inputMode="numeric"
+                      placeholder="가격"
+                      value={value === 0 ? "0" : value.toLocaleString()} // 천단위 표시
+                      onFocus={(e) => {
+                        if (value === 0) e.target.value = ""; // 포커스 시 초기값 제거
+                      }}
+                      onChange={(e) => {
+                        const raw = e.target.value.replace(/,/g, ""); // 콤마 제거
+                        if (/^\d*$/.test(raw)) {
+                          // 음수 방지
+                          const num = raw === "" ? 0 : Number(raw);
+                          onChange(num);
+                        }
+                      }}
+                      onBlur={onBlur}
+                      autoComplete="off"
+                    />
+                  )}
                 />
                 {errors.price && (
                   <p className="text-red-600 text-sm mt-1">
