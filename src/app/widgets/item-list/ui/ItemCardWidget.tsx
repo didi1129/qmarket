@@ -5,6 +5,7 @@ import ItemCard from "@/entities/item/ui/ItemCard";
 import { Item } from "@/entities/item/model/types";
 import { supabase } from "@/shared/api/supabase-client";
 import ItemUploadModal from "@/features/item-upload-modal/ui/ItemUploadModal";
+import { useEffect, useRef } from "react";
 
 interface Props {
   userId: string;
@@ -36,6 +37,8 @@ export const fetchMyItems = async (
 };
 
 export default function ItemCardWidget({ userId }: Props) {
+  const loadMoreRef = useRef<HTMLDivElement | null>(null);
+
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
       queryKey: ["my-items", userId],
@@ -48,6 +51,22 @@ export default function ItemCardWidget({ userId }: Props) {
     });
 
   const items = data?.pages.flat() ?? [];
+
+  useEffect(() => {
+    if (!loadMoreRef.current || !hasNextPage) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
+          fetchNextPage();
+        }
+      },
+      { threshold: 1.0 }
+    );
+
+    observer.observe(loadMoreRef.current);
+    return () => observer.disconnect();
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
   if (items.length === 0) {
     return (
@@ -66,15 +85,18 @@ export default function ItemCardWidget({ userId }: Props) {
         ))}
       </ol>
 
-      {hasNextPage && (
-        <button
-          onClick={() => fetchNextPage()}
-          disabled={isFetchingNextPage}
-          className="mt-4 p-2 bg-blue-500 text-white rounded"
-        >
-          {isFetchingNextPage ? "불러오는 중..." : "더 불러오기"}
-        </button>
-      )}
+      {/* 무한 스크롤 */}
+      <div ref={loadMoreRef} className="h-10">
+        {isFetchingNextPage ? (
+          <p className="text-center mt-4 text-gray-500 text-sm">
+            아이템 로드 중...
+          </p>
+        ) : hasNextPage ? null : (
+          <p className="text-center mt-4 text-gray-500 text-sm">
+            마지막 페이지입니다.
+          </p>
+        )}
+      </div>
     </div>
   );
 }
