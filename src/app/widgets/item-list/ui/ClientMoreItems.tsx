@@ -80,8 +80,19 @@ export default function ClientMoreItems({
   };
 
   return (
-    <div className="mt-6">
-      <div className="flex items-center justify-between mb-4 gap-2">
+    <div className="mt-4">
+      <div className="rounded-xl border p-4">
+        {/* <p className="text-gray-500 text-sm">
+          * 판매 완료된 아이템은 다음날 판매 현황 목록에서 사라집니다.
+        </p> */}
+        <p className="text-gray-500 text-sm">
+          * 보다 정확한 시세 반영을 위해, 판매된 아이템은{" "}
+          <b>'내 아이템' &gt; '수정하기'</b>에서 <b>'판매완료'</b> 상태로
+          변경해주세요.
+        </p>
+      </div>
+
+      <div className="flex items-center justify-between mb-4 gap-2 mt-12">
         {/* 검색창 */}
         <div className="flex flex-1 justify-end">
           <SearchInput

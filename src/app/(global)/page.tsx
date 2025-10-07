@@ -10,7 +10,7 @@ export default async function Home() {
         <div className="mb-12">
           <h1 className="text-3xl text-center font-bold mb-2">Q-Market</h1>
           <p className="text-center text-gray-500 text-sm">
-            큐플레이 아이템 판매 현황, 시세 조회 서비스
+            큐플레이 아이템 판매 현황, 시세 조회
           </p>
         </div>
 
