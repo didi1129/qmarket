@@ -36,19 +36,23 @@ export default function ClientMoreItems({
 
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
-  const filteredItems = useMemo(() => {
+  // const filteredItems = useMemo(() => {
+  //   if (!data) return [];
+  //   return data.pages
+  //     .flatMap((page) => page)
+  //     .filter((item) =>
+  //       item.item_name.toLowerCase().includes(searchQuery.toLowerCase())
+  //     );
+  // }, [data, searchQuery]);
+  const allItems = useMemo(() => {
     if (!data) return [];
-    return data.pages
-      .flatMap((page) => page)
-      .filter((item) =>
-        item.item_name.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-  }, [data, searchQuery]);
+    return data.pages.flatMap((page) => page);
+  }, [data]);
 
   // sort가 바뀔 때마다 페이지 리셋
   useEffect(() => {
     refetch();
-  }, [sort, refetch]);
+  }, [sort, searchQuery, refetch]);
 
   useEffect(() => {
     if (!loadMoreRef.current || !hasNextPage) return;
@@ -140,7 +144,7 @@ export default function ClientMoreItems({
       </div>
 
       {/* 아이템 목록 */}
-      <ItemListWidget items={filteredItems} isLoading={isFetchingNextPage} />
+      <ItemListWidget items={allItems} isLoading={isFetchingNextPage} />
 
       {/* 무한 스크롤 */}
       <div ref={loadMoreRef} className="h-10">
