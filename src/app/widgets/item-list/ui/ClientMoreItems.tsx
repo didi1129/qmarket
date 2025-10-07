@@ -8,6 +8,12 @@ import { useState } from "react";
 import SearchInput from "@/features/item-search/ui/SearchInput";
 import ItemUploadModal from "@/features/item-upload-modal/ui/ItemUploadModal";
 import { Button } from "@/shared/ui/button";
+import {
+  ArrowDown01,
+  ArrowDown10,
+  ClockArrowDown,
+  RefreshCcw,
+} from "lucide-react";
 
 interface ClientMoreItemsProps {
   initialItems: Item[];
@@ -90,15 +96,31 @@ export default function ClientMoreItems({
           variant="outline"
           onClick={() =>
             setSort((prev) =>
-              prev === "price_asc" ? "price_desc" : "price_asc"
+              prev === null
+                ? "price_asc"
+                : prev === "price_asc"
+                ? "price_desc"
+                : null
             )
           }
         >
-          {sort === "price_asc" || !sort ? "가격 낮은순" : "가격 높은순"}
+          {!sort ? (
+            <ClockArrowDown />
+          ) : sort === "price_asc" ? (
+            <ArrowDown01 />
+          ) : (
+            <ArrowDown10 />
+          )}
+          {!sort
+            ? "최신순"
+            : sort === "price_asc"
+            ? "가격 낮은순"
+            : "가격 높은순"}
         </Button>
 
         {/* 초기화 버튼 */}
         <Button variant="outline" onClick={handleResetFilter}>
+          <RefreshCcw />
           초기화
         </Button>
 
