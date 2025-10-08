@@ -17,6 +17,10 @@ export const ItemFormSchema = z.object({
     "pet",
     "acc",
     "bg",
+    "slime",
+    "qmon",
+    "board",
+    "game",
   ]),
 });
 
