@@ -25,4 +25,5 @@ export interface Item {
   item_gender: ItemGender; // 아이템 성별
   user_id: string; // 아이템 등록 유저 uuid
   category: ItemCategory; // 아이템 카테고리
+  created_at: string; // 아이템 등록일
 }

@@ -32,12 +32,16 @@ export default function SignInForm() {
       const formData = new FormData();
       formData.append("email", data.email);
       formData.append("password", data.password);
-      await login(formData);
+      const res = await login();
 
-      toast.success("로그인 성공!");
+      if (res.url) {
+        window.location.href = res.url;
+      }
+
+      // toast.success("로그인 성공!");
 
       // 메인 페이지로 이동
-      router.push("/");
+      // router.push("/");
     } catch (err) {
       console.log(err);
 
