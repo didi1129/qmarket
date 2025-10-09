@@ -16,13 +16,13 @@ import { supabase } from "@/shared/api/supabase-client";
 import { sanitize } from "@/shared/lib/sanitize";
 import { Input } from "@/shared/ui/input";
 import { Siren } from "lucide-react";
-import { useUser } from "@/shared/providers/UserProvider";
+import { useUser } from "@/shared/hooks/useUser";
 
 const CreateReportModal = () => {
   const [contact, setContact] = useState("");
   const [report, setReport] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const user = useUser();
+  const { data: user } = useUser();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -88,18 +88,6 @@ const CreateReportModal = () => {
                 placeholder="내용 입력"
                 value={report}
                 onChange={(e) => setReport(e.target.value)}
-              />
-            </div>
-            <div className="grid gap-3">
-              <label htmlFor="contact" className="text-sm">
-                연락처 <span className="text-gray-400">(선택)</span>
-              </label>
-              <Input
-                id="contact"
-                name="contact"
-                placeholder="이메일 또는 디스코드 아이디"
-                value={user ? user.email : contact}
-                onChange={(e) => setContact(e.target.value)}
               />
             </div>
           </div>

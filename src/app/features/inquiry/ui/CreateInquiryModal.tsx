@@ -16,13 +16,13 @@ import { supabase } from "@/shared/api/supabase-client";
 import { sanitize } from "@/shared/lib/sanitize";
 import { Input } from "@/shared/ui/input";
 import { BadgeQuestionMark } from "lucide-react";
-import { useUser } from "@/shared/providers/UserProvider";
+import { useUser } from "@/shared/hooks/useUser";
 
 const CreateInquiryModal = () => {
   const [contact, setContact] = useState("");
   const [inquiry, setInquiry] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const user = useUser();
+  const { data: user } = useUser();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -73,9 +73,11 @@ const CreateInquiryModal = () => {
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader className="mb-4">
           <DialogTitle>문의하기</DialogTitle>
-          <DialogDescription>
-            * 신고 기능은 로그인 후 이용할 수 있습니다.
-          </DialogDescription>
+          {!user && (
+            <DialogDescription>
+              * 신고 기능은 로그인 후 이용할 수 있습니다.
+            </DialogDescription>
+          )}
         </DialogHeader>
 
         <form onSubmit={handleSubmit}>
@@ -89,18 +91,21 @@ const CreateInquiryModal = () => {
                 onChange={(e) => setInquiry(e.target.value)}
               />
             </div>
-            <div className="grid gap-3">
-              <label htmlFor="contact" className="text-sm">
-                연락처 <span className="text-gray-400">(선택)</span>
-              </label>
-              <Input
-                id="contact"
-                name="contact"
-                placeholder="이메일 또는 디스코드 아이디"
-                value={user ? user.email : contact}
-                onChange={(e) => setContact(e.target.value)}
-              />
-            </div>
+
+            {!user && (
+              <div className="grid gap-3">
+                <label htmlFor="contact" className="text-sm">
+                  연락처 <span className="text-gray-400">(선택)</span>
+                </label>
+                <Input
+                  id="contact"
+                  name="contact"
+                  placeholder="이메일 또는 디스코드 아이디"
+                  value={user ? user.email : contact}
+                  onChange={(e) => setContact(e.target.value)}
+                />
+              </div>
+            )}
           </div>
 
           <DialogFooter className="mt-6">
