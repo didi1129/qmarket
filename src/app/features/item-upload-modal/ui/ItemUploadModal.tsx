@@ -74,7 +74,7 @@ export default function ItemUploadModal({ onSuccess }: ItemUploadModalProps) {
       setOpen(false);
     },
     onError: (err) => {
-      toast.error("상품 등록에 실패했습니다.");
+      toast.error(err.message);
       console.error(err);
     },
   });
@@ -128,7 +128,7 @@ export default function ItemUploadModal({ onSuccess }: ItemUploadModalProps) {
       <Button
         variant="default"
         className="w-auto font-bold bg-blue-600 hover:bg-blue-700"
-        disabled={remaining === 0}
+        disabled={remaining === 0 || !user}
         onClick={handleItemUploadOpen}
       >
         {user ? <Plus /> : <Lock />} 아이템 등록
