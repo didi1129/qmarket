@@ -136,7 +136,7 @@ export default function ItemCardWidget({ userId }: Props) {
         <DailyLimitDisplay />
       </div>
 
-      <ol className="space-y-4 mt-8">
+      <ol className="grid grid-cols-2 gap-6 mt-8">
         {filteredItems.map((item) => (
           <ItemCard key={item.id} item={item} />
         ))}
