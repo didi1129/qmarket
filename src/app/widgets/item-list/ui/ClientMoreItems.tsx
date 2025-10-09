@@ -14,9 +14,10 @@ import {
   ClockArrowDown,
   RefreshCcw,
 } from "lucide-react";
-import ItemCategoryFilter from "@/features/item-search/ui/ItemCategoryFilter";
-import ItemGenderFilter from "@/features/item-search/ui/ItemGenderFilter";
-import ItemSoldFilter from "@/features/item-search/ui/ItemSoldFilter";
+import ItemMultiFilter from "@/widgets/item-multi-filter/ui/ItemMultiFilter";
+import { ItemGenderKey } from "@/features/item-search/ui/ItemGenderFilter";
+import { ItemSaleStatusKey } from "@/features/item-search/ui/ItemSoldFilter";
+import { Label } from "@/shared/ui/label";
 
 interface ClientMoreItemsProps {
   initialItems: Item[];
@@ -27,9 +28,15 @@ export default function ClientMoreItems({
 }: ClientMoreItemsProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [sort, setSort] = useState<"price_asc" | "price_desc" | null>(null);
-  const [category, setCategory] = useState<string | null>(null);
-  const [gender, setGender] = useState<string | null>(null);
-  const [sold, setSold] = useState<string | null>(null);
+  const [filters, setFilters] = useState<{
+    category: string | null;
+    gender: ItemGenderKey | null;
+    saleStatus: ItemSaleStatusKey | null;
+  }>({
+    category: null,
+    gender: null,
+    saleStatus: null,
+  });
 
   const {
     data,
@@ -42,9 +49,9 @@ export default function ClientMoreItems({
     initialItems,
     search: searchQuery,
     sort,
-    category,
-    gender,
-    sold,
+    category: filters.category,
+    gender: filters.gender,
+    sold: filters.saleStatus,
   });
 
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
@@ -56,7 +63,7 @@ export default function ClientMoreItems({
 
   useEffect(() => {
     refetch();
-  }, [sort, searchQuery, category, gender, sold, refetch]);
+  }, [sort, searchQuery, filters, refetch]);
 
   useEffect(() => {
     if (!loadMoreRef.current || !hasNextPage) return;
@@ -85,29 +92,53 @@ export default function ClientMoreItems({
   const handleResetFilter = () => {
     setSort(null);
     setSearchQuery("");
-    setCategory(null);
+    setFilters({ category: null, gender: null, saleStatus: null });
   };
 
   return (
     <div className="mt-4">
-      <div className="rounded-xl border p-4">
-        <p className="text-gray-500 text-sm">
-          * 보다 정확한 시세 반영을 위해, 판매된 아이템은{" "}
-          <b>&apos;내 아이템&apos; &gt; &apos;수정하기&apos;</b>에서{" "}
-          <b>&apos;판매완료&apos;</b> 상태로 변경해주세요.
-        </p>
-      </div>
-
-      <div className="flex items-center justify-between mb-4 gap-2 mt-12">
+      <div className="flex gap-4 items-center p-4 rounded-xl border border-gray-200 shadow-sm bg-white">
         {/* 필터 */}
-        <div className="flex flex-wrap gap-2">
-          <ItemCategoryFilter value={category} onChange={setCategory} />
-          <ItemGenderFilter value={gender} onChange={setGender} />
-          <ItemSoldFilter value={sold} onChange={setSold} />
+        <ItemMultiFilter
+          category={filters.category}
+          gender={filters.gender}
+          saleStatus={filters.saleStatus}
+          onChange={setFilters}
+        />
+
+        {/* 정렬 */}
+        <div className="flex flex-col gap-1">
+          <Label className="text-sm text-gray-600 font-medium">정렬</Label>
+          <Button
+            variant="outline"
+            onClick={() =>
+              setSort((prev) =>
+                prev === null
+                  ? "price_asc"
+                  : prev === "price_asc"
+                  ? "price_desc"
+                  : null
+              )
+            }
+          >
+            {!sort ? (
+              <ClockArrowDown />
+            ) : sort === "price_asc" ? (
+              <ArrowDown01 />
+            ) : (
+              <ArrowDown10 />
+            )}
+            {!sort
+              ? "최신순"
+              : sort === "price_asc"
+              ? "가격 낮은순"
+              : "가격 높은순"}
+          </Button>
         </div>
 
-        {/* 검색창 */}
-        <div className="flex flex-1 justify-end">
+        {/* 검색 */}
+        <div className="flex flex-col gap-1">
+          <Label className="text-sm text-gray-600 font-medium">검색어</Label>
           <SearchInput
             value={searchQuery}
             className="border border-gray-300 rounded-lg shadow-sm text-sm w-auto"
@@ -115,39 +146,26 @@ export default function ClientMoreItems({
           />
         </div>
 
-        {/* 정렬 */}
+        {/* 초기화 버튼 */}
         <Button
           variant="outline"
-          onClick={() =>
-            setSort((prev) =>
-              prev === null
-                ? "price_asc"
-                : prev === "price_asc"
-                ? "price_desc"
-                : null
-            )
-          }
+          className="self-end ml-auto"
+          onClick={handleResetFilter}
         >
-          {!sort ? (
-            <ClockArrowDown />
-          ) : sort === "price_asc" ? (
-            <ArrowDown01 />
-          ) : (
-            <ArrowDown10 />
-          )}
-          {!sort
-            ? "최신순"
-            : sort === "price_asc"
-            ? "가격 낮은순"
-            : "가격 높은순"}
-        </Button>
-
-        {/* 초기화 버튼 */}
-        <Button variant="outline" onClick={handleResetFilter}>
           <RefreshCcw />
           초기화
         </Button>
+      </div>
 
+      {/* <div className="rounded-xl border p-4">
+        <p className="text-gray-500 text-sm">
+          * 보다 정확한 시세 반영을 위해, 판매된 아이템은{" "}
+          <b>&apos;내 아이템&apos; &gt; &apos;수정하기&apos;</b>에서{" "}
+          <b>&apos;판매완료&apos;</b> 상태로 변경해주세요.
+        </p>
+      </div> */}
+
+      <div className="flex items-center justify-end mb-4 gap-2 mt-12">
         {/* 상품 등록 버튼 */}
         <ItemUploadModal />
       </div>

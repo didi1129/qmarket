@@ -1,24 +1,33 @@
 import { ITEM_CATEGORY_MAP } from "@/shared/config/constants";
-import { Button } from "@/shared/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/shared/ui/select";
+import React from "react";
 
 interface Props {
   value: string | null;
   onChange: (value: string | null) => void;
 }
 
-export default function ItemCategoryFilter({ value, onChange }: Props) {
+function ItemCategoryFilter({ value, onChange }: Props) {
   return (
-    <div className="flex flex-wrap gap-2">
-      {Object.entries(ITEM_CATEGORY_MAP).map(([key, label]) => (
-        <Button
-          key={key}
-          variant={value === key ? "default" : "outline"}
-          size="sm"
-          onClick={() => onChange(value === key ? null : key)}
-        >
-          {label}
-        </Button>
-      ))}
-    </div>
+    <Select value={value ?? ""} onValueChange={(val) => onChange(val || null)}>
+      <SelectTrigger className="w-[126px]">
+        <SelectValue placeholder="카테고리 선택" />
+      </SelectTrigger>
+      <SelectContent>
+        {Object.entries(ITEM_CATEGORY_MAP).map(([key, label]) => (
+          <SelectItem key={key} value={key}>
+            {label}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   );
 }
+
+export default React.memo(ItemCategoryFilter);

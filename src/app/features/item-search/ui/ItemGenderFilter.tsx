@@ -1,6 +1,8 @@
 "use client";
 
 import { ITEM_GENDER_MAP } from "@/shared/config/constants";
+import React from "react";
+import { Button } from "@/shared/ui/button";
 
 interface ItemGenderFilterProps {
   value?: string | null;
@@ -8,10 +10,7 @@ interface ItemGenderFilterProps {
 }
 export type ItemGenderKey = keyof typeof ITEM_GENDER_MAP;
 
-export default function ItemGenderFilter({
-  value,
-  onChange,
-}: ItemGenderFilterProps) {
+function ItemGenderFilter({ value, onChange }: ItemGenderFilterProps) {
   const handleClick = (key: ItemGenderKey) => {
     onChange(value === key ? null : key);
   };
@@ -19,18 +18,20 @@ export default function ItemGenderFilter({
   return (
     <div className="flex gap-2">
       {Object.entries(ITEM_GENDER_MAP).map(([key, label]) => (
-        <button
+        <Button
           key={key}
           onClick={() => handleClick(key as ItemGenderKey)}
-          className={`px-3 py-1 rounded-full border text-sm transition ${
+          className={`px-3 py-1 rounded-md border text-sm transition ${
             value === key
-              ? "bg-pink-500 text-white border-pink-500"
-              : "bg-white border-gray-300 hover:bg-gray-100"
+              ? "font-bold"
+              : "bg-white text-black hover:bg-gray-100"
           }`}
         >
           {label}
-        </button>
+        </Button>
       ))}
     </div>
   );
 }
+
+export default React.memo(ItemGenderFilter);

@@ -1,6 +1,8 @@
 "use client";
 
 import { ITEM_SALE_STATUS_MAP } from "@/shared/config/constants";
+import React from "react";
+import { Button } from "@/shared/ui/button";
 
 export type ItemSaleStatusKey = keyof typeof ITEM_SALE_STATUS_MAP;
 
@@ -9,7 +11,7 @@ type Props = {
   onChange: (key: ItemSaleStatusKey | null) => void;
 };
 
-export default function ItemSoldFilter({ value, onChange }: Props) {
+function ItemSoldFilter({ value, onChange }: Props) {
   const handleClick = (key: ItemSaleStatusKey) => {
     onChange(value === key ? null : key);
   };
@@ -17,18 +19,20 @@ export default function ItemSoldFilter({ value, onChange }: Props) {
   return (
     <div className="flex gap-2">
       {Object.entries(ITEM_SALE_STATUS_MAP).map(([key, label]) => (
-        <button
+        <Button
           key={key}
           onClick={() => handleClick(key as ItemSaleStatusKey)}
-          className={`px-3 py-1 rounded-full border text-sm transition ${
+          className={`px-3 py-1 rounded-md border text-sm transition ${
             value === key
-              ? "bg-green-600 text-white border-green-600"
-              : "bg-white border-gray-300 hover:bg-gray-100"
+              ? "font-bold"
+              : "bg-white text-black hover:bg-gray-100"
           }`}
         >
           {label}
-        </button>
+        </Button>
       ))}
     </div>
   );
 }
+
+export default React.memo(ItemSoldFilter);
