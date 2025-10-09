@@ -14,12 +14,10 @@ import { useState, type FormEvent } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/shared/api/supabase-client";
 import { sanitize } from "@/shared/lib/sanitize";
-import { Input } from "@/shared/ui/input";
 import { Siren } from "lucide-react";
 import { useUser } from "@/shared/hooks/useUser";
 
 const CreateReportModal = () => {
-  const [contact, setContact] = useState("");
   const [report, setReport] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { data: user } = useUser();
@@ -39,7 +37,7 @@ const CreateReportModal = () => {
       const { error } = await supabase.from("report").insert([
         {
           report: sanitize(report),
-          contact: user.email || sanitize(contact),
+          contact: user?.email,
           created_at: createdAt,
         },
       ]);
@@ -49,7 +47,6 @@ const CreateReportModal = () => {
       toast.success("신고가 접수되었습니다.");
 
       setReport("");
-      setContact("");
     } catch (error) {
       if (error instanceof Error) {
         toast.error(`신고 등록 실패: ${error.message}`);

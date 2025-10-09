@@ -39,7 +39,7 @@ const CreateInquiryModal = () => {
       const { error } = await supabase.from("inquiry").insert([
         {
           inquiry: sanitize(inquiry),
-          contact: user.email || sanitize(contact),
+          contact: user ? user.email : sanitize(contact),
           created_at: createdAt,
         },
       ]);
@@ -101,7 +101,7 @@ const CreateInquiryModal = () => {
                   id="contact"
                   name="contact"
                   placeholder="이메일 또는 디스코드 아이디"
-                  value={user ? user.email : contact}
+                  value={contact}
                   onChange={(e) => setContact(e.target.value)}
                 />
               </div>

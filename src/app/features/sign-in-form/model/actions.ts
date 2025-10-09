@@ -1,14 +1,16 @@
 "use server";
 
 import { createClient } from "@/shared/api/supabase-server-cookie";
+import { DiscordGuild } from "./discord";
 
 export async function login() {
   const supabase = await createClient();
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "discord",
     options: {
-      redirectTo: "http://localhost:3000/api/auth/discord-callback",
+      redirectTo: `${baseUrl}/api/auth/discord-callback`,
       scopes: "identify email guilds",
     },
   });
@@ -71,9 +73,9 @@ export async function checkDiscordMember() {
       return { isMember: false, error: `길드 목록 조회 실패: ${err}` };
     }
 
-    const guilds = await res.json();
+    const guilds: DiscordGuild[] = await res.json();
 
-    const isMember = guilds.some((g: any) => g.id === TARGET_GUILD_ID);
+    const isMember = guilds.some((g) => g.id === TARGET_GUILD_ID);
 
     if (isMember) {
       return { isMember: true, error: null };
