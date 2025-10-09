@@ -10,12 +10,16 @@ type Props = {
 };
 
 export default function ItemSoldFilter({ value, onChange }: Props) {
+  const handleClick = (key: ItemSaleStatusKey) => {
+    onChange(value === key ? null : key);
+  };
+
   return (
     <div className="flex gap-2">
       {Object.entries(ITEM_SALE_STATUS_MAP).map(([key, label]) => (
         <button
           key={key}
-          onClick={() => onChange(key as ItemSaleStatusKey)}
+          onClick={() => handleClick(key as ItemSaleStatusKey)}
           className={`px-3 py-1 rounded-full border text-sm transition ${
             value === key
               ? "bg-green-600 text-white border-green-600"

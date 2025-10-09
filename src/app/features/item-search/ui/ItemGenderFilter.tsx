@@ -12,12 +12,16 @@ export default function ItemGenderFilter({
   value,
   onChange,
 }: ItemGenderFilterProps) {
+  const handleClick = (key: ItemGenderKey) => {
+    onChange(value === key ? null : key);
+  };
+
   return (
     <div className="flex gap-2">
       {Object.entries(ITEM_GENDER_MAP).map(([key, label]) => (
         <button
           key={key}
-          onClick={() => onChange(key as ItemGenderKey)}
+          onClick={() => handleClick(key as ItemGenderKey)}
           className={`px-3 py-1 rounded-full border text-sm transition ${
             value === key
               ? "bg-pink-500 text-white border-pink-500"
