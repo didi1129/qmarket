@@ -78,9 +78,8 @@ export function ItemDeleteModal({ itemId, userId }: Props) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="outline">
+        <Button variant="outline" size="icon" title="삭제하기">
           <Trash />
-          삭제하기
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
