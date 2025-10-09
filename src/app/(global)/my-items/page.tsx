@@ -26,7 +26,9 @@ export default async function MyItemsPage() {
           판매중인 아이템을 조회/수정할 수 있습니다.
         </p>
         <p className="text-gray-500 text-sm">
-          * &apos;판매 완료&apos; 처리는 &apos;수정하기&apos;를 이용해주세요.
+          * 보다 정확한 시세 반영을 위해, 판매된 아이템은{" "}
+          <b>&apos;수정하기&apos;</b>에서 <b>&apos;판매완료&apos;</b> 상태로
+          변경해주세요.
         </p>
         <p className="text-gray-500 text-sm">
           * &apos;판매 완료&apos; 처리된 아이템의 가격은 &apos;거래 시세&apos;에
