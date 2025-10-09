@@ -39,7 +39,7 @@ const CreateReportModal = () => {
       const { error } = await supabase.from("report").insert([
         {
           report: sanitize(report),
-          contact: sanitize(contact),
+          contact: user.email || sanitize(contact),
           created_at: createdAt,
         },
       ]);

@@ -39,7 +39,7 @@ const CreateInquiryModal = () => {
       const { error } = await supabase.from("inquiry").insert([
         {
           inquiry: sanitize(inquiry),
-          contact: sanitize(contact),
+          contact: user.email || sanitize(contact),
           created_at: createdAt,
         },
       ]);
