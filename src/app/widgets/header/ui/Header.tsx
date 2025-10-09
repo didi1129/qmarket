@@ -2,18 +2,27 @@
 
 import { Button } from "@/shared/ui/button";
 import { useRouter } from "next/navigation";
-import { useUser } from "@/shared/providers/UserProvider";
-import { logout } from "@/features/sign-in-form/model/actions";
+import { useUser } from "@/shared/hooks/useUser";
 import { toast } from "sonner";
 import Link from "next/link";
 import CreateInquiryModal from "@/features/inquiry/ui/CreateInquiryModal";
 import CreateReportModal from "@/features/report/ui/CreateReportModal";
-import { login } from "@/features/sign-in-form/model/actions";
+import { login, logout } from "@/features/sign-in-form/model/actions";
 import DiscordIcon from "@/shared/assets/icons/DiscordIcon";
+import Image from "next/image";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/shared/ui/dropdown-menu";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function Header() {
   const router = useRouter();
-  const user = useUser();
+  const { data: user } = useUser();
+  const queryClient = useQueryClient();
 
   const handleSignIn = async () => {
     const res = await login();
@@ -26,6 +35,9 @@ export default function Header() {
   const handleSignOut = async () => {
     try {
       await logout();
+      await queryClient.invalidateQueries({ queryKey: ["user"] });
+      toast.success("로그아웃 되었습니다.");
+      router.refresh();
     } catch (error) {
       console.log(error);
       toast.error("로그아웃에 실패했습니다. 다시 시도해주세요.");
@@ -33,24 +45,36 @@ export default function Header() {
   };
 
   return (
-    <header className="py-8 max-w-4xl mx-auto flex items-center justify-between">
+    <header className="py-8 max-w-5xl mx-auto flex items-center justify-between">
       <Link href="/" className="text-3xl text-blue-600 font-bold">
         Q-Market
       </Link>
 
       <div className="ml-auto flex gap-2">
         {user ? (
-          <div className="flex gap-2 items-center">
-            <span className="text-sm mr-4">
-              로그인 유저: <b>{user.nickname ?? user.email}</b>
-            </span>
-            <Button variant="outline" onClick={() => router.push("/my-items")}>
-              내 아이템
-            </Button>
-            <Button variant="outline" onClick={handleSignOut}>
-              로그아웃
-            </Button>
-          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger className="bg-discord hover:bg-discord-hover flex gap-1 px-3 rounded-md items-center border-discord text-white text-sm">
+              <figure className="overflow-hidden rounded-full w-6 h-6">
+                <Image
+                  src={user.user_metadata.avatar_url}
+                  alt=""
+                  width={24}
+                  height={24}
+                  className="object-cover"
+                />
+              </figure>
+              {user.user_metadata.custom_claims.global_name}
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem onClick={() => router.push("/my-items")}>
+                내 아이템
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={handleSignOut}>
+                로그아웃
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         ) : (
           <Button
             className="bg-discord hover:bg-discord-hover"

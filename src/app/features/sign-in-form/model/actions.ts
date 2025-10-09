@@ -16,7 +16,6 @@ export async function login() {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "discord",
     options: {
-      // redirectTo: "https://enwhjnkfwjoxfswgelik.supabase.co/auth/v1/callback",
       redirectTo: finalRedirectUrl,
       scopes: "identify email guilds guilds.members.read",
     },
@@ -27,23 +26,6 @@ export async function login() {
   }
 
   return data;
-}
-
-export async function signup(formData: FormData) {
-  const supabase = await createClient();
-
-  const data = {
-    email: formData.get("email") as string,
-    password: formData.get("password") as string,
-  };
-
-  const { error } = await supabase.auth.signUp(data);
-
-  if (error) {
-    throw error;
-  }
-
-  return { success: true };
 }
 
 export async function logout() {
