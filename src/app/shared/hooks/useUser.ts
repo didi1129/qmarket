@@ -1,14 +1,14 @@
-"use client";
-
 import { useQuery } from "@tanstack/react-query";
+import { supabase } from "../api/supabase-client";
 
 export function useUser() {
   return useQuery({
     queryKey: ["user"],
     queryFn: async () => {
-      const res = await fetch("/api/auth/profile");
-      const data = await res.json();
-      return data.user;
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      return user;
     },
   });
 }
