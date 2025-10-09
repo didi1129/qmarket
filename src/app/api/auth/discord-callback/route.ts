@@ -57,7 +57,6 @@ export async function GET(req: Request) {
   try {
     // 1. OAuth code를 Supabase 세션으로 교환
     const { data, error } = await supabase.auth.exchangeCodeForSession(code);
-    console.log(data);
 
     if (error || !data.session) {
       console.error("Supabase OAuth Failed:", error);
