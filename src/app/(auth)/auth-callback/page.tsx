@@ -1,8 +1,9 @@
-"use client";
-
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { checkDiscordMember } from "@/features/sign-in-form/model/actions";
+import {
+  checkDiscordMember,
+  logout,
+} from "@/features/sign-in-form/model/actions";
 
 export default function AuthCallbackPage() {
   const router = useRouter();
@@ -13,17 +14,18 @@ export default function AuthCallbackPage() {
       const result = await checkDiscordMember();
 
       if (result.isMember) {
-        setStatus("✅ 디스코드 인증이 완료되었습니다. 감사합니다.");
+        setStatus("✅ 디스코드 인증 완료");
         router.push("/");
       } else {
-        setStatus(
-          "❌ 디스코드 인증에 실패했습니다. 서버 가입 페이지로 이동합니다."
-        );
-        console.log(`🚨 ${result.error}`);
+        setStatus("❌ 디스코드 서버 미가입, 로그인 취소 중...");
+        console.log(result.error);
+
+        // ❌ 미가입 유저 강제 로그아웃
+        await logout();
 
         setTimeout(() => {
           router.push("/discord-join");
-        }, 2000);
+        }, 1500);
       }
     };
 
