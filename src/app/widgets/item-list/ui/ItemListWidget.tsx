@@ -106,7 +106,7 @@ export const ItemListWidget = ({ items, isLoading }: ItemListWidgetProps) => {
                     <Badge
                       variant="secondary"
                       className="text-gray-700 truncate px-2 py-1 rounded"
-                      title={item.nickname}
+                      title="디스코드 닉네임(디스코드 아이디)"
                     >
                       <div className="flex items-center font-medium text-gray-900">
                         {item.nickname}

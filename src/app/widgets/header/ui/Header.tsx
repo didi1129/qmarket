@@ -9,6 +9,7 @@ import Link from "next/link";
 import CreateInquiryModal from "@/features/inquiry/ui/CreateInquiryModal";
 import CreateReportModal from "@/features/report/ui/CreateReportModal";
 import { login } from "@/features/sign-in-form/model/actions";
+import DiscordIcon from "@/shared/assets/icons/DiscordIcon";
 
 export default function Header() {
   const router = useRouter();
@@ -51,7 +52,12 @@ export default function Header() {
             </Button>
           </div>
         ) : (
-          <Button onClick={handleSignIn}>로그인</Button>
+          <Button
+            className="bg-discord hover:bg-discord-hover"
+            onClick={handleSignIn}
+          >
+            <DiscordIcon className="w-6 h-6 text-white" /> 로그인
+          </Button>
         )}
 
         <CreateInquiryModal />
