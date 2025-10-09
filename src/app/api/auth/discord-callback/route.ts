@@ -55,7 +55,7 @@ export async function GET(req: Request) {
   const supabase = await createClient();
 
   try {
-    // 1️⃣ OAuth code를 Supabase 세션으로 교환
+    // 1. OAuth code를 Supabase 세션으로 교환
     const { data, error } = await supabase.auth.exchangeCodeForSession(code);
     console.log(data);
 
@@ -114,7 +114,7 @@ export async function GET(req: Request) {
     const isMember = guilds.some((g: any) => g.id === TARGET_GUILD_ID);
 
     if (!isMember) {
-      // ❌ 가입되지 않은 유저는 세션 삭제 (Discord API 호출 성공 && 길드 미포함)
+      // 4. 가입되지 않은 유저는 세션 삭제 (Discord API 호출 성공 && 길드 미포함)
       const { error: deleteError } = await supabaseAdmin.auth.admin.deleteUser(
         userId
       );
