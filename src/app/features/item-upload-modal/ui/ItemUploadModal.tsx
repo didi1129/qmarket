@@ -13,7 +13,6 @@ import {
 import { Input } from "@/shared/ui/input";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { supabase } from "@/shared/api/supabase-client";
 import { sanitize } from "@/shared/lib/sanitize";
 import { Label } from "@/shared/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/shared/ui/radio-group";
@@ -28,42 +27,51 @@ import {
 } from "@/shared/config/constants";
 import { Lock, Plus } from "lucide-react";
 import { useUser } from "@/shared/hooks/useUser";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "@/shared/lib/utils";
+import { insertItem } from "../model/actions";
+import { getDailyItemCountAction } from "../model/actions";
+import { DAILY_LIMIT } from "@/shared/lib/redis";
 
-export default function ItemUploadModal() {
+interface ItemUploadModalProps {
+  onSuccess?: () => void;
+}
+
+export default function ItemUploadModal({ onSuccess }: ItemUploadModalProps) {
   const [open, setOpen] = useState(false);
+  const [remaining, setRemaining] = useState(DAILY_LIMIT);
   const queryClient = useQueryClient();
   const { data: user } = useUser();
 
   const createItemMutation = useMutation({
     mutationFn: async (values: ItemFormValues) => {
-      const dataToInsert = {
+      if (!user) throw new Error("로그인이 필요합니다.");
+
+      const { remaining } = await getDailyItemCountAction();
+      if (remaining <= 0) {
+        throw new Error(
+          "오늘 등록 가능한 아이템 수를 모두 사용했습니다. 24시간 후 다시 시도해주세요."
+        );
+      }
+
+      return insertItem({
         item_name: sanitize(values.item_name),
         price: values.price,
         is_sold: false,
-        // is_online: values.is_online === "online",
         item_source: ITEM_SOURCES_MAP[values.item_source],
         nickname: user?.user_metadata.custom_claims.global_name, // 디스코드 닉네임
         discord_id: user?.user_metadata.full_name, // 디스코드 아이디
         item_gender: ITEM_GENDER_MAP[values.item_gender],
         user_id: user?.id,
         category: ITEM_CATEGORY_MAP[values.category],
-      };
-
-      const { data, error } = await supabase
-        .from("items")
-        .insert([dataToInsert])
-        .select();
-
-      if (error) {
-        throw new Error(error.message);
-      }
-      return data;
+      });
     },
-    onSuccess: () => {
-      toast.success("상품이 등록되었습니다!");
+    onSuccess: async () => {
+      const { remaining } = await getDailyItemCountAction();
+      toast.success(`상품이 등록되었습니다! (잔여 횟수: ${remaining}회)`);
       queryClient.invalidateQueries({ queryKey: ["items"] });
+      if (onSuccess) onSuccess(); // 남은 아이템 등록 횟수 갱신
+      setOpen(false);
     },
     onError: (err) => {
       toast.error("상품 등록에 실패했습니다.");
@@ -107,11 +115,20 @@ export default function ItemUploadModal() {
     }
   };
 
+  useEffect(() => {
+    const getRemaining = async () => {
+      const { remaining } = await getDailyItemCountAction();
+      setRemaining(remaining);
+    };
+    getRemaining();
+  }, []);
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <Button
         variant="default"
         className="w-auto font-bold bg-blue-600 hover:bg-blue-700"
+        disabled={remaining === 0}
         onClick={handleItemUploadOpen}
       >
         {user ? <Plus /> : <Lock />} 아이템 등록

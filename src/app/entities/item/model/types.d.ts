@@ -11,7 +11,11 @@ export type ItemCategory =
   | "ear"
   | "pet"
   | "acc"
-  | "bg";
+  | "bg"
+  | "slime"
+  | "qmon"
+  | "board"
+  | "game";
 
 export interface Item {
   id: string; // 상품 ID

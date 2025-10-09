@@ -1,6 +1,6 @@
 "use client";
 
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import ItemCard from "@/entities/item/ui/ItemCard";
 import { Item } from "@/entities/item/model/types";
 import { supabase } from "@/shared/api/supabase-client";
@@ -8,6 +8,13 @@ import ItemUploadModal from "@/features/item-upload-modal/ui/ItemUploadModal";
 import { useEffect, useRef, useState, useMemo } from "react";
 import ButtonToMain from "@/shared/ui/LinkButton/ButtonToMain";
 import SearchInput from "@/features/item-search/ui/SearchInput";
+import {
+  ITEMS_TABLE_NAME,
+  SELECT_ITEM_COLUMNS,
+} from "@/shared/config/constants";
+import { getDailyItemCountAction } from "@/features/item-upload-modal/model/actions";
+import { DAILY_LIMIT } from "@/shared/lib/redis";
+import DailyLimitDisplay from "@/features/item-upload-modal/ui/DailyLimitDisplay";
 
 interface Props {
   userId: string;
@@ -19,13 +26,8 @@ const fetchMyItems = async (
   offset: number = 0
 ): Promise<Item[]> => {
   const { data, error } = await supabase
-    .from("items")
-    .select(
-      `
-        id, item_name, price, image,
-        is_online, item_source, nickname, is_sold, user_id, item_gender, category
-    `
-    )
+    .from(ITEMS_TABLE_NAME)
+    .select(SELECT_ITEM_COLUMNS)
     .eq("user_id", userId)
     .order("id", { ascending: false })
     .range(offset, offset + limit - 1);
@@ -40,6 +42,13 @@ const fetchMyItems = async (
 
 export default function ItemCardWidget({ userId }: Props) {
   const [searchQuery, setSearchQuery] = useState("");
+
+  // 일일 등록 카운트 (ItemUploadModal과 refetch 연동)
+  const { refetch: refetchLimitInfo } = useQuery({
+    queryKey: ["dailyItemCount", userId],
+    queryFn: getDailyItemCountAction,
+    initialData: { count: 0, remaining: DAILY_LIMIT },
+  });
 
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
@@ -88,7 +97,7 @@ export default function ItemCardWidget({ userId }: Props) {
       <>
         <div className="flex w-full mb-8 justify-between">
           <ButtonToMain />
-          <ItemUploadModal />
+          <ItemUploadModal onSuccess={refetchLimitInfo} />
         </div>
 
         <div className="flex flex-col gap-4 items-center justify-center text-sm text-gray-500">
@@ -111,13 +120,15 @@ export default function ItemCardWidget({ userId }: Props) {
         <ButtonToMain />
 
         <div className="flex gap-2">
+          {/* 일일 등록 가능 횟수 */}
+          <DailyLimitDisplay />
+
           {/* 검색창 */}
           <SearchInput
             value={searchQuery}
             className="border border-gray-300 rounded-lg shadow-sm text-sm w-auto"
             onSearch={(e: string) => setSearchQuery(e)}
           />
-
           {/* 아이템 등록 모달 */}
           <ItemUploadModal />
         </div>
