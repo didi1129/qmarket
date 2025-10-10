@@ -37,4 +37,4 @@ export const ITEM_SALE_STATUS_MAP = {
 };
 
 export const SELECT_ITEM_COLUMNS =
-  "id, item_name, price, image, is_online, item_source, nickname, is_sold, user_id, item_gender, discord_id, created_at";
+  "id, item_name, category, price, image, is_online, item_source, nickname, is_sold, user_id, item_gender, discord_id, created_at";

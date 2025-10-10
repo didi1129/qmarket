@@ -91,6 +91,7 @@ export default function ItemEditModal({ item }: ItemEditModalProps) {
         // is_online: values.is_online === "online",
         item_source: ITEM_SOURCES_MAP[values.item_source],
         item_gender: ITEM_GENDER_MAP[values.item_gender],
+        category: ITEM_CATEGORY_MAP[values.category],
         updated_at: new Date().toISOString(),
       };
 
