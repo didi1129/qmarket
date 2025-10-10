@@ -136,7 +136,7 @@ export default function SearchInput({
                       value={s.name}
                       onSelect={() => handleSelect(s.name)}
                     >
-                      {s.name}({s.item_gender})
+                      {s.name}
                     </CommandItem>
                   ))}
                 </CommandGroup>
