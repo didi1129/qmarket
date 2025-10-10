@@ -20,6 +20,7 @@ import { ItemSaleStatusKey } from "@/features/item-search/ui/ItemSoldFilter";
 import { Label } from "@/shared/ui/label";
 import LoadingSpinner from "@/shared/ui/LoadingSpinner";
 import useInfiniteScroll from "@/shared/hooks/useInfiniteScroll";
+import { useUser } from "@/shared/hooks/useUser";
 
 interface ClientMoreItemsProps {
   initialItems: Item[];
@@ -39,6 +40,8 @@ export default function ClientMoreItems({
     gender: null,
     saleStatus: null,
   });
+
+  const { data: user } = useUser();
 
   const {
     data,
@@ -153,7 +156,13 @@ export default function ClientMoreItems({
       </div>
 
       <div className="flex items-center justify-end mb-4 gap-2 mt-12">
-        {/* 상품 등록 버튼 */}
+        {!user && (
+          <p className="text-sm text-gray-500">
+            * 아이템 등록은 회원 기능입니다.
+          </p>
+        )}
+
+        {/* 아이템 등록 버튼 */}
         <ItemUploadModal />
       </div>
 

@@ -10,8 +10,8 @@ export default function DailyLimitDisplay({
   return (
     <div className="flex items-center gap-2 text-sm font-medium">
       <span className="text-gray-700">
-        아이템 등록 가능 횟수: <span className="font-bold">{remaining}</span>/
-        {DAILY_LIMIT}
+        일일 아이템 등록 가능 횟수:{" "}
+        <span className="font-bold">{remaining}</span>/{DAILY_LIMIT}
       </span>
 
       {remaining === 0 && (
