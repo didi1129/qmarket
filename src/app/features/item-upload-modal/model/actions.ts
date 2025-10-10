@@ -29,7 +29,6 @@ export async function insertItem(values: InsertItemValues) {
   } = await supabase.auth.getUser();
   if (!user) throw new Error("로그인이 필요합니다.");
 
-  // 1. DB Insert
   const { data, error } = await supabase
     .from(ITEMS_TABLE_NAME)
     .insert([{ ...values, user_id: user.id }])
@@ -37,7 +36,7 @@ export async function insertItem(values: InsertItemValues) {
 
   if (error) throw new Error(error.message);
 
-  // 2. Insert 성공 후 Redis 카운트 증가 (insert 실패 시 횟수 차감 방지)
+  // 아이템 등록 성공 후 Redis 카운트 증가 (등록 실패 시 횟수 차감 방지)
   const currentCount = await checkAndIncrementDailyItemLimit(user.id);
   const remaining = DAILY_LIMIT - currentCount;
 
