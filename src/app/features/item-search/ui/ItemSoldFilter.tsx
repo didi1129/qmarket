@@ -1,36 +1,38 @@
 "use client";
 
-import { ITEM_IS_SOLD_MAP } from "@/shared/config/constants";
 import React from "react";
 import { Button } from "@/shared/ui/button";
 
-export type ItemIsSoldKey = keyof typeof ITEM_IS_SOLD_MAP;
-
 type Props = {
-  value?: string | null;
-  onChange: (key: ItemIsSoldKey | null) => void;
+  value?: boolean | null;
+  onChange: (value: boolean | null) => void;
 };
 
 function ItemSoldFilter({ value, onChange }: Props) {
-  const handleClick = (key: ItemIsSoldKey) => {
-    onChange(value === key ? null : key);
+  const handleClick = (newValue: boolean) => {
+    onChange(value === newValue ? null : newValue); // 토글
   };
 
   return (
     <div className="flex gap-2">
-      {Object.entries(ITEM_IS_SOLD_MAP).map(([key, label]) => (
-        <Button
-          key={key}
-          onClick={() => handleClick(key as ItemIsSoldKey)}
-          className={`px-3 py-1 rounded-md border text-sm transition ${
-            value === key
-              ? "font-bold"
-              : "bg-white text-black hover:bg-gray-100"
-          }`}
-        >
-          {label}
-        </Button>
-      ))}
+      <Button
+        onClick={() => handleClick(false)}
+        className={`px-3 py-1 rounded-md border text-sm transition ${
+          value === false
+            ? "font-bold"
+            : "bg-white text-black hover:bg-gray-100"
+        }`}
+      >
+        판매중
+      </Button>
+      <Button
+        onClick={() => handleClick(true)}
+        className={`px-3 py-1 rounded-md border text-sm transition ${
+          value === true ? "font-bold" : "bg-white text-black hover:bg-gray-100"
+        }`}
+      >
+        판매완료
+      </Button>
     </div>
   );
 }
