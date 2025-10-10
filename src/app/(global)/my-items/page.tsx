@@ -30,10 +30,6 @@ export default async function MyItemsPage() {
           <b>&apos;수정하기&apos;</b>에서 <b>&apos;판매완료&apos;</b> 상태로
           변경해주세요.
         </p>
-        <p className="text-gray-500 text-sm">
-          * &apos;판매 완료&apos; 처리된 아이템의 가격은 &apos;거래 시세&apos;에
-          반영됩니다.
-        </p>
       </div>
 
       <ItemCardWidget userId={user.id} />
