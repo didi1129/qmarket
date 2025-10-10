@@ -1,11 +1,11 @@
 "use client";
 
+import { useState, useMemo } from "react";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import ItemCard from "@/entities/item/ui/ItemCard";
 import { Item } from "@/entities/item/model/types";
 import { supabase } from "@/shared/api/supabase-client";
 import ItemUploadModal from "@/features/item-upload-modal/ui/ItemUploadModal";
-import { useState, useMemo } from "react";
 import ButtonToMain from "@/shared/ui/LinkButton/ButtonToMain";
 import SearchInput from "@/features/item-search/ui/SearchInput";
 import {
@@ -16,6 +16,7 @@ import { getDailyItemCountAction } from "@/features/item-upload-modal/model/acti
 import { DAILY_LIMIT } from "@/shared/lib/redis";
 import DailyLimitDisplay from "@/features/item-upload-modal/ui/DailyLimitDisplay";
 import useInfiniteScroll from "@/shared/hooks/useInfiniteScroll";
+import ItemSoldFilter from "@/features/item-search/ui/ItemSoldFilter";
 
 interface Props {
   userId: string;
@@ -24,12 +25,19 @@ interface Props {
 const fetchMyItems = async (
   userId: string,
   limit: number = 10,
-  offset: number = 0
-): Promise<Item[]> => {
-  const { data, error } = await supabase
+  offset: number = 0,
+  soldFilter: boolean | null
+) => {
+  let query = supabase
     .from(ITEMS_TABLE_NAME)
     .select(SELECT_ITEM_COLUMNS)
-    .eq("user_id", userId)
+    .eq("user_id", userId);
+
+  if (soldFilter !== null) {
+    query = query.eq("is_sold", soldFilter);
+  }
+
+  const { data, error } = await query
     .order("id", { ascending: false })
     .range(offset, offset + limit - 1);
 
@@ -43,8 +51,9 @@ const fetchMyItems = async (
 
 export default function ItemCardWidget({ userId }: Props) {
   const [searchQuery, setSearchQuery] = useState("");
+  const [soldFilter, setSoldFilter] = useState<boolean | null>(null); // 판매 상태 필터
 
-  // 일일 등록 카운트 (ItemUploadModal과 refetch 연동)
+  // 일일 등록 카운트
   const { data: limitStatus, refetch: refetchLimitInfo } = useQuery({
     queryKey: ["dailyItemCount", userId],
     queryFn: getDailyItemCountAction,
@@ -59,12 +68,11 @@ export default function ItemCardWidget({ userId }: Props) {
     isFetchingNextPage,
     refetch,
   } = useInfiniteQuery({
-    queryKey: ["my-items", userId],
-    queryFn: ({ pageParam = 0 }) => fetchMyItems(userId, 10, pageParam),
-    getNextPageParam: (lastPage, allPages) => {
-      if (lastPage.length < 10) return undefined;
-      return allPages.length * 10;
-    },
+    queryKey: ["my-items", userId, searchQuery, soldFilter],
+    queryFn: ({ pageParam = 0 }) =>
+      fetchMyItems(userId, 10, pageParam, soldFilter),
+    getNextPageParam: (lastPage, allPages) =>
+      lastPage.length < 10 ? undefined : allPages.length * 10,
     initialPageParam: 0,
   });
 
@@ -72,6 +80,7 @@ export default function ItemCardWidget({ userId }: Props) {
 
   const filteredItems = useMemo(() => {
     if (!data) return [];
+
     return data.pages
       .flatMap((page) => page)
       .filter((item) =>
@@ -94,8 +103,8 @@ export default function ItemCardWidget({ userId }: Props) {
           <ButtonToMain />
           <ItemUploadModal
             onSuccess={() => {
-              refetchLimitInfo(); // useQuery의 refetch
-              refetch(); // useInfiniteQuery의 refetch
+              refetchLimitInfo();
+              refetch();
             }}
           />
         </div>
@@ -116,18 +125,21 @@ export default function ItemCardWidget({ userId }: Props) {
 
   return (
     <div className="pb-10">
+      {/* 상단 컨트롤 영역 */}
       <div className="flex w-full mb-4 justify-between">
         <ButtonToMain />
 
         <div className="flex gap-2">
-          {/* 검색창 */}
+          <div className="mb-4">
+            <ItemSoldFilter value={soldFilter} onChange={setSoldFilter} />
+          </div>
+
           <SearchInput
             value={searchQuery}
             className="border border-gray-300 rounded-lg shadow-sm text-sm w-auto"
-            onSearch={(e: string) => setSearchQuery(e)}
+            onSearch={(value: string) => setSearchQuery(value)}
           />
 
-          {/* 아이템 등록 모달 */}
           <ItemUploadModal
             onSuccess={() => {
               refetchLimitInfo();
@@ -142,30 +154,11 @@ export default function ItemCardWidget({ userId }: Props) {
         <DailyLimitDisplay remaining={limitStatus.remaining} />
       </div>
 
-      <div className="mt-8 grid gap-6">
-        {/* 판매 중인 아이템 */}
-        <div className="mt-8">
-          <h2 className="text-lg font-semibold mb-4">판매 중</h2>
-          <div className="grid grid-cols-2 gap-6">
-            {filteredItems
-              .filter((item) => item.is_sold === false)
-              .map((item) => (
-                <ItemCard key={item.id} item={item} />
-              ))}
-          </div>
-        </div>
-
-        {/* 판매 완료된 아이템 */}
-        <div className="mt-8">
-          <h2 className="text-lg font-semibold mb-4">판매 완료</h2>
-          <div className="grid grid-cols-2 gap-6">
-            {filteredItems
-              .filter((item) => item.is_sold === true)
-              .map((item) => (
-                <ItemCard key={item.id} item={item} />
-              ))}
-          </div>
-        </div>
+      {/* 아이템 리스트 */}
+      <div className="grid grid-cols-2 gap-6 mt-4">
+        {filteredItems.map((item) => (
+          <ItemCard key={item.id} item={item} />
+        ))}
       </div>
 
       {/* 무한 스크롤 */}
