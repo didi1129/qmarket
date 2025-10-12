@@ -82,7 +82,7 @@ export default function MarketPriceDashboard() {
         </p>
         <p className="text-gray-500 text-sm">
           * 거래 시세 조작이 의심될 경우, 우측 상단의 신고 버튼을 눌러
-          제보해주세요.
+          제보해주세요. (회원 기능)
         </p>
       </div>
 

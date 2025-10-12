@@ -19,6 +19,7 @@ import { ItemGenderKey } from "@/features/item-search/ui/ItemGenderFilter";
 import { Label } from "@/shared/ui/label";
 import useInfiniteScroll from "@/shared/hooks/useInfiniteScroll";
 import { useUser } from "@/shared/hooks/useUser";
+import Link from "next/link";
 
 interface ClientMoreItemsProps {
   initialItems: Item[];
@@ -83,7 +84,20 @@ export default function ClientMoreItems({
   };
 
   return (
-    <div className="mt-4">
+    <div className="flex flex-col gap-4">
+      <div className="rounded-xl border p-4 mt-4">
+        <p className="text-sm text-gray-500">
+          * 판매 아이템 등록은
+          <Link
+            href="/my-items"
+            className="ml-1 underline underline-offset-4 text-gray-500 font-medium hover:text-blue-600 hover:font-bold"
+          >
+            &apos;내 아이템&apos;
+          </Link>
+          에서 할 수 있습니다.
+        </p>
+      </div>
+
       <div className="flex gap-4 items-center p-4 rounded-xl border border-gray-200 shadow-sm bg-white">
         {/* 필터 */}
         <ItemMultiFilter
@@ -142,17 +156,6 @@ export default function ClientMoreItems({
           <RefreshCcw />
           초기화
         </Button>
-      </div>
-
-      <div className="flex items-center justify-end mb-4 gap-2 mt-12">
-        {!user && (
-          <p className="text-sm text-gray-500">
-            * 아이템 등록은 회원 기능입니다.
-          </p>
-        )}
-
-        {/* 아이템 등록 버튼 */}
-        <ItemUploadModal />
       </div>
 
       {/* 아이템 목록 */}
