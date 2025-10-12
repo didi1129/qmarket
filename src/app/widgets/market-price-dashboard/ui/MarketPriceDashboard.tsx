@@ -162,28 +162,36 @@ export default function MarketPriceDashboard() {
           {/* 시세 */}
           <ul className="mt-4">
             <li>
-              - 현재 시세:{" "}
-              <span className="ml-1 text-blue-600 text-3xl font-extrabold">
-                {isLoading
-                  ? "계산 중..."
-                  : Number(marketPrice.price).toLocaleString()}
-                원
-              </span>
-              {marketPrice.count < 10 && (
+              - 현재 시세:
+              {marketPrice.count === 0 ? (
+                <b className="ml-1">판매중인 데이터가 없습니다.</b>
+              ) : (
+                <span className="ml-1 text-blue-600 text-3xl font-extrabold">
+                  {isLoading
+                    ? "계산 중..."
+                    : Number(marketPrice.price).toLocaleString()}
+                  원
+                </span>
+              )}
+              {marketPrice.count > 0 && marketPrice.count < 10 && (
                 <p className="inline-block ml-1 text-sm text-gray-500">
                   (판매중인 아이템이 10개 미만이므로 정확하지 않을 수 있습니다.)
                 </p>
               )}
             </li>
             <li>
-              - 거래 시세:{" "}
-              <span className="ml-1 text-blue-600 text-3xl font-extrabold">
-                {isLoading
-                  ? "계산 중..."
-                  : Number(tradedPrice.price).toLocaleString()}
-                원
-              </span>
-              {tradedPrice.count < 10 && (
+              - 거래 시세:
+              {tradedPrice.count === 0 ? (
+                <b className="ml-1">거래 내역이 없습니다.</b>
+              ) : (
+                <span className="ml-1 text-blue-600 text-3xl font-extrabold">
+                  {isLoading
+                    ? "계산 중..."
+                    : Number(tradedPrice.price).toLocaleString()}
+                  원
+                </span>
+              )}
+              {tradedPrice.count > 0 && tradedPrice.count < 10 && (
                 <p className="inline-block ml-1 text-sm text-gray-500">
                   (거래 내역이 10개 미만이므로 정확하지 않을 수 있습니다.)
                 </p>
