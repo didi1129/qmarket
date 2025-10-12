@@ -1,5 +1,6 @@
 import ItemCardList from "@/widgets/item-list/ui/ItemCardList";
 import { createClient } from "@/shared/api/supabase-server-cookie";
+import ButtonToMain from "@/shared/ui/LinkButton/ButtonToMain";
 
 export default async function MyItemsPage() {
   const supabase = await createClient();
@@ -17,9 +18,10 @@ export default async function MyItemsPage() {
 const LoginRequiredMessage = () => (
   <>
     <h2 className="font-bold text-3xl mb-2">내 아이템</h2>
-    <p className="text-gray-500 text-sm">
+    <p className="text-gray-500 text-sm mb-4">
       로그인 후 내 아이템을 확인할 수 있습니다.
     </p>
+    <ButtonToMain />
   </>
 );
 
