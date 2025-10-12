@@ -9,9 +9,11 @@ export default function DailyLimitDisplay({
 }: DailyLimitDisplayProps) {
   return (
     <div className="flex items-center gap-2 text-sm font-medium">
-      <span className="text-gray-700">
-        아이템 등록 가능 횟수: <span className="font-bold">{remaining}</span>/
-        {DAILY_LIMIT}
+      <span className="text-sm bg-gray-100 text-gray-800 px-3 py-0.5 rounded-full inline-flex items-center">
+        <span className="mr-1">아이템 등록 가능 횟수:</span>
+        <span className="font-semibold text-gray-900">{remaining}</span>
+        <span className="text-gray-500 mx-0.5">/</span>
+        <span className="text-gray-600">{DAILY_LIMIT}</span>
       </span>
 
       {remaining === 0 && (
