@@ -148,6 +148,14 @@ export default function ItemCardList({ userId }: Props) {
         <DailyLimitDisplay remaining={limitStatus.remaining} />
       </div>
 
+      <div className="rounded-xl border p-4 mt-4">
+        <p className="text-gray-500 text-sm">
+          * 보다 정확한 시세 반영을 위해, 판매된 아이템은{" "}
+          <b>&apos;수정하기&apos;</b>
+          에서 <b>&apos;판매완료&apos;</b> 상태로 변경해주세요.
+        </p>
+      </div>
+
       {/* 아이템 리스트 */}
       {isLoading ? (
         <div className="text-center">
