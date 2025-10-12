@@ -15,6 +15,7 @@ import SaleHistoryChart from "@/widgets/sale-history-chart/ui/SaleHistoryChart";
 import { RadioGroup, RadioGroupItem } from "@/shared/ui/radio-group";
 import ItemImage from "@/shared/ui/ItemImage";
 import getItemImage from "@/shared/lib/getItemImage";
+import Image from "next/image";
 
 export default function MarketPriceDashboard() {
   const [searchInput, setSearchInput] = useState("");
@@ -138,7 +139,13 @@ export default function MarketPriceDashboard() {
           </div>
 
           <h2 className="text-2xl font-bold mt-4 mb-4">
-            💰{" "}
+            <Image
+              src="/images/money-bag.png"
+              alt=""
+              width={32}
+              height={32}
+              className="inline-block mr-1"
+            />
             <span className="text-blue-600 mr-1">
               {searchQuery}({itemGender})
             </span>
