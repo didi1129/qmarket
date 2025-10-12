@@ -15,12 +15,15 @@ export default function CustomChartTooltip({
   if (active && payload && payload.length) {
     const avgPrice = payload[0].value.toFixed(0);
     const formattedAvgPrice = Number(avgPrice).toLocaleString();
+    const date = payload[0].payload.date;
 
     return (
       <div className="bg-white p-3 border border-gray-200 rounded-md shadow-lg w-auto">
-        <p className="text-sm">
-          🧮 평균 거래가:{" "}
-          <span className="text-blue-600 font-bold">{formattedAvgPrice}원</span>
+        <p className="flex flex-col text-sm">
+          <span>🧮 {date}</span>
+          <span>
+            평균 거래가: <b className="text-blue-600">{formattedAvgPrice}원</b>
+          </span>
         </p>
         {/* <TransactionList payload={payload} label={label!} />{" "} */}
       </div>
