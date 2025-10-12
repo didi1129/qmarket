@@ -107,24 +107,14 @@ export default function ItemEditModal({ item }: ItemEditModalProps) {
 
       return data?.[0]; // 아이템 데이터 onSuccess로 반환
     },
-    onSuccess: (updatedItem) => {
+    onSuccess: () => {
       toast.success("아이템이 수정되었습니다!");
       setOpen(false);
 
       // 캐시 업데이트 (UI 즉시 반영)
-      queryClient.setQueryData<InfiniteData<Item[]>>(
-        ["my-items", item.user_id],
-        (oldData) => {
-          if (!oldData) return oldData;
-
-          return {
-            ...oldData,
-            pages: oldData.pages.map((page) =>
-              page.map((i) => (i.id === updatedItem.id ? updatedItem : i))
-            ),
-          };
-        }
-      );
+      queryClient.invalidateQueries({
+        queryKey: ["my-items", item.user_id],
+      });
     },
     onError: (err) => {
       toast.error("아이템 수정에 실패했습니다.");
