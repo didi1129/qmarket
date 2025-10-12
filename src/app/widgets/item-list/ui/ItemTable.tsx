@@ -13,6 +13,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/popover";
 import { useState } from "react";
 import ItemImage from "@/shared/ui/ItemImage";
 import { formatDate } from "@/shared/lib/formatters";
+import { copyToClipboard } from "@/shared/lib/copyToClipboard";
 
 interface ItemTableProps {
   items: Item[];
@@ -105,8 +106,14 @@ export const ItemTable = ({ items, isLoading }: ItemTableProps) => {
                   <TableCell className="text-center">
                     <Badge
                       variant="secondary"
-                      className="text-gray-700 truncate px-2 py-1 rounded"
+                      className="text-gray-700 truncate px-2 py-1 rounded cursor-pointer"
                       title={`디스코드 아이디: ${item.discord_id}`}
+                      onClick={() =>
+                        copyToClipboard(
+                          item.discord_id,
+                          "디스코드 아이디를 복사했습니다."
+                        )
+                      }
                     >
                       <div className="flex items-center font-medium text-gray-900">
                         {item.nickname}
