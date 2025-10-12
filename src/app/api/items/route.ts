@@ -27,6 +27,7 @@ export const GET = async (req: Request) => {
     let query = supabaseServer
       .from("items")
       .select(SELECT_ITEM_COLUMNS)
+      .neq("nickname", "관리자")
       .range(offset, offset + limit - 1);
 
     // 필터
