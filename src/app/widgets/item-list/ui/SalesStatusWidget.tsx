@@ -19,6 +19,7 @@ import { ItemGenderKey } from "@/features/item-search/ui/ItemGenderFilter";
 import { Label } from "@/shared/ui/label";
 import useInfiniteScroll from "@/shared/hooks/useInfiniteScroll";
 import { useUser } from "@/shared/hooks/useUser";
+import LoadingSpinner from "@/shared/ui/LoadingSpinner";
 
 interface ClientMoreItemsProps {
   initialItems: Item[];
@@ -48,6 +49,7 @@ export default function ClientMoreItems({
     isFetchingNextPage,
     error,
     refetch,
+    isFetching,
   } = useInfiniteItems({
     initialItems,
     search: searchQuery,
@@ -160,7 +162,11 @@ export default function ClientMoreItems({
       </div>
 
       {/* 아이템 목록 */}
-      <ItemTable items={allItems} isLoading={isFetchingNextPage} />
+      {isFetching ? (
+        <LoadingSpinner />
+      ) : (
+        <ItemTable items={allItems} isLoading={isFetchingNextPage} />
+      )}
 
       {/* 무한 스크롤 */}
       <div ref={loadMoreRef} className="h-10">
