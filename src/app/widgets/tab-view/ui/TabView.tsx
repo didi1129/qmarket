@@ -11,22 +11,22 @@ interface Props {
 
 export default function TabView({ initialItems }: Props) {
   return (
-    <Tabs defaultValue="items" className="max-w-5xl mx-auto">
+    <Tabs defaultValue="marketPrices" className="max-w-5xl mx-auto">
       <TabsList className="w-full">
-        <TabsTrigger value="items" className="cursor-pointer py-2">
-          판매 현황
-        </TabsTrigger>
         <TabsTrigger value="marketPrices" className="cursor-pointer py-2">
           시세 조회
         </TabsTrigger>
+        <TabsTrigger value="items" className="cursor-pointer py-2">
+          판매 현황
+        </TabsTrigger>
       </TabsList>
-
-      <TabsContent value="items">
-        <SalesStatusWidget initialItems={initialItems} />
-      </TabsContent>
 
       <TabsContent value="marketPrices">
         <MarketPriceDashboard />
+      </TabsContent>
+
+      <TabsContent value="items">
+        <SalesStatusWidget initialItems={initialItems} />
       </TabsContent>
     </Tabs>
   );
