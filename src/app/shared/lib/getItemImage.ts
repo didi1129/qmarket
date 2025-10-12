@@ -5,9 +5,9 @@ export default async function getItemImage(
   itemGender: string
 ): Promise<string> {
   const { data, error } = await supabase
-    .from("items")
+    .from("items_info")
     .select("image")
-    .eq("item_name", itemName)
+    .eq("name", itemName)
     .eq("item_gender", itemGender);
 
   if (error) {
@@ -15,7 +15,9 @@ export default async function getItemImage(
     return "";
   }
 
-  if (data && data.length > 0 && typeof data[0].image === "string") {
+  console.log(data);
+
+  if (data && data.length > 0) {
     return data[0].image;
   }
 
