@@ -141,7 +141,6 @@ export const ItemTable = ({ items, isLoading }: ItemTableProps) => {
               <PopoverContent
                 className="w-auto p-4 shadow-lg rounded-lg bg-white"
                 side="right"
-                sideOffset={-150}
                 align="end"
               >
                 <div className="flex flex-col items-center gap-2">
@@ -153,7 +152,7 @@ export const ItemTable = ({ items, isLoading }: ItemTableProps) => {
                   <p className="text-center font-medium text-gray-900">
                     {item.item_name}
                   </p>
-                  <p className="text-sm text-gray-500 max-w-[80px]">
+                  <p className="text-sm text-gray-500 max-w-[80px] break-words">
                     판매자: {item.nickname}({item.discord_id})
                   </p>
                 </div>
