@@ -162,18 +162,12 @@ export default function ClientMoreItems({
       </div>
 
       {/* 아이템 목록 */}
-      {isFetching ? (
-        <LoadingSpinner />
-      ) : (
-        <ItemTable items={allItems} isLoading={isFetchingNextPage} />
-      )}
+      <ItemTable items={allItems} isLoading={isFetchingNextPage} />
 
       {/* 무한 스크롤 */}
       <div ref={loadMoreRef} className="h-10">
-        {isFetchingNextPage ? (
-          <p className="text-center mt-4 text-gray-500 text-sm">
-            아이템 로드 중...
-          </p>
+        {isFetching ? (
+          <LoadingSpinner />
         ) : hasNextPage ? null : (
           <p className="text-center mt-4 text-gray-500 text-sm">
             마지막 페이지입니다.
