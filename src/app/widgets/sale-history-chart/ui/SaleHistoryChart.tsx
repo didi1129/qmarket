@@ -44,7 +44,11 @@ export default function SaleHistoryChart({
             tickLine={false}
             axisLine={{ stroke: "#e0e0e0" }}
             fontSize={12}
-            tickFormatter={(value) => value.slice(5)} // 날짜에서 월-일만 표시
+            tickFormatter={(value) => {
+              const date = new Date(value);
+              date.setDate(date.getDate() + 1); // 하루 더하기
+              return date.toISOString().slice(5, 10);
+            }} // 날짜에서 월-일만 표시
           />
           <YAxis
             tickLine={false}

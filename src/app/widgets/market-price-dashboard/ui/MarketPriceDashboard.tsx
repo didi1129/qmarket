@@ -33,6 +33,8 @@ export default function MarketPriceDashboard() {
   // 거래 내역 상태
   const [saleHistory, setSaleHistory] = useState<SaleHistory[]>([]);
 
+  const [recentSoldDate, setRecentSoldDate] = useState("");
+
   const { data: user } = useUser();
 
   const handleSearch = useCallback(async () => {
@@ -61,6 +63,11 @@ export default function MarketPriceDashboard() {
       setTradedPrice({ price: traded.price, count: traded.count });
       setSaleHistory(history);
       setItemImageUrl(itemImage);
+
+      const recentDate = new Date(history[0].date);
+      recentDate.setDate(recentDate.getDate() + 1);
+      const recentKstDate = recentDate.toISOString().slice(0, 10);
+      setRecentSoldDate(recentKstDate);
     } catch (error) {
       console.error("시세 조회 오류:", error);
     } finally {
@@ -199,12 +206,21 @@ export default function MarketPriceDashboard() {
               {tradedPrice.count === 0 ? (
                 <b className="ml-1">거래 내역이 없습니다.</b>
               ) : (
-                <span className="ml-1 text-blue-600 text-3xl font-extrabold">
-                  {isLoading
-                    ? "계산 중..."
-                    : Number(tradedPrice.price).toLocaleString()}
-                  원
-                </span>
+                <>
+                  <span className="ml-1 text-blue-600 text-3xl font-extrabold">
+                    {isLoading
+                      ? "계산 중..."
+                      : Number(tradedPrice.price).toLocaleString()}
+                    원
+                  </span>
+                  <b className="ml-2 text-blue-500 text-sm">
+                    *최근 거래 가격:{" "}
+                    {Number(
+                      saleHistory[0].transactions[0].price
+                    ).toLocaleString()}
+                    원 ({recentSoldDate})
+                  </b>
+                </>
               )}
               {tradedPrice.count > 0 && tradedPrice.count < 10 && (
                 <p className="inline-block ml-1 text-sm text-gray-500">
