@@ -107,8 +107,8 @@ const CreateReportModal = () => {
 
       <DialogContent className="sm:max-w-[480px]">
         <DialogHeader className="mb-4">
-          <DialogTitle>🚨 신고하기</DialogTitle>
-          <DialogDescription className="break-keep">
+          <DialogTitle className="text-left">🚨 신고하기</DialogTitle>
+          <DialogDescription className="break-keep text-left">
             구체적으로 입력해 주시면 더 신속한 조치가 가능하며, 허위 신고 시
             계정이 제재될 수 있습니다.
           </DialogDescription>
