@@ -171,18 +171,20 @@ export default function MarketPriceDashboard() {
             )}
           </h2>
 
-          <p className="text-sm text-gray-500">
-            * <b>현재 시세</b>: 현재 <b>판매중</b>인 가격 기준 (호가)
-          </p>
-          <p className="text-sm text-gray-500">
-            * <b>거래 시세</b>: <b>판매 완료</b>된 가격 기준 (실거래가)
-          </p>
-          <p className="text-sm text-gray-500">
-            * 시세 조작 방지를 위해 극단값은 시세에서 제외됩니다.
-          </p>
+          <div className="mb-8 md:mb-0">
+            <p className="text-sm text-gray-500">
+              * <b>현재 시세</b>: 현재 <b>판매중</b>인 가격 기준 (호가)
+            </p>
+            <p className="text-sm text-gray-500">
+              * <b>거래 시세</b>: <b>판매 완료</b>된 가격 기준 (실거래가)
+            </p>
+            <p className="text-sm text-gray-500">
+              * 시세 조작 방지를 위해 극단값은 시세에서 제외됩니다.
+            </p>
+          </div>
 
           {/* 시세 */}
-          <ul className="mt-4">
+          <ul className="mt-4 space-y-4 md:space-y-0">
             <li>
               - 현재 시세:
               {marketPrice.count === 0 ? (
@@ -213,7 +215,7 @@ export default function MarketPriceDashboard() {
                       : Number(tradedPrice.price).toLocaleString()}
                     원
                   </span>
-                  <b className="ml-2 text-blue-500 text-sm">
+                  <b className="block md:inline-block ml-2 text-blue-500 text-sm">
                     *최근 거래 가격:{" "}
                     {Number(
                       saleHistory[0].transactions[0].price

@@ -45,7 +45,7 @@ export default function Header() {
   };
 
   return (
-    <header className="py-8 max-w-5xl mx-auto flex items-center justify-between">
+    <header className="py-8 px-4 md:px-0 max-w-5xl mx-auto flex items-center justify-between">
       <div className="ml-auto flex gap-2">
         {user ? (
           <DropdownMenu>

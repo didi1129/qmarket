@@ -104,7 +104,7 @@ export default function ClientMoreItems({
         </p>
       </div>
 
-      <div className="flex gap-4 items-center p-4 rounded-xl border border-gray-200 shadow-sm bg-white">
+      <div className="flex flex-wrap gap-4 items-center p-4 rounded-xl border border-gray-200 shadow-sm bg-white">
         {/* 필터 */}
         <ItemMultiFilter
           category={filters.category}

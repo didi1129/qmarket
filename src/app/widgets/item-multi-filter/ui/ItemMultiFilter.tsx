@@ -36,7 +36,7 @@ export default function ItemMultiFilter({
   return (
     <>
       {/* 카테고리 */}
-      <div className="flex gap-4">
+      <div className="flex flex-wrap gap-4">
         <div className="flex flex-col gap-1">
           <Label className="text-sm text-gray-600 font-medium">카테고리</Label>
           <ItemCategoryFilter
