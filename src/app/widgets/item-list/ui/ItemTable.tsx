@@ -229,18 +229,18 @@ export const ItemTable = ({ items, isLoading }: ItemTableProps) => {
                       )
                     }
                   >
-                    👤 판매자: {item.nickname}({item.discord_id})
+                    - 판매자: {item.nickname}({item.discord_id})
                   </span>
                   <span className="text-gray-400 col-span-2">
-                    📅 등록일: {formatDate(item.created_at)}
+                    - 등록일: {formatDate(item.created_at)}
                   </span>
                 </div>
 
-                {/* {user && ( */}
-                <div className="absolute right-4 top-4">
-                  <CreateReportModal />
-                </div>
-                {/* )} */}
+                {user && (
+                  <div className="absolute right-4 top-4">
+                    <CreateReportModal />
+                  </div>
+                )}
               </div>
             ))}
           </div>
