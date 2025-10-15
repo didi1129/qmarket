@@ -199,7 +199,11 @@ export const ItemTable = ({ items, isLoading }: ItemTableProps) => {
                       </span>
                     </p>
                     <p className="text-sm text-gray-700">
-                      💰 {item.price.toLocaleString()} 사이버머니
+                      💰{" "}
+                      <b className="text-blue-600 font-bold text-xl">
+                        {item.price.toLocaleString()}
+                      </b>{" "}
+                      사이버머니
                     </p>
                   </div>
                 </div>
@@ -221,7 +225,7 @@ export const ItemTable = ({ items, isLoading }: ItemTableProps) => {
                   </div>
 
                   <span
-                    className="mb-2 text-gray-600 cursor-pointer col-span-2 flex items-center gap-1"
+                    className="text-gray-600 cursor-pointer col-span-2 flex items-center gap-1"
                     onClick={() =>
                       copyToClipboard(
                         item.discord_id,
