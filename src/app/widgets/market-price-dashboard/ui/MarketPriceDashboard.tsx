@@ -65,7 +65,7 @@ export default function MarketPriceDashboard() {
       setItemImageUrl(itemImage);
 
       const recentDate = new Date(history[0].date);
-      recentDate.setDate(recentDate.getDate() + 1);
+      recentDate.setDate(recentDate.getDate());
       const recentKstDate = recentDate.toISOString().slice(0, 10);
       setRecentSoldDate(recentKstDate);
     } catch (error) {

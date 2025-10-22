@@ -46,7 +46,7 @@ export default function SaleHistoryChart({
             fontSize={12}
             tickFormatter={(value) => {
               const date = new Date(value);
-              date.setDate(date.getDate() + 1); // 하루 더하기
+              date.setDate(date.getDate());
               return date.toISOString().slice(5, 10);
             }} // 날짜에서 월-일만 표시
           />

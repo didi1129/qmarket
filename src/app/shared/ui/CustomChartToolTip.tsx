@@ -15,8 +15,9 @@ export default function CustomChartTooltip({
   if (active && payload && payload.length) {
     const avgPrice = payload[0].value.toFixed(0);
     const formattedAvgPrice = Number(avgPrice).toLocaleString();
+
     const date = new Date(payload[0].payload.date);
-    date.setDate(date.getDate() + 1);
+    date.setDate(date.getDate());
     const formattedDate = date.toISOString().slice(0, 10);
 
     return (
