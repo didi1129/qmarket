@@ -132,12 +132,12 @@ export default function MarketPriceDashboard() {
             }}
           />
           <Button
-            size="icon"
             title="시세 검색하기"
             className="bg-blue-600 hover:bg-blue-700"
             onClick={handleSearch}
           >
             <Search />
+            시세 검색
           </Button>
         </div>
       </div>

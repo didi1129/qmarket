@@ -121,7 +121,7 @@ export default function SearchInput({
     <div className="relative w-full">
       <Input
         type="text"
-        placeholder="아이템명 검색"
+        placeholder="아이템명 입력"
         value={inputValue}
         onChange={handleChange}
         onFocus={handleFocus}
