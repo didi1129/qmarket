@@ -64,10 +64,16 @@ export default function MarketPriceDashboard() {
       setSaleHistory(history);
       setItemImageUrl(itemImage);
 
-      const recentDate = new Date(history[0].date);
-      recentDate.setDate(recentDate.getDate());
-      const recentKstDate = recentDate.toISOString().slice(0, 10);
-      setRecentSoldDate(recentKstDate);
+      if (history && history.length > 0) {
+        const recentDate = new Date(history[0].date);
+        recentDate.setDate(recentDate.getDate());
+        const recentKstDate = recentDate.toISOString().slice(0, 10);
+        setRecentSoldDate(recentKstDate);
+      } else {
+        const today = new Date();
+        const todayKstDate = today.toISOString().slice(0, 10);
+        setRecentSoldDate(todayKstDate);
+      }
     } catch (error) {
       console.error("시세 조회 오류:", error);
     } finally {
@@ -173,10 +179,10 @@ export default function MarketPriceDashboard() {
 
           <div className="mb-8 md:mb-0">
             <p className="text-sm text-gray-500">
-              * <b>현재 시세</b>: 현재 <b>판매중</b>인 가격 기준 (호가)
+              * <b>현재 시세</b>: 현재 <b>판매중</b>인 아이템 가격 기준 (호가)
             </p>
             <p className="text-sm text-gray-500">
-              * <b>거래 시세</b>: <b>판매 완료</b>된 가격 기준 (실거래가)
+              * <b>거래 시세</b>: <b>판매 완료</b>된 아이템 가격 기준 (실거래가)
             </p>
             <p className="text-sm text-gray-500">
               * 시세 조작 방지를 위해 극단값은 시세에서 제외됩니다.
@@ -188,7 +194,9 @@ export default function MarketPriceDashboard() {
             <li>
               - 현재 시세:
               {marketPrice.count === 0 ? (
-                <b className="ml-1">판매중인 데이터가 없습니다.</b>
+                <b className="ml-1 text-gray-500">
+                  판매중인 데이터가 없습니다.
+                </b>
               ) : (
                 <span className="ml-1 text-blue-600 text-3xl font-extrabold">
                   {isLoading
@@ -206,7 +214,7 @@ export default function MarketPriceDashboard() {
             <li>
               - 거래 시세:
               {tradedPrice.count === 0 ? (
-                <b className="ml-1">거래 내역이 없습니다.</b>
+                <b className="ml-1 text-gray-500">거래 내역이 없습니다.</b>
               ) : (
                 <>
                   <span className="ml-1 text-blue-600 text-3xl font-extrabold">
