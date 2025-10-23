@@ -1,4 +1,3 @@
-import { Item } from "@/entities/item/model/types";
 import {
   Table,
   TableBody,
@@ -10,20 +9,23 @@ import {
 } from "@/shared/ui/table";
 import { Badge } from "@/shared/ui/badge";
 import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/popover";
-import { useState } from "react";
 import ItemImage from "@/shared/ui/ItemImage";
 import { formatDate } from "@/shared/lib/formatters";
-import { copyToClipboard } from "@/shared/lib/copyToClipboard";
 import LoadingSpinner from "@/shared/ui/LoadingSpinner";
 import CreateReportModal from "@/features/report/ui/CreateReportModal";
+import { RankItem } from "@/entities/item/model/types";
 import { useUser } from "@/shared/hooks/useUser";
+import { useState } from "react";
 
-interface ItemTableProps {
-  items: Item[];
+interface ItemRankingTableProps {
+  items: RankItem[];
   isLoading?: boolean;
 }
 
-export const ItemTable = ({ items, isLoading }: ItemTableProps) => {
+export default function ItemRankingTable({
+  items,
+  isLoading,
+}: ItemRankingTableProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const { data: user } = useUser();
 
@@ -49,16 +51,7 @@ export const ItemTable = ({ items, isLoading }: ItemTableProps) => {
                     가격 (사이버머니)
                   </TableHead>
                   <TableHead className="text-center font-medium text-sm text-gray-700">
-                    판매상태
-                  </TableHead>
-                  <TableHead className="text-center font-medium text-sm text-gray-700">
-                    뽑기/상점/복권
-                  </TableHead>
-                  <TableHead className="text-center font-medium text-sm text-gray-700">
-                    판매자
-                  </TableHead>
-                  <TableHead className="text-center font-medium text-sm text-gray-700">
-                    등록일
+                    거래일
                   </TableHead>
                   {user && (
                     <TableHead className="text-center font-medium text-sm text-gray-700">
@@ -98,52 +91,8 @@ export const ItemTable = ({ items, isLoading }: ItemTableProps) => {
                         <TableCell className="text-center font-bold text-gray-700">
                           {item.price.toLocaleString()}
                         </TableCell>
-                        <TableCell className="text-center">
-                          <Badge
-                            variant="secondary"
-                            className={`${
-                              item.is_sold
-                                ? "bg-red-100 text-red-700"
-                                : "bg-blue-600 text-white"
-                            } px-2 py-1 rounded-full`}
-                          >
-                            {item.is_sold ? "판매완료" : "판매중"}
-                          </Badge>
-                        </TableCell>
-                        <TableCell className="text-center">
-                          <Badge
-                            variant="outline"
-                            className="bg-yellow-100 text-yellow-800 border-yellow-200 px-2 py-1 rounded-full"
-                          >
-                            {item.item_source}
-                          </Badge>
-                        </TableCell>
-                        <TableCell className="text-center">
-                          <Badge
-                            variant="secondary"
-                            className="text-gray-700 truncate px-2 py-1 rounded cursor-pointer"
-                            title={`디스코드 아이디: ${item.discord_id}`}
-                            onClick={() =>
-                              copyToClipboard(
-                                item.discord_id,
-                                "디스코드 아이디를 복사했습니다."
-                              )
-                            }
-                          >
-                            <div className="flex items-center font-medium text-gray-900">
-                              {item.nickname}
-                              <span className="flex items-center text-xs font-medium bg-gray-200 py-0 px-0.5 text-black rounded-md">
-                                (
-                                <span className="max-w-[36px] overflow-ellipsis overflow-hidden">
-                                  {item.discord_id}
-                                </span>
-                                )
-                              </span>
-                            </div>
-                          </Badge>
-                        </TableCell>
                         <TableCell className="text-center text-sm text-gray-500">
-                          {formatDate(item.created_at)}
+                          {formatDate(item.updated_at)}
                         </TableCell>
                         {user && (
                           <TableCell className="text-center text-sm text-gray-500">
@@ -166,9 +115,6 @@ export const ItemTable = ({ items, isLoading }: ItemTableProps) => {
                         />
                         <p className="text-center font-medium text-gray-900">
                           {item.item_name}
-                        </p>
-                        <p className="text-sm text-gray-500 max-w-[80px] break-words">
-                          판매자: {item.nickname}({item.discord_id})
                         </p>
                       </div>
                     </PopoverContent>
@@ -219,24 +165,10 @@ export const ItemTable = ({ items, isLoading }: ItemTableProps) => {
                     >
                       {item.is_sold ? "판매완료" : "판매중"}
                     </Badge>
-                    <Badge className="bg-yellow-100 text-yellow-800">
-                      {item.item_source}
-                    </Badge>
                   </div>
 
-                  <span
-                    className="text-gray-600 cursor-pointer col-span-2 flex items-center gap-1"
-                    onClick={() =>
-                      copyToClipboard(
-                        item.discord_id,
-                        "디스코드 아이디를 복사했습니다."
-                      )
-                    }
-                  >
-                    - 판매자: {item.nickname}({item.discord_id})
-                  </span>
                   <span className="text-gray-400 col-span-2">
-                    - 등록일: {formatDate(item.created_at)}
+                    - 거래일자: {formatDate(item.updated_at)}
                   </span>
                 </div>
 
@@ -250,12 +182,6 @@ export const ItemTable = ({ items, isLoading }: ItemTableProps) => {
           </div>
         </>
       )}
-
-      {!isLoading && items.length === 0 && (
-        <p className="text-center text-sm p-8 text-gray-500 pb-20">
-          등록된 상품이 없습니다.
-        </p>
-      )}
     </div>
   );
-};
+}

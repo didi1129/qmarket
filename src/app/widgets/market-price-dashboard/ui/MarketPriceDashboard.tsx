@@ -18,6 +18,7 @@ import getItemImage from "@/shared/lib/getItemImage";
 import Image from "next/image";
 import CreateReportModal from "@/features/report/ui/CreateReportModal";
 import { useUser } from "@/shared/hooks/useUser";
+import ItemRankingView from "@/widgets/item-ranking-view/ui/ItemRankingView";
 
 export default function MarketPriceDashboard() {
   const [searchInput, setSearchInput] = useState("");
@@ -252,6 +253,11 @@ export default function MarketPriceDashboard() {
           </div>
         </div>
       )}
+
+      {/* 시세 랭킹 */}
+      <article className="mt-8">
+        <ItemRankingView />
+      </article>
     </section>
   );
 }
