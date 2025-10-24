@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import {
   getItemMarketPrice,
   getTradedMarketPrice,
@@ -18,7 +18,6 @@ import getItemImage from "@/shared/lib/getItemImage";
 import Image from "next/image";
 import CreateReportModal from "@/features/report/ui/CreateReportModal";
 import { useUser } from "@/shared/hooks/useUser";
-import ItemRankingView from "@/widgets/item-ranking-view/ui/ItemRankingView";
 
 export default function MarketPriceDashboard() {
   const [searchInput, setSearchInput] = useState("");
