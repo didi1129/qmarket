@@ -1,6 +1,7 @@
 "use client";
 
 import ItemCategoryFilter from "@/features/item-search/ui/ItemCategoryFilter";
+import { ItemCategoryKey } from "@/features/item-search/ui/ItemCategoryFilter";
 import ItemGenderFilter, {
   ItemGenderKey,
 } from "@/features/item-search/ui/ItemGenderFilter";
@@ -8,12 +9,12 @@ import ItemSoldFilter from "@/features/item-search/ui/ItemSoldFilter";
 import { Label } from "@/shared/ui/label";
 
 interface ItemMultiFilterProps {
-  category: string | null;
+  category: ItemCategoryKey | null;
   gender: ItemGenderKey | null;
   isSold?: boolean | null;
   className?: string;
   onChange: (filters: {
-    category: string | null;
+    category: ItemCategoryKey | null;
     gender: ItemGenderKey | null;
     isSold: boolean | null;
   }) => void;
@@ -26,8 +27,12 @@ export default function ItemMultiFilter({
   onChange,
   className,
 }: ItemMultiFilterProps) {
-  const handleCategoryChange = (value: string | null) =>
-    onChange({ category: value, gender, isSold: isSold || null });
+  const handleCategoryChange = (value: ItemCategoryKey | null) =>
+    onChange({
+      category: value,
+      gender,
+      isSold: isSold || null,
+    });
 
   const handleGenderChange = (value: ItemGenderKey | null) =>
     onChange({ category, gender: value, isSold: isSold || null });
