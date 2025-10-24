@@ -87,7 +87,7 @@ export default function ItemRankingView() {
     <section className="mt-4">
       <div className="rounded-xl border p-4 mt-4 mb-8">
         <p className="text-sm text-gray-500">
-          * 거래가 완료된 아이템들의 시세 순위가 표시됩니다.
+          * 거래가 완료된 아이템을 기준으로 랭킹이 집계됩니다.
         </p>
         <p className="text-gray-500 text-sm">
           * 시세 조작이 의심될 경우, 우측 상단의 신고 버튼을 눌러 제보해주세요.
