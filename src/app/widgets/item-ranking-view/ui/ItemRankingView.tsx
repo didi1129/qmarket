@@ -154,7 +154,9 @@ export default function ItemRankingView() {
       <ItemRankingTable items={allItems} isLoading={isLoading} />
 
       <div ref={loadMoreRef} className="h-10 flex items-center justify-center">
-        {isFetchingNextPage && <div>더 불러오는 중...</div>}
+        {isFetchingNextPage && (
+          <p className="text-center text-gray-500 text-sm">불러오는 중...</p>
+        )}
       </div>
     </section>
   );
