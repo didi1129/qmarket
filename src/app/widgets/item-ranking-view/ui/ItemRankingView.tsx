@@ -156,12 +156,6 @@ export default function ItemRankingView() {
       <div ref={loadMoreRef} className="h-10 flex items-center justify-center">
         {isFetchingNextPage && <div>더 불러오는 중...</div>}
       </div>
-
-      {!hasNextPage && allItems.length > 0 && (
-        <div className="text-center text-gray-500 py-4">
-          모든 아이템을 불러왔습니다.
-        </div>
-      )}
     </section>
   );
 }
