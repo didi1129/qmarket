@@ -83,7 +83,7 @@ export default function ItemRankingTable({
                         <TableCell
                           className={cn(
                             "text-center text-gray-800",
-                            item.rank < 11 && "font-bold"
+                            item.rank < 11 && "font-bold text-[#2359B6]"
                           )}
                         >
                           {item.rank}
