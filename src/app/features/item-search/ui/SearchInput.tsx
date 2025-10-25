@@ -48,9 +48,7 @@ export default function SearchInput({
   useEffect(() => {
     // 전체 아이템 초기 로드
     const fetchItems = async () => {
-      const { data, error } = await supabase
-        .from(ITEMS_INFO_TABLE_NAME)
-        .select("name, item_gender, category");
+      const { data, error } = await supabase.rpc("get_distinct_items");
       if (!error && data) {
         setAllItems(data);
       } else {
