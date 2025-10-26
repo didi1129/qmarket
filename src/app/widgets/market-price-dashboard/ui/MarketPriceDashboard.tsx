@@ -95,10 +95,6 @@ export default function MarketPriceDashboard() {
           * 시세 조작이 의심될 경우, 우측 상단의 신고 버튼을 눌러 제보해주세요.
           (허위 신고를 방지하기 위해 로그인 후 신고 가능합니다.)
         </p>
-        <p className="text-gray-500 text-sm">
-          * Q-Market 오픈일<span className="text-gray-400">(2025-10-12)</span>{" "}
-          기준 일부 아이템에 초기 시세가 적용됩니다.
-        </p>
       </div>
 
       {/* 검색창 */}
