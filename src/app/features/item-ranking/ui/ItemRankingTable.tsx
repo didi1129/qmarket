@@ -165,18 +165,6 @@ export default function ItemRankingTable({
                 </div>
 
                 <div className="mt-3 block md:grid md:grid-cols-2 gap-2 text-sm">
-                  <div className="flex gap-1 mb-2">
-                    <Badge
-                      className={`${
-                        item.is_sold
-                          ? "bg-red-100 text-red-700"
-                          : "bg-blue-600 text-white"
-                      }`}
-                    >
-                      {item.is_sold ? "판매완료" : "판매중"}
-                    </Badge>
-                  </div>
-
                   <span className="text-gray-400 col-span-2">
                     - 거래일자: {formatDateYMD(item.updated_at)}
                   </span>
