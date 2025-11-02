@@ -176,7 +176,7 @@ export default function MarketPriceDashboard() {
               * <b>거래 시세</b>: <b>판매 완료</b>된 아이템 가격 기준 (실거래가)
             </p>
             <p className="text-sm text-gray-500">
-              * 시세 조작 방지를 위해 극단값은 시세에서 제외됩니다.
+              * 시세는 거래 평균값이 아닙니다.
             </p>
           </div>
 
