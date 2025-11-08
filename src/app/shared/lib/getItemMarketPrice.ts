@@ -33,7 +33,7 @@ export async function getItemMarketPrice(itemName: string, itemGender: string) {
   const uniquePrices = [...new Set(prices)]; // 중복값 제거
   const price = getMiddlePrice(uniquePrices);
 
-  return price;
+  return { price, count: listings.length };
 }
 
 /**
@@ -71,5 +71,5 @@ export async function getTradedMarketPrice(
   const uniquePrices = [...new Set(prices)];
   const price = getMiddlePrice(uniquePrices);
 
-  return price;
+  return { price, count: soldListings.length };
 }
