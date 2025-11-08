@@ -1,4 +1,5 @@
 import { supabase } from "@/shared/api/supabase-client";
+import getMiddlePrice from "./getMiddlePrice";
 
 /**
  * 아이템 현재 판매가 시세 계산 함수
@@ -29,21 +30,10 @@ export async function getItemMarketPrice(itemName: string, itemGender: string) {
   const prices = listings
     .map((item) => Number(item.price))
     .sort((a, b) => a - b);
-  const count = prices.length;
+  const uniquePrices = [...new Set(prices)]; // 중복값 제거
+  const price = getMiddlePrice(uniquePrices);
 
-  // 중앙값 적용
-  if (count % 2 === 1) {
-    return {
-      price: prices[Math.floor(count / 2)].toFixed(0),
-      count: listings.length,
-    };
-  } else {
-    const mid = count / 2;
-    return {
-      price: ((prices[mid - 1] + prices[mid]) / 2).toFixed(0),
-      count: listings.length,
-    };
-  }
+  return price;
 }
 
 /**
@@ -75,22 +65,11 @@ export async function getTradedMarketPrice(
     return { price: "0", count: 0 };
   }
 
-  const prices = soldListings
-    .map((item) => Number(item.price))
-    .sort((a, b) => a - b);
-  const count = prices.length;
+  const prices = [
+    ...new Set(soldListings.map((item) => Number(item.price))),
+  ].sort((a, b) => a - b);
+  const uniquePrices = [...new Set(prices)];
+  const price = getMiddlePrice(uniquePrices);
 
-  // 중앙값 적용
-  if (count % 2 === 1) {
-    return {
-      price: prices[Math.floor(count / 2)].toFixed(0),
-      count: soldListings.length,
-    };
-  } else {
-    const mid = count / 2;
-    return {
-      price: ((prices[mid - 1] + prices[mid]) / 2).toFixed(0),
-      count: soldListings.length,
-    };
-  }
+  return price;
 }
