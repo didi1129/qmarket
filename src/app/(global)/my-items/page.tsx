@@ -2,6 +2,7 @@ import ItemCardList from "@/widgets/item-list/ui/ItemCardList";
 import { createClient } from "@/shared/api/supabase-server-cookie";
 import ButtonToMain from "@/shared/ui/LinkButton/ButtonToMain";
 import { Suspense } from "react";
+import UserItemListHeader from "@/widgets/item-list/ui/UserItemListHeader";
 
 export default async function MyItemsPage() {
   const supabase = await createClient();
@@ -11,7 +12,14 @@ export default async function MyItemsPage() {
 
   return (
     <section className="max-w-5xl mx-auto">
-      <h2 className="font-bold text-3xl mb-2 text-center">내 정보</h2>
+      <div className="mb-10 text-center">
+        <h2 className="font-bold text-3xl mb-2">내 정보</h2>
+        <p className="text-gray-500 text-sm">
+          * 판매/구매중인 아이템을 조회/수정할 수 있습니다.
+          <br />* <b>판매완료</b> 처리는 <b>아이템 수정</b>을 이용해주세요.
+        </p>
+      </div>
+
       {/* {!user ? <LoginRequiredMessage /> : <MyItemsContent userId={user.id} />} */}
       <MyItemsContent userId="76507b38-6db4-4ddf-bae3-eb9f4a4f82c0" />
     </section>
@@ -20,26 +28,16 @@ export default async function MyItemsPage() {
 
 const LoginRequiredMessage = () => (
   <>
-    <p className="text-gray-500 text-sm mb-4">
-      로그인 후 내 아이템을 확인할 수 있습니다.
-    </p>
+    <p className="text-gray-500 text-sm mb-4">로그인 후 접근 가능합니다.</p>
     <ButtonToMain />
   </>
 );
 
-const LoadingFallback = <div>아이템 목록을 로드하고 있습니다...</div>;
-
-const ItemSectionHeader = () => (
-  <div className="mb-10 text-center">
-    <p className="text-gray-500 text-sm">
-      판매/구매중인 아이템을 조회/수정할 수 있습니다.
-    </p>
-  </div>
-);
+const LoadingFallback = <div>로드중...</div>;
 
 const MyItemsContent = ({ userId }: { userId: string }) => (
   <div className="p-4 md:p-0">
-    <ItemSectionHeader />
+    <UserItemListHeader userId={userId} />
 
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
       {/* 팝니다 */}
