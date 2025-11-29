@@ -51,22 +51,9 @@ export function ItemDeleteModal({ itemId, userId }: Props) {
       return itemId;
     },
 
-    // 성공 시 캐시 동기화 (UI 즉시 반영)
-    onSuccess: (deletedId) => {
+    onSuccess: () => {
       toast.success("아이템을 삭제했습니다.");
-
-      queryClient.setQueryData<InfiniteData<Item[]>>(
-        ["my-items", userId],
-        (oldData) => {
-          if (!oldData) return oldData;
-          return {
-            ...oldData,
-            pages: oldData.pages.map((page) =>
-              page.filter((i) => i.id !== deletedId)
-            ),
-          };
-        }
-      );
+      queryClient.invalidateQueries({ queryKey: ["my-items", userId] });
     },
 
     onError: (err) => {
