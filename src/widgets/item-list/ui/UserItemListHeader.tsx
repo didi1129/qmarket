@@ -1,13 +1,13 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import ItemUploadModal from "@/features/item-upload-modal/ui/ItemUploadModal";
+import SellingItemCreateModal from "@/features/item-upload-modal/ui/SellingItemCreateModal";
 import ButtonToMain from "@/shared/ui/LinkButton/ButtonToMain";
 import { getDailyItemCountAction } from "@/features/item-upload-modal/model/actions";
 import { DAILY_LIMIT } from "@/shared/lib/redis";
 import DailyLimitDisplay from "@/features/item-upload-modal/ui/DailyLimitDisplay";
 import LoadingSpinner from "@/shared/ui/LoadingSpinner";
-import PurchaseItemUploadModal from "@/features/item-upload-modal/ui/PurchaseItemUploadModal";
+import PurchaseItemCreateModal from "@/features/item-upload-modal/ui/PurchaseItemCreateModal";
 
 export default function UserItemListHeader({ userId }: { userId: string }) {
   // 일일 등록 카운트
@@ -31,13 +31,13 @@ export default function UserItemListHeader({ userId }: { userId: string }) {
       </div> */}
 
       <div className="mt-2 w-full text-right flex gap-2 justify-end">
-        <ItemUploadModal
+        <SellingItemCreateModal
           onSuccess={() => {
             // refetchLimitInfo();
             // refetch();
           }}
         />
-        <PurchaseItemUploadModal />
+        <PurchaseItemCreateModal />
       </div>
     </div>
   );

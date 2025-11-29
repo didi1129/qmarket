@@ -56,6 +56,10 @@ export default function ItemEditModal({ item }: ItemEditModalProps) {
     defaultValues: {
       item_name: item.item_name,
       price: item.price,
+      message: "",
+      item_source: "gatcha", // 필수 필드 추가
+      item_gender: "w", // 필수 필드 추가
+      category: "clothes", // 필수 필드 추가
     },
   });
 
