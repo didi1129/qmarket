@@ -22,7 +22,7 @@ export default async function ItemCardList({
       <div className="text-sm text-gray-500">
         데이터를 불러오는 데 실패했습니다.
       </div>
-    ); // 해당 컴포넌트만 대체
+    );
   }
 
   return (
