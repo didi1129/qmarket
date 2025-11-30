@@ -38,7 +38,7 @@ const MyItemsContent = ({ userId }: { userId: string }) => (
   <div className="p-4 md:p-0">
     <UserItemListHeader userId={userId} />
 
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+    <section className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
       {/* 팝니다 */}
       <div className="flex flex-col gap-2">
         <h3 className="font-semibold text-lg">팝니다</h3>
@@ -70,6 +70,6 @@ const MyItemsContent = ({ userId }: { userId: string }) => (
           <ItemCardList userId={userId} isForSale={false} isSold={true} />
         </Suspense>
       </div>
-    </div>
+    </section>
   </div>
 );
