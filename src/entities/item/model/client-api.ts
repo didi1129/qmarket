@@ -1,5 +1,4 @@
 import { supabase } from "@/shared/api/supabase-client";
-import { ITEMS_TABLE_NAME } from "@/shared/config/constants";
 
 interface Props {
   userId: string;
@@ -7,7 +6,11 @@ interface Props {
   isSold: boolean;
 }
 
-const fetchFilteredItems = async ({ userId, isForSale, isSold }: Props) => {
+export const fetchFilteredItems = async ({
+  userId,
+  isForSale,
+  isSold,
+}: Props) => {
   // let query = supabase.from(ITEMS_TABLE_NAME).select("*").eq("user_id", userId);
   let query = supabase.from("items_test").select("*").eq("user_id", userId);
 
@@ -25,5 +28,3 @@ const fetchFilteredItems = async ({ userId, isForSale, isSold }: Props) => {
   }
   return data;
 };
-
-export default fetchFilteredItems;

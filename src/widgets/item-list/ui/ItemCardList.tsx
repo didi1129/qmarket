@@ -3,7 +3,7 @@
 import ItemCard from "@/entities/item/ui/ItemCard";
 import { getDailyItemCountAction } from "@/features/item-upload-modal/model/actions";
 import { DAILY_LIMIT } from "@/shared/lib/redis";
-import fetchFilteredItems from "@/entities/item/api/itemApi";
+import { fetchFilteredItems } from "@/entities/item/model/client-api";
 import { getMyItems } from "@/widgets/item-list/model/getMyItems";
 import { useQuery } from "@tanstack/react-query";
 
