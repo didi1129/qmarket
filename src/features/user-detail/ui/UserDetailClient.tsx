@@ -32,7 +32,7 @@ export default function UserDetailClient({ user }: UserDetailProps) {
       <p className="text-base text-gray-600 mb-5 px-3 min-h-10">{user.bio}</p>
 
       <span className="block text-sm text-gray-400 pt-3 mt-4 border-t border-gray-200">
-        가입일: **{user.created_at}**
+        가입일: {user.created_at.slice(0, 10)}
       </span>
     </section>
   );
@@ -82,19 +82,17 @@ export default function UserDetailClient({ user }: UserDetailProps) {
 
   return (
     <div className="flex h-screen bg-gray-100">
-      {/* 1. 좌측 사이드바 (사용자 데이터) */}
+      {/* 좌측 사이드바 (유저 정보) */}
       <aside className="w-full sm:w-80 bg-white border-r border-gray-200 flex-shrink-0 pt-10 overflow-y-auto">
         <h3 className="text-xl font-semibold text-gray-700 mb-4 px-5">
           👤 사용자 정보
         </h3>
-        {/* 이전 답변의 사용자 프로필 카드가 여기에 들어갑니다. */}
         <UserProfileCard />
       </aside>
 
-      {/* 2. 우측 주 내용 영역 (삽니다/팝니다 목록) */}
+      {/* 우측 컨텐츠 (삽니다/팝니다 목록) */}
       <main className="flex-grow p-8 overflow-y-auto">
         <BuySellListSection />
-        {/* 필요하다면 여기에 다른 대시보드 위젯들을 추가할 수 있습니다. */}
       </main>
     </div>
   );
