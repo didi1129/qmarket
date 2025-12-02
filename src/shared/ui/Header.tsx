@@ -50,7 +50,7 @@ export default function Header() {
   };
 
   return (
-    <header className="py-8 px-4 md:px-0 max-w-5xl mx-auto flex items-center justify-between">
+    <header className="py-8 px-4 md:px-0 max-w-6xl mx-auto flex items-center justify-between">
       <Link href="/">
         <Image src="/images/logo.png" alt="큐마켓" width={140} height={54} />
       </Link>

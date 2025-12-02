@@ -8,6 +8,7 @@ import { cn } from "@/shared/lib/utils";
 import SoldButton from "@/features/item/ui/SoldButton";
 import { usePathname } from "next/navigation";
 import { useUser } from "@/shared/hooks/useUser";
+import Link from "next/link";
 
 interface ItemCardProps {
   item: Item;
@@ -28,7 +29,12 @@ const ItemCard = ({ item, userId }: ItemCardProps) => {
       )}
     >
       {/* 아이템 이미지 */}
-      <figure className="flex-shrink-0">
+      <Link
+        href={`/item/${encodeURIComponent(item.item_name)}/${encodeURIComponent(
+          item.item_gender
+        )}`}
+        className="shrink-0"
+      >
         <Image
           src={item.image || "/images/empty.png"}
           alt={item.item_name}
@@ -36,7 +42,7 @@ const ItemCard = ({ item, userId }: ItemCardProps) => {
           height={60}
           className="w-[60px] h-[60px] object-cover rounded-md"
         />
-      </figure>
+      </Link>
 
       {/* 아이템 정보 */}
       <div className="flex justify-between w-full">
@@ -60,18 +66,38 @@ const ItemCard = ({ item, userId }: ItemCardProps) => {
             {item.price.toLocaleString()}
             <span className="text-[10px] mt-0.5">원</span>
           </h4>
+
+          <p className="bg-secondary text-foreground font-medium text-xs rounded-sm px-1.5 py-0.5 w-[200px]">
+            {item.message}테스트
+          </p>
         </div>
 
-        <div className="flex items-center justify-between mt-1 gap-1">
-          {item.is_for_sale && !item.is_sold && userId && (
-            <SoldButton itemId={item.id} userId={userId} />
-          )}
+        {/* 아이템 조회 페이지 유저 정보 */}
+        {!pathname.includes("my-items") && !pathname.includes("user") && (
+          <div className="flex flex-col gap-2">
+            <Link
+              href={`/user/${item.user_id}`}
+              className="text-sm font-medium"
+            >
+              {item.nickname}({item.discord_id})
+            </Link>
+          </div>
+        )}
 
-          {/* 액션 버튼 (수정/삭제) */}
-          {pathname.includes("my-items") && user?.id === userId && (
-            <MyItemActions item={item} isSold={item.is_sold} />
-          )}
-        </div>
+        {/* 마이 페이지 actions */}
+        {pathname.includes("my-items") && (
+          <div className="flex items-center justify-between mt-1 gap-1 self-start">
+            {/* 판매 완료 버튼 */}
+            {item.is_for_sale && !item.is_sold && userId && (
+              <SoldButton itemId={item.id} userId={userId} />
+            )}
+
+            {/* 액션 버튼 (수정/삭제) */}
+            {user?.id === userId && (
+              <MyItemActions item={item} isSold={item.is_sold} />
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

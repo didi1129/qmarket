@@ -20,7 +20,7 @@ export default function UserItemList({ userId, isForSale, isSold }: Props) {
   const { data: filteredItems, isPending: isLoadingFiltered } = useQuery({
     queryKey: ["filtered-user-items", userId, isForSale, isSold],
     queryFn: () => getFilteredUserItems({ userId, isForSale, isSold }),
-    enabled: !!allItems, // allItems가 있을 때만 실행
+    enabled: !!allItems,
   });
 
   if (isLoadingItems) return <div>전체 아이템 로딩 중...</div>;

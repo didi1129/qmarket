@@ -22,13 +22,14 @@ export interface Item {
   image: string; // 이미지 URL (컬럼명 변경)
   is_for_sale: boolean; // 판매/구매 아이템 구분 (true: 판매 아이템, false: 구매 아이템)
   item_source: ItemSource; // 뽑기/상점/복권/기타 아이템
-  nickname: string; // 판매자 닉네임 (디스코드 닉네임)
-  discord_id: string; // 판매자 아이디 (디스코드 아이디)
+  nickname: string; // 유저 닉네임 (디스코드 닉네임)
+  discord_id: string; // 유저 아이디 (디스코드 아이디)
   is_sold: boolean; // 판매중/판매완료
   item_gender: ItemGender; // 아이템 성별
   user_id: string; // 아이템 등록 유저 uuid (디스코드 uuid)
   category: ItemCategory; // 아이템 카테고리
   created_at: string; // 아이템 등록일
+  message: string; // 유저 메시지
 }
 
 export interface SearchItemInfo {
