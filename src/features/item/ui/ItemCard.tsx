@@ -9,6 +9,8 @@ import SoldButton from "@/features/item/ui/SoldButton";
 import { usePathname } from "next/navigation";
 import { useUser } from "@/shared/hooks/useUser";
 import Link from "next/link";
+import { formatDateYMD } from "@/shared/lib/formatters";
+import { ExternalLink } from "lucide-react";
 
 interface ItemCardProps {
   item: Item;
@@ -69,37 +71,49 @@ const ItemCard = ({ item, userId }: ItemCardProps) => {
             <span className="text-[10px] mt-0.5">원</span>
           </h4>
 
-          <p className="bg-secondary text-foreground font-medium text-xs rounded-sm px-1.5 py-0.5 w-[200px]">
-            {item.message}테스트
-          </p>
+          {item.message && (
+            <p className="bg-secondary text-foreground font-medium text-xs rounded-sm px-1.5 py-0.5 w-[200px]">
+              {item.message}
+            </p>
+          )}
         </div>
 
-        {/* 아이템 조회 페이지 유저 정보 */}
-        {!pathname.includes("my-items") && !pathname.includes("user") && (
-          <div className="flex flex-col gap-2">
+        {/* 아이템 등록 유저 정보 */}
+
+        <div className="flex flex-col items-end gap-1 text-xs mt-1">
+          {!pathname.includes("my-items") && !pathname.includes("user") && (
             <Link
               href={`/user/${item.user_id}`}
-              className="text-sm font-medium"
+              className="font-medium group hover:text-blue-600 hover:underline underline-offset-4"
             >
               {item.nickname}({item.discord_id})
+              <ExternalLink className="size-3 text-foreground/70 inline-block ml-0.5 group-hover:text-blue-600" />
             </Link>
-          </div>
-        )}
+          )}
 
-        {/* 마이 페이지 actions */}
-        {pathname.includes("my-items") && (
-          <div className="flex items-center justify-between mt-1 gap-1 self-start">
-            {/* 판매 완료 버튼 */}
-            {item.is_for_sale && !item.is_sold && userId && (
-              <SoldButton itemId={item.id} userId={userId} />
-            )}
+          <span className="text-foreground/50">
+            등록일: {formatDateYMD(item.created_at)}
+          </span>
 
-            {/* 액션 버튼 (수정/삭제) */}
-            {user?.id === userId && (
-              <MyItemActions item={item} isSold={item.is_sold} />
-            )}
-          </div>
-        )}
+          {/* 마이 페이지 actions */}
+          {pathname.includes("my-items") && (
+            <div className="flex items-center mt-1 gap-1 self-start">
+              {/* 판매/구매 완료 버튼 */}
+              {!item.is_sold && userId && (
+                <SoldButton
+                  itemId={item.id}
+                  userId={userId}
+                  isForSale={item.is_for_sale}
+                />
+              )}
+
+              {/* 액션 버튼 (수정/삭제) */}
+              {user?.id === userId && (
+                <MyItemActions item={item} isSold={item.is_sold} />
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

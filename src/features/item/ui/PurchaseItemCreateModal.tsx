@@ -14,13 +14,8 @@ import { Input } from "@/shared/ui/input";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { sanitize } from "@/shared/lib/sanitize";
-import { Label } from "@/shared/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/shared/ui/radio-group";
 import { ScrollArea } from "@/shared/ui/scroll-area";
-import {
-  PurchaseItemUpdateFormSchema,
-  PurchaseItemUpdateFormType,
-} from "../model/schema";
+import { PurchaseItemFormSchema, PurchaseItemFormType } from "../model/schema";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -30,9 +25,8 @@ import {
 } from "@/shared/config/constants";
 import { Lock, Plus } from "lucide-react";
 import { useUser } from "@/shared/hooks/useUser";
-import { useEffect, useState } from "react";
-import { cn } from "@/shared/lib/utils";
-import { insertPurchaseItem } from "../model/actions";
+import { useState } from "react";
+import { createPurchaseItem } from "../model/actions";
 import { getDailyItemCountAction } from "../model/actions";
 import { DAILY_LIMIT } from "@/shared/api/redis";
 import SearchInput from "@/features/item-search/ui/SearchInput";
@@ -44,10 +38,10 @@ export default function PurchaseItemCreateModal() {
   const { data: user } = useUser();
 
   const createPurchaseItemMutation = useMutation({
-    mutationFn: async (values: PurchaseItemUpdateFormType) => {
+    mutationFn: async (values: PurchaseItemFormType) => {
       if (!user) throw new Error("로그인이 필요합니다.");
 
-      return insertPurchaseItem({
+      return createPurchaseItem({
         item_name: sanitize(values.item_name),
         price: values.price,
         is_sold: false,
@@ -76,15 +70,16 @@ export default function PurchaseItemCreateModal() {
     },
   });
 
-  const form = useForm<PurchaseItemUpdateFormType>({
-    resolver: zodResolver(PurchaseItemUpdateFormSchema),
+  const form = useForm<PurchaseItemFormType>({
+    resolver: zodResolver(PurchaseItemFormSchema),
     defaultValues: {
       item_name: "",
       price: 0,
+      item_source: "gatcha",
+      item_gender: "m",
+      is_sold: false,
+      category: "clothes",
       message: "",
-      item_source: "gatcha", // 필수 필드 추가
-      item_gender: "w", // 필수 필드 추가
-      category: "clothes", // 필수 필드 추가
     },
   });
 
@@ -95,7 +90,7 @@ export default function PurchaseItemCreateModal() {
     formState: { errors },
   } = form;
 
-  const onSubmit = (values: PurchaseItemUpdateFormType) => {
+  const onSubmit = (values: PurchaseItemFormType) => {
     createPurchaseItemMutation.mutate(values, {
       onSuccess: () => {
         reset(); // 폼 초기화
@@ -218,10 +213,17 @@ export default function PurchaseItemCreateModal() {
                 <label htmlFor="price" className="text-sm">
                   메시지
                 </label>
-                <Textarea
-                  id="message"
-                  placeholder="메시지를 입력해주세요. (e.g. DM 주세요!)"
-                  {...form.register("message")}
+                <Controller
+                  name="message"
+                  control={control}
+                  render={({ field }) => (
+                    <Textarea
+                      id="message"
+                      placeholder="메시지를 입력해주세요. (e.g. DM 주세요!)"
+                      value={field.value}
+                      onChange={(e) => field.onChange(e.target.value)}
+                    />
+                  )}
                 />
                 {errors.price && (
                   <p className="text-red-600 text-sm mt-1">

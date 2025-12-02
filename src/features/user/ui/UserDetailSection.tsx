@@ -16,7 +16,7 @@ interface UserDetailProps {
 
 export default function UserDetailSection({ user }: UserDetailProps) {
   const UserProfileCard = () => (
-    <section className="p-8 max-w-sm text-center">
+    <section className="text-center">
       <Image
         src={user.discord_profile_image ?? "images/empty.png"}
         alt={user.username}
@@ -84,7 +84,7 @@ export default function UserDetailSection({ user }: UserDetailProps) {
   return (
     <div className="flex lg:max-w-6xl mx-auto">
       {/* 좌측 사이드바 (유저 정보) */}
-      <aside className="w-80 shrink-0">
+      <aside className="w-64 shrink-0">
         <UserProfileCard />
       </aside>
 

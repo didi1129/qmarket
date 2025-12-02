@@ -18,7 +18,7 @@ export default function UserItemList({ userId, isForSale, isSold }: Props) {
   });
 
   const { data: filteredItems, isPending: isLoadingFiltered } = useQuery({
-    queryKey: ["filtered-user-items", userId, isForSale, isSold],
+    queryKey: ["filtered-items", userId, isForSale, isSold],
     queryFn: () => getFilteredUserItems({ userId, isForSale, isSold }),
     enabled: !!allItems,
   });

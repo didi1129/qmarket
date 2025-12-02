@@ -20,10 +20,7 @@ import { Input } from "@/shared/ui/input";
 import { ScrollArea } from "@/shared/ui/scroll-area";
 import { supabase } from "@/shared/api/supabase-client";
 import { sanitize } from "@/shared/lib/sanitize";
-import {
-  PurchaseItemUpdateFormSchema,
-  PurchaseItemUpdateFormType,
-} from "../model/schema";
+import { PurchaseItemFormSchema, PurchaseItemFormType } from "../model/schema";
 import {
   ITEM_GENDER_MAP,
   ITEM_SOURCES_MAP,
@@ -51,8 +48,8 @@ export default function ItemEditModal({ item }: ItemEditModalProps) {
   const queryClient = useQueryClient();
   const { data: user } = useUser();
 
-  const form = useForm<PurchaseItemUpdateFormType>({
-    resolver: zodResolver(PurchaseItemUpdateFormSchema),
+  const form = useForm<PurchaseItemFormType>({
+    resolver: zodResolver(PurchaseItemFormSchema),
     defaultValues: {
       item_name: item.item_name,
       price: item.price,
@@ -70,7 +67,7 @@ export default function ItemEditModal({ item }: ItemEditModalProps) {
   } = form;
 
   const updateItemMutation = useMutation({
-    mutationFn: async (values: PurchaseItemUpdateFormType) => {
+    mutationFn: async (values: PurchaseItemFormType) => {
       const dataToUpdate = {
         item_name: sanitize(values.item_name),
         price: values.price,
@@ -112,7 +109,7 @@ export default function ItemEditModal({ item }: ItemEditModalProps) {
     },
   });
 
-  const onSubmit = (values: PurchaseItemUpdateFormType) => {
+  const onSubmit = (values: PurchaseItemFormType) => {
     updateItemMutation.mutate(values);
   };
 

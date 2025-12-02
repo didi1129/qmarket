@@ -10,7 +10,7 @@ import {
 import { ITEMS_TABLE_NAME } from "@/shared/config/constants";
 import { getRemainingTime } from "@/shared/api/redis";
 
-interface InsertItemValues {
+interface CreateSellingItemValues {
   item_name: string;
   price: number;
   image: string | null;
@@ -22,9 +22,10 @@ interface InsertItemValues {
   user_id: string;
   is_sold: boolean;
   is_for_sale: boolean;
+  message: string;
 }
 
-interface InsertPurchaseItemValues {
+interface CreatePurchaseItemValues {
   item_name: string;
   price: number;
   item_source: string;
@@ -38,7 +39,7 @@ interface InsertPurchaseItemValues {
   message: string;
 }
 
-export async function insertItem(values: InsertItemValues) {
+export async function createSellingItem(values: CreateSellingItemValues) {
   const supabase = await getSupabaseCookie();
   const {
     data: { user },
@@ -61,7 +62,7 @@ export async function insertItem(values: InsertItemValues) {
   return { data };
 }
 
-export async function insertPurchaseItem(values: InsertPurchaseItemValues) {
+export async function createPurchaseItem(values: CreatePurchaseItemValues) {
   const supabase = await getSupabaseCookie();
   const {
     data: { user },

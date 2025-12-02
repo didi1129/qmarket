@@ -15,8 +15,7 @@ export default async function MyItemsPage() {
       <div className="mb-10 text-center">
         <h2 className="font-bold text-3xl mb-2">내 정보</h2>
         <p className="text-gray-500 text-sm">
-          * 판매/구매중인 아이템을 조회/수정할 수 있습니다.
-          <br />* <b>판매완료</b> 처리는 <b>아이템 수정</b>을 이용해주세요.
+          판매/구매중인 아이템을 조회/수정할 수 있습니다.
         </p>
       </div>
 

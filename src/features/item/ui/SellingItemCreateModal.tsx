@@ -25,8 +25,8 @@ import {
 } from "@/shared/config/constants";
 import { Lock, Plus } from "lucide-react";
 import { useUser } from "@/shared/hooks/useUser";
-import { useEffect, useState } from "react";
-import { insertItem } from "../model/actions";
+import { useState } from "react";
+import { createSellingItem } from "../model/actions";
 import SearchInput from "@/features/item-search/ui/SearchInput";
 import { Textarea } from "@/shared/ui/textarea";
 
@@ -38,8 +38,9 @@ export default function SellingItemCreateModal() {
   const createItemMutation = useMutation({
     mutationFn: async (values: ItemFormValues) => {
       if (!user) throw new Error("로그인이 필요합니다.");
+      console.log(values);
 
-      return insertItem({
+      return createSellingItem({
         item_name: sanitize(values.item_name),
         price: values.price,
         image: values.image,
@@ -47,10 +48,11 @@ export default function SellingItemCreateModal() {
         is_for_sale: true,
         item_source: ITEM_SOURCES_MAP[values.item_source],
         nickname: user?.user_metadata.custom_claims.global_name, // 디스코드 닉네임
-        discord_id: user?.user_metadata.full_name, // 디스코드 아이디
+        discord_id: user?.user_metadata.full_name,
         item_gender: ITEM_GENDER_MAP[values.item_gender],
         user_id: user?.id,
         category: ITEM_CATEGORY_MAP[values.category],
+        message: values.message || "",
       });
     },
     onSuccess: async () => {
@@ -58,9 +60,9 @@ export default function SellingItemCreateModal() {
       queryClient.invalidateQueries({ queryKey: ["items"] });
       queryClient.invalidateQueries({ queryKey: ["my-items", user?.id] });
       queryClient.invalidateQueries({
-        queryKey: ["filtered-items", user?.id],
+        queryKey: ["filtered-items"],
       });
-      setOpen(false);
+      // setOpen(false);
     },
     onError: (err) => {
       toast.error(err.message);
@@ -77,7 +79,6 @@ export default function SellingItemCreateModal() {
       item_gender: "m",
       is_sold: false,
       category: "clothes",
-      image: "",
       message: "",
     },
   });
@@ -206,10 +207,17 @@ export default function SellingItemCreateModal() {
                 <label htmlFor="price" className="text-sm">
                   메시지
                 </label>
-                <Textarea
-                  id="message"
-                  placeholder="메시지를 입력해주세요. (e.g. DM 주세요!)"
-                  {...form.register("message")}
+                <Controller
+                  name="message"
+                  control={control}
+                  render={({ field }) => (
+                    <Textarea
+                      id="message"
+                      placeholder="메시지를 입력해주세요. (e.g. DM 주세요!)"
+                      value={field.value}
+                      onChange={(e) => field.onChange(e.target.value)}
+                    />
+                  )}
                 />
                 {errors.price && (
                   <p className="text-red-600 text-sm mt-1">
