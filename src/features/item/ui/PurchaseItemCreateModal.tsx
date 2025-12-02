@@ -44,6 +44,7 @@ export default function PurchaseItemCreateModal() {
       return createPurchaseItem({
         item_name: sanitize(values.item_name),
         price: values.price,
+        image: values.image,
         is_sold: false,
         is_for_sale: false,
         item_source: ITEM_SOURCES_MAP[values.item_source],
@@ -60,7 +61,7 @@ export default function PurchaseItemCreateModal() {
       queryClient.invalidateQueries({ queryKey: ["items"] });
       queryClient.invalidateQueries({ queryKey: ["my-items", user?.id] });
       queryClient.invalidateQueries({
-        queryKey: ["filtered-items", user?.id],
+        queryKey: ["filtered-items"],
       });
       setOpen(false);
     },
@@ -74,6 +75,7 @@ export default function PurchaseItemCreateModal() {
     resolver: zodResolver(PurchaseItemFormSchema),
     defaultValues: {
       item_name: "",
+      image: "/images/empty.png",
       price: 0,
       item_source: "gatcha",
       item_gender: "m",
@@ -107,6 +109,9 @@ export default function PurchaseItemCreateModal() {
     }
   };
 
+  // 자동완성 아이템 선택 시 미리보기 이미지
+  const watchedImage = form.watch("image");
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <Button
@@ -133,6 +138,17 @@ export default function PurchaseItemCreateModal() {
                 <label htmlFor="item_name" className="text-sm">
                   아이템명
                 </label>
+
+                {watchedImage && (
+                  <div className="mb-4">
+                    <img
+                      src={watchedImage}
+                      alt="미리보기"
+                      className="w-24 h-24 object-contain rounded-md border"
+                    />
+                  </div>
+                )}
+
                 <Controller
                   name="item_name"
                   control={control}
@@ -151,17 +167,15 @@ export default function PurchaseItemCreateModal() {
                           ([_key, label]) => label === s.category
                         )?.[0] as keyof typeof ITEM_CATEGORY_MAP;
 
-                        if (categoryKey) {
-                          form.setValue("category", categoryKey); // 카테고리 자동 선택
-                        }
+                        form.setValue("category", categoryKey); // 카테고리 자동 선택
 
                         const genderKey = Object.entries(ITEM_GENDER_MAP).find(
                           ([_key, label]) => label === s.item_gender
                         )?.[0] as keyof typeof ITEM_GENDER_MAP;
 
-                        if (genderKey) {
-                          form.setValue("item_gender", genderKey);
-                        }
+                        form.setValue("item_gender", genderKey);
+
+                        form.setValue("image", s.image);
                       }}
                     />
                   )}

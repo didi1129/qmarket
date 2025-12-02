@@ -11,6 +11,7 @@ import { useUser } from "@/shared/hooks/useUser";
 import Link from "next/link";
 import { formatDateYMD } from "@/shared/lib/formatters";
 import { ExternalLink } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui/tooltip";
 
 interface ItemCardProps {
   item: Item;
@@ -72,9 +73,14 @@ const ItemCard = ({ item, userId }: ItemCardProps) => {
           </h4>
 
           {item.message && (
-            <p className="bg-secondary text-foreground font-medium text-xs rounded-sm px-1.5 py-0.5 w-[200px]">
-              {item.message}
-            </p>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <p className="bg-secondary text-foreground font-medium text-xs rounded-sm px-1.5 py-0.5 w-[200px] truncate">
+                  {item.message}
+                </p>
+              </TooltipTrigger>
+              <TooltipContent>{item.message}</TooltipContent>
+            </Tooltip>
           )}
         </div>
 

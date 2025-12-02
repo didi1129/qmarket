@@ -28,6 +28,7 @@ interface CreateSellingItemValues {
 interface CreatePurchaseItemValues {
   item_name: string;
   price: number;
+  image: string | null;
   item_source: string;
   item_gender: string;
   category: string;

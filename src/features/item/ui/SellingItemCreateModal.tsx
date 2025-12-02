@@ -29,6 +29,7 @@ import { useState } from "react";
 import { createSellingItem } from "../model/actions";
 import SearchInput from "@/features/item-search/ui/SearchInput";
 import { Textarea } from "@/shared/ui/textarea";
+import { ItemGender } from "../model/itemTypes";
 
 export default function SellingItemCreateModal() {
   const [open, setOpen] = useState(false);
@@ -62,7 +63,7 @@ export default function SellingItemCreateModal() {
       queryClient.invalidateQueries({
         queryKey: ["filtered-items"],
       });
-      // setOpen(false);
+      setOpen(false);
     },
     onError: (err) => {
       toast.error(err.message);
@@ -74,6 +75,7 @@ export default function SellingItemCreateModal() {
     resolver: zodResolver(ItemFormSchema),
     defaultValues: {
       item_name: "",
+      image: "/images/empty.png",
       price: 0,
       item_source: "gatcha",
       item_gender: "m",
@@ -107,6 +109,9 @@ export default function SellingItemCreateModal() {
     }
   };
 
+  // 자동완성 아이템 선택 시 미리보기 이미지
+  const watchedImage = form.watch("image");
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <Button
@@ -133,6 +138,17 @@ export default function SellingItemCreateModal() {
                 <label htmlFor="item_name" className="text-sm">
                   아이템명
                 </label>
+
+                {watchedImage && (
+                  <div className="mb-4">
+                    <img
+                      src={watchedImage}
+                      alt="미리보기"
+                      className="w-24 h-24 object-contain rounded-md border"
+                    />
+                  </div>
+                )}
+
                 <Controller
                   name="item_name"
                   control={control}
@@ -154,6 +170,12 @@ export default function SellingItemCreateModal() {
                         if (categoryKey) {
                           form.setValue("category", categoryKey); // 카테고리 자동 선택
                         }
+
+                        const genderKey = Object.entries(ITEM_GENDER_MAP).find(
+                          ([_key, label]) => label === s.item_gender
+                        )?.[0] as keyof typeof ITEM_GENDER_MAP;
+
+                        form.setValue("item_gender", genderKey);
 
                         form.setValue("image", s.image);
                       }}
