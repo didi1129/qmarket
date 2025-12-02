@@ -8,12 +8,17 @@ import { ItemCategory } from "@/features/item/model/itemTypes";
 interface ItemListProps {
   category?: ItemCategory;
   isForSale?: boolean;
+  isSold?: boolean;
 }
 
-export default function ItemList({ category, isForSale }: ItemListProps) {
+export default function ItemList({
+  category,
+  isForSale,
+  isSold,
+}: ItemListProps) {
   const { data, isPending } = useQuery({
-    queryKey: ["filtered-items", category, isForSale],
-    queryFn: () => getFilteredItems({ category, isForSale }),
+    queryKey: ["filtered-items", category, isForSale, isSold],
+    queryFn: () => getFilteredItems({ category, isForSale, isSold }),
   });
 
   if (isPending) return <div>로딩 중...</div>;

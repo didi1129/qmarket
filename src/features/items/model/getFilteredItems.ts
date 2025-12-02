@@ -6,12 +6,14 @@ import { ItemCategory } from "@/features/item/model/itemTypes";
 interface getFilteredItemsProps {
   category?: ItemCategory;
   isForSale?: boolean;
+  isSold?: boolean;
 }
 
 // 추후 필터 로직 추가로 클라이언트에서 데이터 캐싱 필요
 const getFilteredItems = async ({
   category,
   isForSale,
+  isSold,
 }: getFilteredItemsProps) => {
   let query = supabase
     .from(ITEMS_TABLE_NAME)
@@ -21,8 +23,11 @@ const getFilteredItems = async ({
   if (category) {
     query = query.eq("category", ITEM_CATEGORY_MAP[category]);
   }
-  if (isForSale) {
+  if (isForSale !== undefined) {
     query = query.eq("is_for_sale", isForSale);
+  }
+  if (isSold !== undefined) {
+    query = query.eq("is_sold", isSold);
   }
 
   const { data, error } = await query.order("created_at", { ascending: false });

@@ -10,9 +10,9 @@ export default async function ItemCategoryPage({
   return (
     <section>
       {/* 팝니다 */}
-      <ItemList category={category} isForSale={true} />
+      <ItemList category={category} isForSale={true} isSold={false} />
       {/* 삽니다 */}
-      <ItemList category={category} isForSale={false} />
+      <ItemList category={category} isForSale={false} isSold={false} />
     </section>
   );
 }
