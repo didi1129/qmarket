@@ -57,7 +57,7 @@ export default function ItemDetailClient({ item }: ItemDetailProps) {
               <img
                 src={item.image}
                 alt={item.name}
-                className="w-36 h-36 object-cover rounded-xl border border-gray-200 p-1 mb-4"
+                className="w-36 h-40 object-cover rounded-xl border border-gray-200 p-1 mb-4"
               />
             )}
 

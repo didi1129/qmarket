@@ -43,7 +43,7 @@ const ItemCard = ({ item, userId }: ItemCardProps) => {
           alt={item.item_name}
           width={60}
           height={60}
-          className="w-[60px] h-[60px] object-cover rounded-md"
+          className="w-[60px] h-[68px] object-cover rounded-sm"
         />
       </Link>
 
