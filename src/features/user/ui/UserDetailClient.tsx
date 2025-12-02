@@ -1,5 +1,5 @@
 import Image from "next/image";
-import ItemCardList from "@/features/items/ui/ItemCardList";
+import UserItemList from "@/features/items/ui/UserItemList";
 import { Suspense } from "react";
 
 interface UserDetail {
@@ -49,7 +49,7 @@ export default function UserDetailClient({ user }: UserDetailProps) {
         <div className="flex flex-col gap-2">
           <h3 className="font-semibold text-lg">팝니다</h3>
           <Suspense fallback={LoadingFallback}>
-            <ItemCardList userId={user.id} isForSale={true} isSold={false} />
+            <UserItemList userId={user.id} isForSale={true} isSold={false} />
           </Suspense>
         </div>
 
@@ -57,7 +57,7 @@ export default function UserDetailClient({ user }: UserDetailProps) {
         <div className="flex flex-col gap-2">
           <h3 className="font-semibold text-lg">삽니다</h3>
           <Suspense fallback={LoadingFallback}>
-            <ItemCardList userId={user.id} isForSale={false} isSold={false} />
+            <UserItemList userId={user.id} isForSale={false} isSold={false} />
           </Suspense>
         </div>
 
@@ -65,7 +65,7 @@ export default function UserDetailClient({ user }: UserDetailProps) {
         <div className="flex flex-col gap-2">
           <h3 className="font-semibold text-lg">판매 완료</h3>
           <Suspense fallback={LoadingFallback}>
-            <ItemCardList userId={user.id} isForSale={true} isSold={true} />
+            <UserItemList userId={user.id} isForSale={true} isSold={true} />
           </Suspense>
         </div>
 
@@ -73,7 +73,7 @@ export default function UserDetailClient({ user }: UserDetailProps) {
         <div className="flex flex-col gap-2">
           <h3 className="font-semibold text-lg">구매 완료</h3>
           <Suspense fallback={LoadingFallback}>
-            <ItemCardList userId={user.id} isForSale={false} isSold={true} />
+            <UserItemList userId={user.id} isForSale={false} isSold={true} />
           </Suspense>
         </div>
       </section>

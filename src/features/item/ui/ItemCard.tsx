@@ -1,16 +1,23 @@
+"use client";
+
 import { Badge } from "@/shared/ui/badge";
 import Image from "next/image";
-import { Item } from "../../../features/item/model/itemTypes";
+import { Item } from "@/features/item/model/itemTypes";
 import MyItemActions from "@/features/item/ui/MyItemActions";
 import { cn } from "@/shared/lib/utils";
 import SoldButton from "@/features/item/ui/SoldButton";
+import { usePathname } from "next/navigation";
+import { useUser } from "@/shared/hooks/useUser";
 
 interface ItemCardProps {
   item: Item;
-  userId: string;
+  userId?: string;
 }
 
 const ItemCard = ({ item, userId }: ItemCardProps) => {
+  const pathname = usePathname();
+  const { data: user } = useUser();
+
   return (
     <div
       className={cn(
@@ -23,7 +30,7 @@ const ItemCard = ({ item, userId }: ItemCardProps) => {
       {/* 아이템 이미지 */}
       <figure className="flex-shrink-0">
         <Image
-          src={item.image ?? "/images/empty.png"}
+          src={item.image || "/images/empty.png"}
           alt={item.item_name}
           width={60}
           height={60}
@@ -56,12 +63,14 @@ const ItemCard = ({ item, userId }: ItemCardProps) => {
         </div>
 
         <div className="flex items-center justify-between mt-1 gap-1">
-          {item.is_for_sale && !item.is_sold && (
+          {item.is_for_sale && !item.is_sold && userId && (
             <SoldButton itemId={item.id} userId={userId} />
           )}
 
           {/* 액션 버튼 (수정/삭제) */}
-          <MyItemActions item={item} isSold={item.is_sold} />
+          {pathname.includes("my-items") && user?.id === userId && (
+            <MyItemActions item={item} isSold={item.is_sold} />
+          )}
         </div>
       </div>
     </div>

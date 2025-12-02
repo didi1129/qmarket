@@ -1,4 +1,4 @@
-import ItemCardList from "@/features/items/ui/ItemCardList";
+import UserItemList from "@/features/items/ui/UserItemList";
 import { createClient } from "@/shared/api/supabase-server-cookie";
 import ButtonToMain from "@/shared/ui/LinkButton/ButtonToMain";
 import { Suspense } from "react";
@@ -43,7 +43,7 @@ const MyItemsContent = ({ userId }: { userId: string }) => (
       <div className="flex flex-col gap-2">
         <h3 className="font-semibold text-lg">팝니다</h3>
         <Suspense fallback={LoadingFallback}>
-          <ItemCardList userId={userId} isForSale={true} isSold={false} />
+          <UserItemList userId={userId} isForSale={true} isSold={false} />
         </Suspense>
       </div>
 
@@ -51,7 +51,7 @@ const MyItemsContent = ({ userId }: { userId: string }) => (
       <div className="flex flex-col gap-2">
         <h3 className="font-semibold text-lg">삽니다</h3>
         <Suspense fallback={LoadingFallback}>
-          <ItemCardList userId={userId} isForSale={false} isSold={false} />
+          <UserItemList userId={userId} isForSale={false} isSold={false} />
         </Suspense>
       </div>
 
@@ -59,7 +59,7 @@ const MyItemsContent = ({ userId }: { userId: string }) => (
       <div className="flex flex-col gap-2">
         <h3 className="font-semibold text-lg">판매 완료</h3>
         <Suspense fallback={LoadingFallback}>
-          <ItemCardList userId={userId} isForSale={true} isSold={true} />
+          <UserItemList userId={userId} isForSale={true} isSold={true} />
         </Suspense>
       </div>
 
@@ -67,7 +67,7 @@ const MyItemsContent = ({ userId }: { userId: string }) => (
       <div className="flex flex-col gap-2">
         <h3 className="font-semibold text-lg">구매 완료</h3>
         <Suspense fallback={LoadingFallback}>
-          <ItemCardList userId={userId} isForSale={false} isSold={true} />
+          <UserItemList userId={userId} isForSale={false} isSold={true} />
         </Suspense>
       </div>
     </section>
