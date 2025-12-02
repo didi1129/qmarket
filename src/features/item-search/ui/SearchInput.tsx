@@ -1,15 +1,8 @@
 "use client";
 
 import { Input } from "@/shared/ui/input";
-import {
-  ChangeEvent,
-  useEffect,
-  useState,
-  useMemo,
-  InputHTMLAttributes,
-} from "react";
+import { ChangeEvent, useState, useMemo, InputHTMLAttributes } from "react";
 import debounce from "@/shared/lib/debounce";
-import { supabase } from "@/shared/api/supabase-client";
 import {
   Command,
   CommandEmpty,
@@ -17,19 +10,18 @@ import {
   CommandItem,
   CommandList,
 } from "@/shared/ui/command";
-import { ItemCategory } from "@/entities/item/model/types";
+import { cn } from "@/shared/lib/utils";
+import { useItemsQuery } from "@/shared/hooks/useItemsQuery";
+import { useSearchItemQuery } from "@/shared/hooks/useSearchItemQuery";
+import { Button } from "@/shared/ui/button";
+import Image from "next/image";
+import { SearchItemInfo } from "@/features/item/model/itemTypes";
 
 interface SearchInputProps extends InputHTMLAttributes<HTMLInputElement> {
   value: string;
   className?: string;
   onSearch: (value: string) => void;
-  onSelectSuggestion?: (suggestion: Suggestion) => void;
-}
-
-interface Suggestion {
-  name: string;
-  item_gender: string | null;
-  category: ItemCategory;
+  onSelectSuggestion?: (suggestion: SearchItemInfo) => void;
 }
 
 export default function SearchInput({
@@ -40,66 +32,34 @@ export default function SearchInput({
   ...rest
 }: SearchInputProps) {
   const [inputValue, setInputValue] = useState(value);
-  const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [suggestionOpen, setSuggestionOpen] = useState(false);
-  const [allItems, setAllItems] = useState<Suggestion[]>([]);
 
-  useEffect(() => {
-    // 전체 아이템 초기 로드
-    const fetchItems = async () => {
-      const { data, error } = await supabase.rpc("get_distinct_items");
-      if (!error && data) {
-        setAllItems(data);
-      } else {
-        console.error(error);
-      }
-    };
-    fetchItems();
-  }, []);
+  // 전체 아이템 캐싱
+  const { data: allItems = [] } = useItemsQuery();
 
-  useEffect(() => {
-    setInputValue(value);
-
-    // 기존 값이 이미 있을 경우 (아이템 수정 모달)
-    if (value) {
-      const matched = allItems.find((item) => item.name === value);
-      if (matched) {
-        setSuggestions([matched]); // 기존 값도 검색 결과에 포함
-      }
-    }
-  }, [value, allItems]);
+  // 검색 캐싱
+  const { data: suggestions = [], refetch } = useSearchItemQuery(
+    inputValue,
+    allItems
+  );
 
   const debouncedSearch = useMemo(
     () =>
       debounce((val: string) => {
-        onSearch(val);
-
-        if (!val.trim()) {
-          setSuggestions([]);
-          return;
-        }
-
-        const results = allItems.filter((item) => {
-          if (item.name === val) return true; // 완전 일치할 경우, true 리턴
-          const nameChars = item.name.split(""); // 아이템 이름 글자 배열
-          const inputChars = val.split(""); // 입력값 글자 배열
-
-          return inputChars.every((c) => nameChars.includes(c));
-        });
-
-        setSuggestions(results);
+        setInputValue(val);
+        refetch(); // React Query 검색 수행
       }, 300),
-    [allItems, onSearch]
+    [refetch]
   );
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
     setInputValue(val);
     debouncedSearch(val);
-    if (!open && inputValue.length > 0) setSuggestionOpen(true);
+    if (!suggestionOpen && val.length > 0) setSuggestionOpen(true);
   };
 
-  const handleSelect = (s: Suggestion) => {
+  const handleSelect = (s: SearchItemInfo) => {
     setInputValue(s.name);
     onSearch(s.name);
     if (onSelectSuggestion) onSelectSuggestion(s);
@@ -115,7 +75,7 @@ export default function SearchInput({
   };
 
   return (
-    <div className="relative w-full">
+    <div className={cn("relative w-full", className)}>
       <Input
         type="text"
         placeholder="아이템명 입력"
@@ -123,7 +83,6 @@ export default function SearchInput({
         onChange={handleChange}
         onFocus={handleFocus}
         onBlur={handleBlur}
-        className={className}
         {...rest}
       />
 
@@ -137,17 +96,32 @@ export default function SearchInput({
                 </CommandEmpty>
               ) : (
                 <CommandGroup heading="검색 결과">
-                  {suggestions.map((s, idx) => (
+                  {suggestions.map((s) => (
                     <CommandItem
-                      key={idx}
-                      value={s.name}
+                      key={s.id}
+                      value={s.id}
                       onSelect={() => handleSelect(s)}
                     >
-                      {s.name}
+                      <Image
+                        src={s.image || "/images/empty.png"}
+                        alt=""
+                        width={40}
+                        height={48}
+                      />
+                      {s.name} ({s.item_gender})
                     </CommandItem>
                   ))}
                 </CommandGroup>
               )}
+
+              <div className="flex flex-col gap-2 items-center py-4">
+                <p className="text-center text-gray-500 text-xs">
+                  찾는 아이템이 없다면?
+                </p>
+                <Button variant="outline" size="sm">
+                  아이템 등록 요청
+                </Button>
+              </div>
             </CommandList>
           </Command>
         </div>

@@ -1,9 +1,6 @@
-import { fetchInitialItems } from "@/entities/item/model/server-fetch";
-import TabView from "@/widgets/tab-view/ui/TabView";
+import SearchBar from "@/features/item-search/ui/SearchBar";
 
 export default async function Home() {
-  const initialItems = await fetchInitialItems(10, 0);
-
   return (
     <main className="flex min-h-screen p-4 md:p-0">
       <section className="flex flex-col w-full gap-4 items-center">
@@ -14,9 +11,14 @@ export default async function Home() {
           </p>
         </div>
 
-        <div className="w-full md:w-6xl">
-          <TabView initialItems={initialItems} />
+        {/* 검색바 */}
+        <div className="w-full">
+          <SearchBar />
         </div>
+
+        {/* <div className="w-full md:w-6xl">
+          <TabView initialItems={initialItems} />
+        </div> */}
       </section>
     </main>
   );
