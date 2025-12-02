@@ -9,6 +9,7 @@ import {
   ItemCategory,
   ItemSource,
 } from "@/features/item/model/itemTypes";
+import ButtonToBack from "@/shared/ui/LinkButton/ButtonToBack";
 
 interface ItemDetail {
   id: string;
@@ -45,6 +46,7 @@ export default function ItemDetailClient({ item }: ItemDetailProps) {
 
   return (
     <section>
+      <ButtonToBack />
       <h1>{item.name}</h1>
       <p>성별: {item.item_gender}</p>
       <p>카테고리: {item.category}</p>
