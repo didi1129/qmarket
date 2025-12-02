@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import SearchInput from "./SearchInput";
-import { SearchItemInfo } from "@/entities/item/model/types";
+import { SearchItemInfo } from "@/features/item/model/itemTypes";
 import { useRouter } from "next/navigation";
 
 const SearchBar = () => {
@@ -10,7 +10,7 @@ const SearchBar = () => {
   const router = useRouter();
 
   const handleSelectSuggestion = (s: SearchItemInfo) => {
-    router.push(`/item/${s.id}`);
+    router.push(`/item/${s.name}/${s.item_gender}`);
   };
 
   return (

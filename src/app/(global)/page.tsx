@@ -1,12 +1,9 @@
-import { fetchInitialItems } from "@/entities/item/model/server-fetch";
-import TabView from "@/widgets/tab-view/ui/TabView";
 import SearchBar from "@/features/item-search/ui/SearchBar";
+import ItemCategoryNav from "@/features/items/ui/ItemCategoryNav";
 
 export default async function Home() {
-  const initialItems = await fetchInitialItems(10, 0);
-
   return (
-    <main className="flex min-h-screen p-4 md:p-0">
+    <main className="flex p-4 md:p-0">
       <section className="flex flex-col w-full gap-4 items-center">
         <div className="text-center my-4">
           <h2 className="font-bold text-3xl mb-2">Q-Market</h2>
@@ -19,6 +16,9 @@ export default async function Home() {
         <div className="w-full">
           <SearchBar />
         </div>
+
+        {/* 아이템 카테고리 메뉴 */}
+        <ItemCategoryNav />
 
         {/* <div className="w-full md:w-6xl">
           <TabView initialItems={initialItems} />
