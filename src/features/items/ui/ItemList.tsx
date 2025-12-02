@@ -3,10 +3,12 @@
 import getFilteredItems from "../model/getFilteredItems";
 import { useQuery } from "@tanstack/react-query";
 import ItemCard from "@/features/item/ui/ItemCard";
-import { ItemCategory } from "@/features/item/model/itemTypes";
+import { ItemCategory, ItemGender } from "@/features/item/model/itemTypes";
 import { cn } from "@/shared/lib/utils";
 
 interface ItemListProps {
+  itemName?: string;
+  itemGender?: ItemGender;
   category?: ItemCategory;
   isForSale?: boolean;
   isSold?: boolean;
@@ -14,14 +16,24 @@ interface ItemListProps {
 }
 
 export default function ItemList({
+  itemName,
+  itemGender,
   category,
   isForSale,
   isSold,
   className,
 }: ItemListProps) {
   const { data, isPending } = useQuery({
-    queryKey: ["filtered-items", category, isForSale, isSold],
-    queryFn: () => getFilteredItems({ category, isForSale, isSold }),
+    queryKey: [
+      "filtered-items",
+      itemName,
+      itemGender,
+      category,
+      isForSale,
+      isSold,
+    ],
+    queryFn: () =>
+      getFilteredItems({ itemName, itemGender, category, isForSale, isSold }),
   });
 
   if (isPending) return <div>로딩 중...</div>;

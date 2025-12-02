@@ -1,9 +1,11 @@
 import { supabase } from "@/shared/api/supabase-client";
 import { ITEMS_TABLE_NAME } from "@/shared/config/constants";
 import { ITEM_CATEGORY_MAP } from "@/shared/config/constants";
-import { ItemCategory } from "@/features/item/model/itemTypes";
+import { ItemCategory, ItemGender } from "@/features/item/model/itemTypes";
 
 interface getFilteredItemsProps {
+  itemName?: string;
+  itemGender?: ItemGender;
   category?: ItemCategory;
   isForSale?: boolean;
   isSold?: boolean;
@@ -11,6 +13,8 @@ interface getFilteredItemsProps {
 
 // 추후 필터 로직 추가로 클라이언트에서 데이터 캐싱 필요
 const getFilteredItems = async ({
+  itemName,
+  itemGender,
   category,
   isForSale,
   isSold,
@@ -20,6 +24,12 @@ const getFilteredItems = async ({
     .select("*")
     .not("user_id", "is", null);
 
+  if (itemName) {
+    query = query.eq("item_name", itemName);
+  }
+  if (itemGender) {
+    query = query.eq("item_gender", itemGender);
+  }
   if (category) {
     query = query.eq("category", ITEM_CATEGORY_MAP[category]);
   }

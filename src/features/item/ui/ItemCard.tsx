@@ -18,6 +18,8 @@ interface ItemCardProps {
 const ItemCard = ({ item, userId }: ItemCardProps) => {
   const pathname = usePathname();
   const { data: user } = useUser();
+  const encodedItemName = encodeURIComponent(item.item_name);
+  const encodedItemGender = encodeURIComponent(item.item_gender);
 
   return (
     <div
@@ -30,9 +32,7 @@ const ItemCard = ({ item, userId }: ItemCardProps) => {
     >
       {/* 아이템 이미지 */}
       <Link
-        href={`/item/${encodeURIComponent(item.item_name)}/${encodeURIComponent(
-          item.item_gender
-        )}`}
+        href={`/item/${encodedItemName}/${encodedItemGender}`}
         className="shrink-0"
       >
         <Image
@@ -48,18 +48,20 @@ const ItemCard = ({ item, userId }: ItemCardProps) => {
       <div className="flex justify-between w-full">
         <div className="flex flex-col">
           <h3 className="text-sm font-medium truncate">
-            {item.item_name}
-            <span className="ml-1 text-gray-500 text-xs">
-              ({item.item_gender})
-            </span>
-            {item.item_source && (
-              <Badge
-                variant="outline"
-                className="text-[10px] bg-yellow-100 text-yellow-800 border-yellow-200 px-1.5 py-0"
-              >
-                {item.item_source}
-              </Badge>
-            )}
+            <Link href={`/item/${encodedItemName}/${encodedItemGender}`}>
+              {item.item_name}
+              <span className="ml-1 text-gray-500 text-xs">
+                ({item.item_gender})
+              </span>
+              {item.item_source && (
+                <Badge
+                  variant="outline"
+                  className="text-[10px] bg-yellow-100 text-yellow-800 border-yellow-200 px-1.5 py-0"
+                >
+                  {item.item_source}
+                </Badge>
+              )}
+            </Link>
           </h3>
 
           <h4 className="text-base font-semibold text-blue-700 flex items-center gap-0.5">
