@@ -18,6 +18,7 @@ import {
 } from "@/shared/ui/dropdown-menu";
 import { useQueryClient } from "@tanstack/react-query";
 import { BadgeQuestionMark } from "lucide-react";
+import Link from "next/link";
 
 export default function Header() {
   const router = useRouter();
@@ -46,6 +47,10 @@ export default function Header() {
 
   return (
     <header className="py-8 px-4 md:px-0 max-w-5xl mx-auto flex items-center justify-between">
+      <Link href="/">
+        <Image src="/images/logo.png" alt="큐마켓" width={140} height={54} />
+      </Link>
+
       <div className="ml-auto flex gap-2">
         {user ? (
           <DropdownMenu>
