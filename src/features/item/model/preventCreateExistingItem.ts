@@ -2,11 +2,13 @@ import { getSupabaseClientCookie } from "@/shared/api/supabase-cookie";
 
 interface Props {
   itemName: string;
+  itemGender: string;
   userId: string;
 }
 
 export default async function preventCreateExistingItem({
   itemName,
+  itemGender,
   userId,
 }: Props) {
   const supabase = await getSupabaseClientCookie();
@@ -15,6 +17,7 @@ export default async function preventCreateExistingItem({
     .from("items_test")
     .select("user_id")
     .eq("item_name", itemName)
+    .eq("item_gender", itemGender)
     .eq("user_id", userId);
 
   if (selectError) {

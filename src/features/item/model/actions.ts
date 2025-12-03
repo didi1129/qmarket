@@ -50,6 +50,7 @@ export async function createSellingItem(values: CreateSellingItemValues) {
   // 아이템 중복 등록 방지
   await preventCreateExistingItem({
     itemName: values.item_name,
+    itemGender: values.item_gender,
     userId: user.id,
   });
 
@@ -80,6 +81,7 @@ export async function createPurchaseItem(values: CreatePurchaseItemValues) {
   // 아이템 중복 등록 방지
   await preventCreateExistingItem({
     itemName: values.item_name,
+    itemGender: values.item_gender,
     userId: user.id,
   });
 
