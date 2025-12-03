@@ -48,7 +48,7 @@ export default function PurchaseItemCreateModal() {
         is_for_sale: false,
         item_source: ITEM_SOURCES_MAP[values.item_source],
         nickname: user?.user_metadata.custom_claims.global_name, // 디스코드 닉네임
-        discord_id: user?.user_metadata.full_name, // 디스코드 아이디
+        discord_id: user?.user_metadata.full_name,
         item_gender: ITEM_GENDER_MAP[values.item_gender],
         user_id: user?.id,
         category: ITEM_CATEGORY_MAP[values.category],

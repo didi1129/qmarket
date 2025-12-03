@@ -13,12 +13,15 @@ export default async function Home() {
         </div>
 
         {/* 검색바 */}
-        <div className="w-full">
-          <SearchBar />
-        </div>
+        {/* <SearchBar /> */}
 
         {/* 아이템 카테고리 메뉴 */}
-        <ItemCategoryNav />
+        <div className="mt-4">
+          <h3 className="font-bold text-xl text-center mb-4">
+            아이템 카테고리별 검색
+          </h3>
+          <ItemCategoryNav />
+        </div>
 
         {/* <div className="w-full md:w-6xl">
           <TabView initialItems={initialItems} />

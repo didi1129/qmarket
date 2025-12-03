@@ -38,7 +38,6 @@ export default function SellingItemCreateModal() {
   const createItemMutation = useMutation({
     mutationFn: async (values: ItemFormType) => {
       if (!user) throw new Error("로그인이 필요합니다.");
-      console.log(values);
 
       return createSellingItem({
         item_name: values.item_name,
