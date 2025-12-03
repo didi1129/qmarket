@@ -22,6 +22,6 @@ export default async function preventCreateExistingItem({
   }
 
   if (existingItems && existingItems.length > 0) {
-    throw new Error("이미 판매중인 아이템은 등록하실 수 없습니다.");
+    throw new Error("이미 등록하신 아이템입니다.");
   }
 }
