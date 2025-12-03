@@ -15,12 +15,7 @@ import { Button } from "@/shared/ui/button";
 import { Trash } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/shared/api/supabase-client";
-import {
-  useMutation,
-  useQueryClient,
-  InfiniteData,
-} from "@tanstack/react-query";
-import { Item } from "@/features/item/model/itemTypes";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface Props {
   itemId: string;
@@ -55,6 +50,7 @@ export function ItemDeleteModal({ itemId, userId }: Props) {
     onSuccess: () => {
       toast.success("아이템을 삭제했습니다.");
       queryClient.invalidateQueries({ queryKey: ["my-items", userId] });
+      queryClient.invalidateQueries({ queryKey: ["filtered-items", userId] });
     },
 
     onError: (err) => {

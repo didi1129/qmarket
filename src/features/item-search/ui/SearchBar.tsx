@@ -10,7 +10,7 @@ const SearchBar = () => {
   const router = useRouter();
 
   const handleSelectSuggestion = (s: SearchItemInfo) => {
-    router.push(`/item/${s.id}`);
+    router.push(`/item/${s.name}/${s.item_gender}`);
   };
 
   return (

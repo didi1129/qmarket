@@ -27,10 +27,18 @@ export const ITEM_CATEGORY_MAP = {
   acc: "소품",
   face: "가면",
   slime: "슬라임",
-  qmon: "큐피몬",
   board: "정답판",
   game: "게임 아이템",
 };
+
+export const ITEM_CATEGORY_NAV = Object.entries(ITEM_CATEGORY_MAP).map(
+  ([key, value]: [string, string]) => ({
+    key,
+    value,
+    link: `/categories/${key}`,
+    image: `/images/${key}.jpg`,
+  })
+);
 
 export const ITEM_IS_SOLD_MAP = {
   true: "판매완료",
@@ -38,4 +46,4 @@ export const ITEM_IS_SOLD_MAP = {
 };
 
 export const SELECT_ITEM_COLUMNS =
-  "id, item_name, category, price, image, is_for_sale, item_source, nickname, is_sold, user_id, item_gender, discord_id, created_at";
+  "id, item_name, category, price, image, is_for_sale, item_source, nickname, is_sold, user_id, item_gender, discord_id, created_at, message";

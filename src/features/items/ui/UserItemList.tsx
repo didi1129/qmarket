@@ -1,9 +1,7 @@
 "use client";
 
 import ItemCard from "@/features/item/ui/ItemCard";
-import { getDailyItemCountAction } from "@/features/item/model/actions";
-import { DAILY_LIMIT } from "@/shared/api/redis";
-import getFilteredItems from "../model/getFilteredItems";
+import getFilteredUserItems from "../model/getFilteredUserItems";
 import { getMyItems } from "@/features/items/model/getMyItems";
 import { useQuery } from "@tanstack/react-query";
 
@@ -13,7 +11,7 @@ interface Props {
   isSold: boolean; // 거래 완료 여부
 }
 
-export default function ItemCardList({ userId, isForSale, isSold }: Props) {
+export default function UserItemList({ userId, isForSale, isSold }: Props) {
   const { data: allItems, isPending: isLoadingItems } = useQuery({
     queryKey: ["my-items", userId],
     queryFn: () => getMyItems(userId),
@@ -21,8 +19,8 @@ export default function ItemCardList({ userId, isForSale, isSold }: Props) {
 
   const { data: filteredItems, isPending: isLoadingFiltered } = useQuery({
     queryKey: ["filtered-items", userId, isForSale, isSold],
-    queryFn: () => getFilteredItems({ userId, isForSale, isSold }),
-    enabled: !!allItems, // allItems가 있을 때만 실행
+    queryFn: () => getFilteredUserItems({ userId, isForSale, isSold }),
+    enabled: !!allItems,
   });
 
   if (isLoadingItems) return <div>전체 아이템 로딩 중...</div>;

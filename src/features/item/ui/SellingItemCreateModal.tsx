@@ -15,7 +15,7 @@ import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { sanitize } from "@/shared/lib/sanitize";
 import { ScrollArea } from "@/shared/ui/scroll-area";
-import { ItemFormValues, ItemFormSchema } from "../model/schema";
+import { ItemFormType, ItemFormSchema } from "../model/schema";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -25,8 +25,8 @@ import {
 } from "@/shared/config/constants";
 import { Lock, Plus } from "lucide-react";
 import { useUser } from "@/shared/hooks/useUser";
-import { useEffect, useState } from "react";
-import { insertItem } from "../model/actions";
+import { useState } from "react";
+import { createSellingItem } from "../model/actions";
 import SearchInput from "@/features/item-search/ui/SearchInput";
 import { Textarea } from "@/shared/ui/textarea";
 
@@ -36,21 +36,22 @@ export default function SellingItemCreateModal() {
   const { data: user } = useUser();
 
   const createItemMutation = useMutation({
-    mutationFn: async (values: ItemFormValues) => {
+    mutationFn: async (values: ItemFormType) => {
       if (!user) throw new Error("로그인이 필요합니다.");
 
-      return insertItem({
-        item_name: sanitize(values.item_name),
+      return createSellingItem({
+        item_name: values.item_name,
         price: values.price,
         image: values.image,
         is_sold: false,
         is_for_sale: true,
         item_source: ITEM_SOURCES_MAP[values.item_source],
         nickname: user?.user_metadata.custom_claims.global_name, // 디스코드 닉네임
-        discord_id: user?.user_metadata.full_name, // 디스코드 아이디
+        discord_id: user?.user_metadata.full_name,
         item_gender: ITEM_GENDER_MAP[values.item_gender],
         user_id: user?.id,
         category: ITEM_CATEGORY_MAP[values.category],
+        message: values.message || "",
       });
     },
     onSuccess: async () => {
@@ -58,7 +59,7 @@ export default function SellingItemCreateModal() {
       queryClient.invalidateQueries({ queryKey: ["items"] });
       queryClient.invalidateQueries({ queryKey: ["my-items", user?.id] });
       queryClient.invalidateQueries({
-        queryKey: ["filtered-items", user?.id],
+        queryKey: ["filtered-items"],
       });
       setOpen(false);
     },
@@ -68,16 +69,16 @@ export default function SellingItemCreateModal() {
     },
   });
 
-  const form = useForm<ItemFormValues>({
+  const form = useForm<ItemFormType>({
     resolver: zodResolver(ItemFormSchema),
     defaultValues: {
       item_name: "",
+      image: "/images/empty.png",
       price: 0,
       item_source: "gatcha",
       item_gender: "m",
       is_sold: false,
       category: "clothes",
-      image: "",
       message: "",
     },
   });
@@ -89,7 +90,7 @@ export default function SellingItemCreateModal() {
     formState: { errors },
   } = form;
 
-  const onSubmit = (values: ItemFormValues) => {
+  const onSubmit = (values: ItemFormType) => {
     createItemMutation.mutate(values, {
       onSuccess: () => {
         reset(); // 폼 초기화
@@ -105,6 +106,9 @@ export default function SellingItemCreateModal() {
       toast.error("로그인이 필요합니다.");
     }
   };
+
+  // 자동완성 아이템 선택 시 미리보기 이미지
+  const watchedImage = form.watch("image");
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -132,6 +136,17 @@ export default function SellingItemCreateModal() {
                 <label htmlFor="item_name" className="text-sm">
                   아이템명
                 </label>
+
+                {watchedImage && (
+                  <div className="mb-4">
+                    <img
+                      src={watchedImage}
+                      alt="미리보기"
+                      className="w-24 h-24 object-contain rounded-md border"
+                    />
+                  </div>
+                )}
+
                 <Controller
                   name="item_name"
                   control={control}
@@ -153,6 +168,12 @@ export default function SellingItemCreateModal() {
                         if (categoryKey) {
                           form.setValue("category", categoryKey); // 카테고리 자동 선택
                         }
+
+                        const genderKey = Object.entries(ITEM_GENDER_MAP).find(
+                          ([_key, label]) => label === s.item_gender
+                        )?.[0] as keyof typeof ITEM_GENDER_MAP;
+
+                        form.setValue("item_gender", genderKey);
 
                         form.setValue("image", s.image);
                       }}
@@ -206,10 +227,17 @@ export default function SellingItemCreateModal() {
                 <label htmlFor="price" className="text-sm">
                   메시지
                 </label>
-                <Textarea
-                  id="message"
-                  placeholder="메시지를 입력해주세요. (e.g. DM 주세요!)"
-                  {...form.register("message")}
+                <Controller
+                  name="message"
+                  control={control}
+                  render={({ field }) => (
+                    <Textarea
+                      id="message"
+                      placeholder="메시지를 입력해주세요. (e.g. DM 주세요!)"
+                      value={field.value}
+                      onChange={(e) => field.onChange(e.target.value)}
+                    />
+                  )}
                 />
                 {errors.price && (
                   <p className="text-red-600 text-sm mt-1">

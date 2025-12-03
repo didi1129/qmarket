@@ -4,14 +4,15 @@ import { supabaseServer } from "@/shared/api/supabase-server";
 export default async function ItemDetailPage({
   params,
 }: {
-  params: Promise<{ itemId: string }>;
+  params: Promise<{ itemName: string; itemGender: string }>;
 }) {
-  const { itemId } = await params;
+  const { itemName, itemGender } = await params;
 
   const { data: item, error } = await supabaseServer
     .from("items_info")
     .select("id, name, item_gender, image, category, item_source")
-    .eq("id", itemId)
+    .eq("name", decodeURIComponent(itemName))
+    .eq("item_gender", decodeURIComponent(itemGender))
     .single();
 
   if (error || !item) {

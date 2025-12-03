@@ -13,14 +13,8 @@ import {
 import { Input } from "@/shared/ui/input";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { sanitize } from "@/shared/lib/sanitize";
-import { Label } from "@/shared/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/shared/ui/radio-group";
 import { ScrollArea } from "@/shared/ui/scroll-area";
-import {
-  PurchaseItemUpdateFormSchema,
-  PurchaseItemUpdateFormType,
-} from "../model/schema";
+import { ItemFormSchema, ItemFormType } from "../model/schema";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -30,9 +24,8 @@ import {
 } from "@/shared/config/constants";
 import { Lock, Plus } from "lucide-react";
 import { useUser } from "@/shared/hooks/useUser";
-import { useEffect, useState } from "react";
-import { cn } from "@/shared/lib/utils";
-import { insertPurchaseItem } from "../model/actions";
+import { useState } from "react";
+import { createPurchaseItem } from "../model/actions";
 import { getDailyItemCountAction } from "../model/actions";
 import { DAILY_LIMIT } from "@/shared/api/redis";
 import SearchInput from "@/features/item-search/ui/SearchInput";
@@ -44,21 +37,22 @@ export default function PurchaseItemCreateModal() {
   const { data: user } = useUser();
 
   const createPurchaseItemMutation = useMutation({
-    mutationFn: async (values: PurchaseItemUpdateFormType) => {
+    mutationFn: async (values: ItemFormType) => {
       if (!user) throw new Error("로그인이 필요합니다.");
 
-      return insertPurchaseItem({
-        item_name: sanitize(values.item_name),
+      return createPurchaseItem({
+        item_name: values.item_name,
         price: values.price,
+        image: values.image,
         is_sold: false,
         is_for_sale: false,
         item_source: ITEM_SOURCES_MAP[values.item_source],
         nickname: user?.user_metadata.custom_claims.global_name, // 디스코드 닉네임
-        discord_id: user?.user_metadata.full_name, // 디스코드 아이디
+        discord_id: user?.user_metadata.full_name,
         item_gender: ITEM_GENDER_MAP[values.item_gender],
         user_id: user?.id,
-        message: values.message || "",
         category: ITEM_CATEGORY_MAP[values.category],
+        message: values.message || "",
       });
     },
     onSuccess: async () => {
@@ -66,7 +60,7 @@ export default function PurchaseItemCreateModal() {
       queryClient.invalidateQueries({ queryKey: ["items"] });
       queryClient.invalidateQueries({ queryKey: ["my-items", user?.id] });
       queryClient.invalidateQueries({
-        queryKey: ["filtered-items", user?.id],
+        queryKey: ["filtered-items"],
       });
       setOpen(false);
     },
@@ -76,15 +70,17 @@ export default function PurchaseItemCreateModal() {
     },
   });
 
-  const form = useForm<PurchaseItemUpdateFormType>({
-    resolver: zodResolver(PurchaseItemUpdateFormSchema),
+  const form = useForm<ItemFormType>({
+    resolver: zodResolver(ItemFormSchema),
     defaultValues: {
       item_name: "",
+      image: "/images/empty.png",
       price: 0,
+      item_source: "gatcha",
+      item_gender: "m",
+      is_sold: false,
+      category: "clothes",
       message: "",
-      item_source: "gatcha", // 필수 필드 추가
-      item_gender: "w", // 필수 필드 추가
-      category: "clothes", // 필수 필드 추가
     },
   });
 
@@ -95,7 +91,7 @@ export default function PurchaseItemCreateModal() {
     formState: { errors },
   } = form;
 
-  const onSubmit = (values: PurchaseItemUpdateFormType) => {
+  const onSubmit = (values: ItemFormType) => {
     createPurchaseItemMutation.mutate(values, {
       onSuccess: () => {
         reset(); // 폼 초기화
@@ -111,6 +107,9 @@ export default function PurchaseItemCreateModal() {
       toast.error("로그인이 필요합니다.");
     }
   };
+
+  // 자동완성 아이템 선택 시 미리보기 이미지
+  const watchedImage = form.watch("image");
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -138,6 +137,17 @@ export default function PurchaseItemCreateModal() {
                 <label htmlFor="item_name" className="text-sm">
                   아이템명
                 </label>
+
+                {watchedImage && (
+                  <div className="mb-4">
+                    <img
+                      src={watchedImage}
+                      alt="미리보기"
+                      className="w-24 h-24 object-contain rounded-md border"
+                    />
+                  </div>
+                )}
+
                 <Controller
                   name="item_name"
                   control={control}
@@ -156,17 +166,15 @@ export default function PurchaseItemCreateModal() {
                           ([_key, label]) => label === s.category
                         )?.[0] as keyof typeof ITEM_CATEGORY_MAP;
 
-                        if (categoryKey) {
-                          form.setValue("category", categoryKey); // 카테고리 자동 선택
-                        }
+                        form.setValue("category", categoryKey); // 카테고리 자동 선택
 
                         const genderKey = Object.entries(ITEM_GENDER_MAP).find(
                           ([_key, label]) => label === s.item_gender
                         )?.[0] as keyof typeof ITEM_GENDER_MAP;
 
-                        if (genderKey) {
-                          form.setValue("item_gender", genderKey);
-                        }
+                        form.setValue("item_gender", genderKey);
+
+                        form.setValue("image", s.image);
                       }}
                     />
                   )}
@@ -218,10 +226,17 @@ export default function PurchaseItemCreateModal() {
                 <label htmlFor="price" className="text-sm">
                   메시지
                 </label>
-                <Textarea
-                  id="message"
-                  placeholder="메시지를 입력해주세요. (e.g. DM 주세요!)"
-                  {...form.register("message")}
+                <Controller
+                  name="message"
+                  control={control}
+                  render={({ field }) => (
+                    <Textarea
+                      id="message"
+                      placeholder="메시지를 입력해주세요. (e.g. DM 주세요!)"
+                      value={field.value}
+                      onChange={(e) => field.onChange(e.target.value)}
+                    />
+                  )}
                 />
                 {errors.price && (
                   <p className="text-red-600 text-sm mt-1">
