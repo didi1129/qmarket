@@ -25,7 +25,7 @@ import {
 import { Lock, Plus } from "lucide-react";
 import { useUser } from "@/shared/hooks/useUser";
 import { useState } from "react";
-import { createPurchaseItem } from "../model/actions";
+import { createItem } from "../model/actions";
 import { getDailyItemCountAction } from "../model/actions";
 import { DAILY_LIMIT } from "@/shared/api/redis";
 import SearchInput from "@/features/item-search/ui/SearchInput";
@@ -40,7 +40,7 @@ export default function PurchaseItemCreateModal() {
     mutationFn: async (values: ItemFormType) => {
       if (!user) throw new Error("로그인이 필요합니다.");
 
-      return createPurchaseItem({
+      return createItem({
         item_name: values.item_name,
         price: values.price,
         image: values.image,

@@ -26,7 +26,7 @@ import {
 import { Lock, Plus } from "lucide-react";
 import { useUser } from "@/shared/hooks/useUser";
 import { useState } from "react";
-import { createSellingItem } from "../model/actions";
+import { createItem } from "../model/actions";
 import SearchInput from "@/features/item-search/ui/SearchInput";
 import { Textarea } from "@/shared/ui/textarea";
 
@@ -39,7 +39,7 @@ export default function SellingItemCreateModal() {
     mutationFn: async (values: ItemFormType) => {
       if (!user) throw new Error("로그인이 필요합니다.");
 
-      return createSellingItem({
+      return createItem({
         item_name: values.item_name,
         price: values.price,
         image: values.image,
@@ -123,7 +123,7 @@ export default function SellingItemCreateModal() {
 
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader className="mb-4">
-          <DialogTitle>아이템 등록</DialogTitle>
+          <DialogTitle>판매 아이템 등록</DialogTitle>
           <DialogDescription className="flex flex-col">
             <span>판매할 아이템을 등록해주세요.</span>
           </DialogDescription>
