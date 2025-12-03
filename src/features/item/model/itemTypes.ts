@@ -34,8 +34,9 @@ export interface Item {
 export interface SearchItemInfo {
   id: string;
   name: string;
-  item_gender: string;
   image: string;
+  item_gender: string;
+  item_source: string;
   category: string;
 }
 
