@@ -5,16 +5,7 @@ interface Props {
   isForSale: boolean;
   isSold: boolean;
 }
-
-<<<<<<<< HEAD:src/features/item/model/client-api.ts
-export const fetchFilteredItems = async ({
-  userId,
-  isForSale,
-  isSold,
-}: Props) => {
-========
 const getFilteredUserItems = async ({ userId, isForSale, isSold }: Props) => {
->>>>>>>> dfe84177259b61d8dbbe13b31e819fd065c79432:src/features/items/model/getFilteredUserItems.ts
   // let query = supabase.from(ITEMS_TABLE_NAME).select("*").eq("user_id", userId);
   let query = supabase.from("items_test").select("*").eq("user_id", userId);
 
@@ -32,8 +23,5 @@ const getFilteredUserItems = async ({ userId, isForSale, isSold }: Props) => {
   }
   return data;
 };
-<<<<<<<< HEAD:src/features/item/model/client-api.ts
-========
 
 export default getFilteredUserItems;
->>>>>>>> dfe84177259b61d8dbbe13b31e819fd065c79432:src/features/items/model/getFilteredUserItems.ts
