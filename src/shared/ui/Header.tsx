@@ -4,7 +4,6 @@ import { Button } from "@/shared/ui/button";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/shared/hooks/useUser";
 import { toast } from "sonner";
-import CreateInquiryModal from "@/features/inquiry/ui/CreateInquiryModal";
 import CreateReportModal from "@/features/report/ui/CreateReportModal";
 import { login, logout } from "@/features/auth/signin/model/actions";
 import DiscordIcon from "@/shared/assets/icons/DiscordIcon";
@@ -21,6 +20,12 @@ import { BadgeQuestionMark } from "lucide-react";
 import SearchInput from "@/features/item-search/ui/SearchInput";
 import { useState } from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
+
+const DynamicCreateInquiryModal = dynamic(
+  () => import("@/features/inquiry/ui/CreateInquiryModal"),
+  { ssr: false } // **서버 렌더링 비활성화**
+);
 
 export default function Header() {
   const [value, setValue] = useState("");
@@ -97,7 +102,7 @@ export default function Header() {
           <BadgeQuestionMark />
         </Button>
 
-        <CreateInquiryModal />
+        <DynamicCreateInquiryModal />
 
         {user && <CreateReportModal />}
       </div>
