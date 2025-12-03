@@ -1,42 +1,13 @@
-import Image from "next/image";
-import UserItemList from "@/features/items/ui/UserItemList";
 import { Suspense } from "react";
-
-interface UserDetail {
-  id: string;
-  username: string;
-  bio?: string;
-  discord_profile_image: string | null;
-  created_at: string;
-}
+import UserItemList from "@/features/items/ui/UserItemList";
+import UserProfileCard from "./UserProfileCard";
+import { UserDetail } from "../model/userTypes";
 
 interface UserDetailProps {
   user: UserDetail;
 }
 
 export default function UserDetailSection({ user }: UserDetailProps) {
-  const UserProfileCard = () => (
-    <section className="text-center">
-      <Image
-        src={user.discord_profile_image ?? "images/empty.png"}
-        alt={user.username}
-        width={180}
-        height={180}
-        className="rounded-full border-4 border-blue-500 mb-5 mx-auto object-cover block"
-      />
-
-      <h4 className="text-3xl font-extrabold text-gray-800 mb-1">
-        {user.username}
-      </h4>
-
-      <p className="text-base text-gray-600 mb-5 px-3 min-h-10">{user.bio}</p>
-
-      <span className="block text-sm text-gray-400 pt-3 mt-4 border-t border-gray-200">
-        가입일: {user.created_at.slice(0, 10)}
-      </span>
-    </section>
-  );
-
   const LoadingFallback = <div>로드중...</div>;
 
   const BuySellListSection = () => (
@@ -85,7 +56,7 @@ export default function UserDetailSection({ user }: UserDetailProps) {
     <div className="flex lg:max-w-6xl mx-auto">
       {/* 좌측 사이드바 (유저 정보) */}
       <aside className="w-64 shrink-0">
-        <UserProfileCard />
+        <UserProfileCard user={user} />
       </aside>
 
       {/* 우측 컨텐츠 (삽니다/팝니다 목록) */}
