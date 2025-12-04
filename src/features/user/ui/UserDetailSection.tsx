@@ -1,8 +1,12 @@
 import { Suspense } from "react";
+import { getSupabaseServerCookie } from "@/shared/api/supabase-cookie";
+import { supabaseServer } from "@/shared/api/supabase-server";
 import UserItemList from "@/features/items/ui/UserItemList";
 import UserProfileCard from "./UserProfileCard";
 import { UserDetail } from "../model/userTypes";
 import UserItemListHeader from "@/features/items/ui/UserItemListHeader";
+import SectionTitle from "@/shared/ui/SectionTitle";
+import MyItemRequestSection from "./MyItemRequestSection";
 
 interface UserDetailProps {
   user: UserDetail;
@@ -10,12 +14,15 @@ interface UserDetailProps {
 
 const LoadingFallback = <div>로드중...</div>;
 
-export default function UserDetailSection({ user }: UserDetailProps) {
+export default async function UserDetailSection({ user }: UserDetailProps) {
+  const supabase = await getSupabaseServerCookie();
+  const {
+    data: { user: authUser },
+  } = await supabase.auth.getUser();
+
   const BuySellListSection = () => (
     <div className="pl-8">
-      <h2 className="text-2xl font-bold text-gray-700 mb-6 border-b pb-2">
-        🛒 판매 / 구매 목록
-      </h2>
+      <SectionTitle>🛒 판매 / 구매 목록</SectionTitle>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
         {/* 팝니다 */}
@@ -56,7 +63,7 @@ export default function UserDetailSection({ user }: UserDetailProps) {
   return (
     <div className="flex lg:max-w-6xl mx-auto">
       {/* 좌측 사이드바 (유저 정보) */}
-      <aside className="w-64 shrink-0">
+      <aside className="w-64 shrink-0 pt-20">
         <UserProfileCard user={user} />
       </aside>
 
@@ -64,6 +71,9 @@ export default function UserDetailSection({ user }: UserDetailProps) {
       <section className="grow">
         <UserItemListHeader userId={user.id} />
         <BuySellListSection />
+
+        {/* 마이페이지 전용 */}
+        {authUser?.id === user.id && <MyItemRequestSection />}
       </section>
     </div>
   );
