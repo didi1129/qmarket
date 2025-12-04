@@ -47,7 +47,6 @@ export default function ItemForm({
         item_name: "",
         image: "/images/empty.png",
         price: 0,
-        quantity: 1,
         item_source: "gatcha" as const,
         item_gender: "m" as const,
         is_sold: false,
@@ -215,7 +214,7 @@ export default function ItemForm({
                       className="flex-1"
                       onClick={() => field.onChange("m")}
                     >
-                      남성
+                      남
                     </Button>
                     <Button
                       type="button"
@@ -223,7 +222,7 @@ export default function ItemForm({
                       className="flex-1"
                       onClick={() => field.onChange("w")}
                     >
-                      여성
+                      여
                     </Button>
                   </div>
                 )}
@@ -294,58 +293,6 @@ export default function ItemForm({
             {errors.price && (
               <p className="text-red-600 text-sm mt-1">
                 {errors.price.message}
-              </p>
-            )}
-          </div>
-
-          {/* 수량 */}
-          <div className="grid gap-3">
-            <label htmlFor="quantity" className="text-sm">
-              수량
-            </label>
-            <Controller
-              name="quantity"
-              control={control}
-              render={({ field: { value, onChange } }) => (
-                <div className="flex items-center gap-3">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="icon"
-                    onClick={() => onChange(Math.max(1, value - 1))}
-                    disabled={value <= 1}
-                  >
-                    -
-                  </Button>
-                  <Input
-                    id="quantity"
-                    inputMode="numeric"
-                    className="text-center"
-                    value={value}
-                    onChange={(e) => {
-                      const num = parseInt(e.target.value) || 1;
-                      onChange(Math.min(99, Math.max(1, num)));
-                    }}
-                    onBlur={() => {
-                      if (value < 1) onChange(1);
-                      if (value > 99) onChange(99);
-                    }}
-                  />
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="icon"
-                    onClick={() => onChange(Math.min(99, value + 1))}
-                    disabled={value >= 99}
-                  >
-                    +
-                  </Button>
-                </div>
-              )}
-            />
-            {errors.quantity && (
-              <p className="text-red-600 text-sm mt-1">
-                {errors.quantity.message}
               </p>
             )}
           </div>

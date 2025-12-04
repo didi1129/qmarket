@@ -13,9 +13,9 @@ import {
 import { cn } from "@/shared/lib/utils";
 import { useItemsQuery } from "@/shared/hooks/useItemsQuery";
 import { useSearchItemQuery } from "@/shared/hooks/useSearchItemQuery";
-import { Button } from "@/shared/ui/button";
 import Image from "next/image";
 import { SearchItemInfo } from "@/features/item/model/itemTypes";
+import RequestItemModal from "@/features/item/ui/RequestItemModal";
 
 interface SearchInputProps extends InputHTMLAttributes<HTMLInputElement> {
   value: string;
@@ -70,9 +70,9 @@ export default function SearchInput({
     if (value.length > 0) setSuggestionOpen(true);
   };
 
-  const handleBlur = () => {
-    setTimeout(() => setSuggestionOpen(false), 150);
-  };
+  // const handleBlur = () => {
+  //   setTimeout(() => setSuggestionOpen(false), 150);
+  // };
 
   return (
     <div className={cn("relative w-full", className)}>
@@ -82,7 +82,7 @@ export default function SearchInput({
         value={value}
         onChange={handleChange}
         onFocus={handleFocus}
-        onBlur={handleBlur}
+        // onBlur={handleBlur}
         {...rest}
       />
 
@@ -95,9 +95,7 @@ export default function SearchInput({
                   <p className="text-center text-gray-500 text-xs">
                     검색 결과가 없습니다.
                   </p>
-                  <Button variant="outline" size="sm">
-                    아이템 등록 요청
-                  </Button>
+                  <RequestItemModal itemName={value} />
                 </CommandEmpty>
               ) : (
                 <CommandGroup heading="검색 결과">

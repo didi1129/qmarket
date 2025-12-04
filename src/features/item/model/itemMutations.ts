@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ItemFormType } from "./schema";
-import { createItem, updateItem } from "./actions";
+import { createItem, updateItem } from "./server-actions";
 import {
   ITEM_SOURCES_MAP,
   ITEM_GENDER_MAP,
@@ -25,7 +25,6 @@ export const useCreateItemMutation = (props: UseCreateItemMutationProps) => {
       return createItem({
         item_name: values.item_name,
         price: values.price,
-        quantity: values.quantity,
         image: values.image,
         is_sold: false,
         is_for_sale: props.isForSale,
@@ -80,7 +79,6 @@ export const useUpdateItemMutation = (props: UseUpdateItemMutationProps) => {
         id,
         item_name: values.item_name,
         price: values.price,
-        quantity: values.quantity,
         image: values.image,
         is_sold: false,
         is_for_sale: props.isForSale,

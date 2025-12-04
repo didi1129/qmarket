@@ -23,10 +23,7 @@ export default async function ItemDetailPage({
       {(error || !item) && (
         <div className="flex flex-col gap-4 items-center justify-center h-[300px]">
           <p className="text-foreground/50">존재하지 않는 아이템입니다.</p>
-          <RequestItemModal
-            itemName={decodedItemName}
-            itemGender={decodedItemGender}
-          />
+          <RequestItemModal itemName={decodedItemName} />
         </div>
       )}
       {item && <ItemDetailClient item={item} />}

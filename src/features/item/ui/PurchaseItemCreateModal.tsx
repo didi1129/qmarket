@@ -12,7 +12,7 @@ import { toast } from "sonner";
 import { Lock, Plus } from "lucide-react";
 import { useUser } from "@/shared/hooks/useUser";
 import { useState } from "react";
-import { getDailyItemCountAction } from "../model/actions";
+import { getDailyItemCountAction } from "../model/server-actions";
 import { DAILY_LIMIT } from "@/shared/api/redis";
 import ItemForm from "./ItemForm";
 

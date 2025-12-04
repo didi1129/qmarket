@@ -70,12 +70,6 @@ const ItemCard = ({ item, userId }: ItemCardProps) => {
           <h4 className="text-base font-semibold text-blue-700 flex items-center">
             {item.price.toLocaleString()}
             <span className="text-[10px] mt-0.5">원</span>
-
-            {item.quantity > 1 && (
-              <span className="text-foreground/50 text-xs font-normal ml-1">
-                ({item.quantity}개)
-              </span>
-            )}
           </h4>
 
           {item.message && (

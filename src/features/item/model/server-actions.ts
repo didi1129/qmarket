@@ -14,7 +14,6 @@ interface ItemFormValues {
   id?: number;
   item_name: string;
   price: number;
-  quantity: number;
   image: string | null;
   item_source: string;
   item_gender: string;
