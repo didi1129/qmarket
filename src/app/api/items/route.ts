@@ -27,7 +27,7 @@ export const GET = async (req: Request) => {
     let query = supabaseServer
       .from(ITEMS_TABLE_NAME)
       .select(SELECT_ITEM_COLUMNS)
-      .neq("nickname", "관리자")
+      .not("nickname", "in", ["관리자", "빙기"])
       .range(offset, offset + limit - 1);
 
     // 필터
