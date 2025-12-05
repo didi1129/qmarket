@@ -68,7 +68,10 @@ export default async function UserDetailSection({ user }: UserDetailProps) {
 
       {/* 우측 컨텐츠 (삽니다/팝니다 목록) */}
       <section className="grow">
-        <UserItemListHeader userId={user.id} />
+        {/* 마이페이지 전용 */}
+        {authUser?.id === user.id && <UserItemListHeader userId={user.id} />}
+
+        {/* 전체 공개: 유저 팝니다/삽니다 목록 */}
         <BuySellListSection />
 
         {/* 마이페이지 전용 */}
