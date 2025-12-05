@@ -1,6 +1,5 @@
 import { Suspense } from "react";
 import { getSupabaseServerCookie } from "@/shared/api/supabase-cookie";
-import { supabaseServer } from "@/shared/api/supabase-server";
 import UserItemList from "@/features/items/ui/UserItemList";
 import UserProfileCard from "./UserProfileCard";
 import { UserDetail } from "../model/userTypes";

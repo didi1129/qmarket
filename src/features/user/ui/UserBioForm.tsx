@@ -84,7 +84,7 @@ export default function UserBioForm({ user }: { user: UserDetail }) {
     );
 
   return (
-    <div className="flex gap-2 items-center justify-center">
+    <div className="flex items-start justify-center">
       <p className="text-sm text-foreground/70">
         {!user.bio ? "자기소개를 입력해주세요." : user.bio}
       </p>

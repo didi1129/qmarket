@@ -8,9 +8,11 @@ export default async function MyItemsPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
+  console.log(user);
+
   const { data: userDetail, error } = await supabaseServer
     .from("user_profiles")
-    .select("id, username, bio, discord_profile_image, created_at")
+    .select("id, username, bio, discord_profile_image, nickname, created_at")
     .eq("id", user?.id)
     .single();
 

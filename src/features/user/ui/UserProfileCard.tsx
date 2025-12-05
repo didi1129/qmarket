@@ -3,6 +3,8 @@
 import Image from "next/image";
 import { UserDetail } from "../model/userTypes";
 import UserBioForm from "./UserBioForm";
+import { copyToClipboard } from "@/shared/lib/copyToClipboard";
+import { Button } from "@/shared/ui/button";
 
 export default function UserProfileCard({ user }: { user: UserDetail }) {
   return (
@@ -15,7 +17,27 @@ export default function UserProfileCard({ user }: { user: UserDetail }) {
         className="rounded-full border-4 border-blue-500 mb-5 mx-auto object-cover block"
       />
 
-      <h4 className="font-bold text-foreground/80 mb-1">{user.username}</h4>
+      <div className="mb-2">
+        <h4 className="font-bold text-foreground mb-1 md:text-xl text-lg">
+          {user.nickname}
+        </h4>
+        <h5 className="text-foreground/70 text-sm">
+          @
+          <Button
+            type="button"
+            variant="link"
+            className="px-0 py-0 h-auto text-foreground/70"
+            onClick={() =>
+              copyToClipboard(
+                user.username,
+                "디스코드 아이디가 복사되었습니다."
+              )
+            }
+          >
+            {user.username}
+          </Button>
+        </h5>
+      </div>
 
       <UserBioForm user={user} />
 

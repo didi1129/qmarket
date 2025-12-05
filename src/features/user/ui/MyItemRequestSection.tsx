@@ -1,13 +1,6 @@
 import SectionTitle from "@/shared/ui/SectionTitle";
 import { supabase } from "@/shared/api/supabase-client";
 
-interface ItemRequest {
-  id: string;
-  item_name: string;
-  item_gender: string;
-  isRegistered: boolean;
-}
-
 async function getItemRequests() {
   const { data, error } = await supabase
     .from("item_reg_request")
@@ -41,13 +34,13 @@ export default async function MyItemRequestSection() {
               }`}
             >
               <strong>{d.item_name}</strong>
-              <span className="ml-2 text-foreground/60">({d.item_gender})</span>
+              <span className="text-foreground/60">({d.item_gender})</span>
               <span
                 className={`ml-2 px-2 py-0.5 rounded text-xs text-white ${
                   d.isRegistered ? "bg-green-500" : "bg-amber-500"
                 }`}
               >
-                {d.isRegistered ? "등록 완료" : "대기 중"}
+                {d.isRegistered ? "등록완료" : "대기중"}
               </span>
             </li>
           ))}
