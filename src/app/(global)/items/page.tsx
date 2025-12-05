@@ -4,7 +4,7 @@ import SectionTitle from "@/shared/ui/SectionTitle";
 export default function ItemsPage() {
   return (
     <section className="w-full lg:max-w-6xl mx-auto">
-      <SectionTitle>판매/구매 현황</SectionTitle>
+      <SectionTitle>📋 판매/구매 전체</SectionTitle>
 
       <div className="flex gap-4">
         {/* 팝니다 */}

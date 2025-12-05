@@ -21,7 +21,7 @@ export default async function UserDetailSection({ user }: UserDetailProps) {
 
   const BuySellListSection = () => (
     <div className="pl-8">
-      <SectionTitle>🛒 판매 / 구매 목록</SectionTitle>
+      <SectionTitle>📋 판매 / 구매 목록</SectionTitle>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
         {/* 팝니다 */}
