@@ -24,9 +24,9 @@ export default function ItemsClient() {
         className="mb-4"
       />
 
-      <div className="flex gap-4">
+      <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
         {/* 팝니다 */}
-        <div className="w-[50%]">
+        <div>
           <h3 className="md:text-lg font-bold mb-2 text-base">판매해요</h3>
           <ItemList
             isForSale={true}
@@ -36,7 +36,7 @@ export default function ItemsClient() {
         </div>
 
         {/* 삽니다 */}
-        <div className="w-[50%]">
+        <div>
           <h3 className="md:text-lg font-bold mb-2 text-base">구매해요</h3>
           <ItemList
             isForSale={false}

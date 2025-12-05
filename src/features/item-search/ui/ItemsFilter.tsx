@@ -10,7 +10,6 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/shared/ui/select";
@@ -60,11 +59,14 @@ export default function ItemsFilter({
 
   return (
     <div
-      className={cn("bg-white rounded-lg border border-border p-4", className)}
+      className={cn(
+        "bg-background rounded-lg border border-border p-4",
+        className
+      )}
     >
-      <div className="flex gap-2 w-full">
+      <div className="flex flex-wrap md:flex-nowrap gap-2 w-full">
         {/* 가격 필터 */}
-        <div>
+        <div className="w-full max-w-[300px]">
           <label className="text-sm font-medium mb-2 block">가격</label>
           <div className="flex items-center gap-2">
             <Input
@@ -88,17 +90,9 @@ export default function ItemsFilter({
         </div>
 
         {/* 정렬 */}
-        <div>
+        <div className="w-full md:w-auto">
           <label className="text-sm font-medium mb-2 block">정렬</label>
           <div className="flex gap-2">
-            {/* <Select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as SortOption)}
-              className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="created_at">시간순</option>
-              <option value="price">가격순</option>
-            </Select> */}
             <Select
               value={sortBy}
               onValueChange={(value) => setSortBy(value as SortOption)}
@@ -131,23 +125,11 @@ export default function ItemsFilter({
                 </SelectGroup>
               </SelectContent>
             </Select>
-            {/* <Select
-              value={sortOrder}
-              onChange={(e) => setSortOrder(e.target.value as SortOrder)}
-              className="w-full px-3 py-2 border border-border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="desc">
-                {sortBy === "price" ? "높은 가격순" : "최신순"}
-              </option>
-              <option value="asc">
-                {sortBy === "price" ? "낮은 가격순" : "오래된순"}
-              </option>
-            </Select> */}
           </div>
         </div>
 
         {/* actions */}
-        <div className="flex gap-2 pt-2 self-end">
+        <div className="flex w-full gap-2 pt-2 self-end">
           <Button type="button" onClick={handleApplyFilter}>
             <Filter />
             필터 적용
