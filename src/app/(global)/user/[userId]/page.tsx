@@ -10,7 +10,7 @@ export default async function UserDetailPage({
 
   const { data: user, error } = await supabaseServer
     .from("user_profiles")
-    .select("id, username, bio, discord_profile_image, created_at")
+    .select("id, username, bio, discord_profile_image, nickname, created_at")
     .eq("id", userId)
     .single();
 
@@ -19,8 +19,8 @@ export default async function UserDetailPage({
   }
 
   return (
-    <section>
+    <>
       <UserDetailSection user={user} />
-    </section>
+    </>
   );
 }

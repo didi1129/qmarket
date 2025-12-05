@@ -14,7 +14,7 @@ import {
 import { Button } from "@/shared/ui/button";
 import { Plus, Lock } from "lucide-react";
 import { toast } from "sonner";
-import { createItemRequest } from "../model/createItemRegRequest";
+import { createItemRequestAction } from "@/app/actions/item-reg-request-actions";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useUser } from "@/shared/hooks/useUser";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/shared/ui/tooltip";
@@ -27,9 +27,9 @@ export default function RequestItemModal({ itemName }: { itemName: string }) {
   const queryClient = useQueryClient();
 
   const createRequestMutation = useMutation({
-    mutationFn: createItemRequest,
+    mutationFn: createItemRequestAction,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["itemRequests"] });
+      queryClient.invalidateQueries({ queryKey: ["item-reg-requests"] });
       setOpen(false);
       setGender("");
       toast.success("아이템 등록 요청이 완료되었습니다.");
@@ -40,7 +40,7 @@ export default function RequestItemModal({ itemName }: { itemName: string }) {
     },
   });
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!gender) {
       alert("성별을 선택해주세요.");
       return;
@@ -51,11 +51,23 @@ export default function RequestItemModal({ itemName }: { itemName: string }) {
       return;
     }
 
-    createRequestMutation.mutate({
-      itemName,
-      gender,
-      userId: user.id,
-    });
+    try {
+      await createItemRequestAction({
+        itemName,
+        gender,
+        userId: user.id,
+      });
+
+      setOpen(false);
+      setGender("");
+      toast.success("아이템 등록 요청이 완료되었습니다.");
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("아이템 등록 요청에 실패했습니다.");
+      }
+    }
   };
 
   return (
@@ -87,10 +99,10 @@ export default function RequestItemModal({ itemName }: { itemName: string }) {
             </span>
             <br /> 아이템을 등록 요청하시겠습니까?
           </AlertDialogTitle>
-          <AlertDialogDescription>
-            요청하신 아이템은 확인 절차를 거쳐 등록되므로
-            <br />
-            다소 시간이 소요될 수 있습니다.
+          <AlertDialogDescription className="text-left">
+            - 요청하신 아이템은 확인 절차를 거쳐 등록되므로 다소 시간이 소요될
+            수 있습니다.
+            <br />- 게임에 존재하지 않는 아이템은 요청하셔도 등록되지 않습니다.
           </AlertDialogDescription>
         </AlertDialogHeader>
 
@@ -122,7 +134,10 @@ export default function RequestItemModal({ itemName }: { itemName: string }) {
           <AlertDialogCancel>취소</AlertDialogCancel>
           <AlertDialogAction
             disabled={createRequestMutation.isPending || !gender}
-            onClick={handleSubmit}
+            onClick={(e) => {
+              e.preventDefault();
+              handleSubmit();
+            }}
           >
             {createRequestMutation.isPending ? "요청 중..." : "등록 요청"}
           </AlertDialogAction>
