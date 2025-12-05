@@ -45,9 +45,9 @@ export default async function Home() {
           </Link>
 
           <div className="p-6 rounded-2xl bg-card border hover:border-primary/50 transition-colors">
-            <h3 className="text-lg font-semibold mb-2">아이템 시세 조회</h3>
+            <h3 className="text-lg font-semibold mb-2">아이템 정보 조회</h3>
             <p className="text-muted-foreground break-keep">
-              거래 내역을 바탕으로 아이템 시세를 확인할 수 있습니다.
+              아이템 출처, 아이템 시세 등 상세 정보를 조회할 수 있습니다.
             </p>
           </div>
         </div>
