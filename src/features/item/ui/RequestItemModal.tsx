@@ -14,12 +14,11 @@ import {
 import { Button } from "@/shared/ui/button";
 import { Plus, Lock } from "lucide-react";
 import { toast } from "sonner";
-import { createItemRequest } from "../model/item-reg-request-client-api";
+import { createItemRequestAction } from "@/app/actions/item-reg-request-actions";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useUser } from "@/shared/hooks/useUser";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/shared/ui/tooltip";
 import { useState } from "react";
-import { checkExistingRequest } from "../model/item-reg-request-client-api";
 
 export default function RequestItemModal({ itemName }: { itemName: string }) {
   const { data: user } = useUser();
@@ -28,7 +27,7 @@ export default function RequestItemModal({ itemName }: { itemName: string }) {
   const queryClient = useQueryClient();
 
   const createRequestMutation = useMutation({
-    mutationFn: createItemRequest,
+    mutationFn: createItemRequestAction,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["item-reg-requests"] });
       setOpen(false);
@@ -53,26 +52,21 @@ export default function RequestItemModal({ itemName }: { itemName: string }) {
     }
 
     try {
-      const isExisting = await checkExistingRequest({
-        itemName,
-        gender,
-      });
-
-      if (isExisting) {
-        toast.error("해당 아이템은 이미 등록 요청된 상태입니다.");
-        return;
-      }
-
-      // 중복 등록 요청 없을 때만 등록
-      createRequestMutation.mutate({
+      await createItemRequestAction({
         itemName,
         gender,
         userId: user.id,
       });
+
+      setOpen(false);
+      setGender("");
+      toast.success("아이템 등록 요청이 완료되었습니다.");
     } catch (error) {
-      toast.error(
-        "아이템 요청 목록 확인 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
-      );
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("아이템 등록 요청에 실패했습니다.");
+      }
     }
   };
 

@@ -12,15 +12,20 @@ export async function createItemRequestAction({
   gender: string;
   userId: string;
 }) {
-  // 중복 체크
-  const { data: existing } = await supabaseServer
+  // 중복 아이템 등록 요청 체크
+  const { data: existing, error: checkError } = await supabaseServer
     .from("item_reg_request")
     .select("id")
     .eq("item_name", itemName)
     .eq("item_gender", gender);
 
+  if (checkError) {
+    console.error("아이템 요청 목록 확인 중 에러 발생:", checkError);
+    throw new Error("아이템 요청 목록 확인 실패");
+  }
+
   if (existing && existing.length > 0) {
-    throw new Error("이미 등록 요청된 아이템입니다.");
+    throw new Error("해당 아이템은 이미 등록 요청된 상태입니다.");
   }
 
   // 등록
@@ -38,7 +43,6 @@ export async function createItemRequestAction({
     throw new Error("아이템 등록 요청에 실패했습니다.");
   }
 
-  // 아이템 요청 목록 갱신
   revalidateTag("item-reg-requests");
 
   return data;
