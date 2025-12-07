@@ -15,7 +15,10 @@ interface ItemBarProps {
 export default function ItemBar({ item }: ItemBarProps) {
   return (
     <div className="text-xs p-2 bg-gray-100 rounded-sm">
-      <Link href={`/item/${item.name}/${item.gender}`} className="flex gap-3">
+      <Link
+        href={`/item/${item.name}/${item.gender}`}
+        className="flex gap-3 items-center"
+      >
         <div className="w-10 h-12 relative shrink-0">
           <Image
             src={item.image || "/images/empty.png"}
