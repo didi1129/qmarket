@@ -1,6 +1,6 @@
 import { FetchError } from "@/shared/config/types";
 
-const getNewItems = async ({
+const getRotationItems = async ({
   dateFormat,
   nextYear,
   nextMonth,
@@ -81,4 +81,4 @@ const getNewItems = async ({
   }
 };
 
-export default getNewItems;
+export default getRotationItems;

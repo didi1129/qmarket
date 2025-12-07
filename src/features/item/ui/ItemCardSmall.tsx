@@ -19,7 +19,7 @@ export default function ItemCardSmall({ item }: { item: ItemCardSmallProps }) {
           name={item.name}
           imgUrl={item.image || "/images/empty.png"}
           size="lg"
-          className="border-1 border-[#002656] rounded-none w-[80px] h-[86px] [&_img]:w-full [&_img]:h-auto"
+          className="border-1 border-[#002656] rounded-none w-[80px] h-[90px] [&_img]:w-full [&_img]:h-auto"
         />
         <div className="flex flex-col mt-1">
           <h4 className="text-sm text-center text-white">{item.name}</h4>
