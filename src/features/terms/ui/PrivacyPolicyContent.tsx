@@ -65,94 +65,7 @@ export default function PrivacyPolicyContent() {
       </ul>
 
       <h2 className="text-2xl font-semibold text-gray-900 mt-10 mb-4 pb-2 border-b border-gray-200">
-        4. 제3자 제공 및 위탁
-      </h2>
-      <p className="text-gray-700 mb-4">
-        본 서비스는 다음 외부 서비스를 이용하여 운영됩니다:
-      </p>
-
-      <div className="overflow-x-auto mb-6">
-        <table className="min-w-full border border-gray-200 text-sm">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-4 py-3 text-left font-semibold text-gray-900 border-b border-gray-200">
-                서비스
-              </th>
-              <th className="px-4 py-3 text-left font-semibold text-gray-900 border-b border-gray-200">
-                제공 업체
-              </th>
-              <th className="px-4 py-3 text-left font-semibold text-gray-900 border-b border-gray-200">
-                목적
-              </th>
-              <th className="px-4 py-3 text-left font-semibold text-gray-900 border-b border-gray-200">
-                위치
-              </th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200">
-            <tr>
-              <td className="px-4 py-3 text-gray-700">인증</td>
-              <td className="px-4 py-3 text-gray-700">Discord Inc.</td>
-              <td className="px-4 py-3 text-gray-700">로그인 인증</td>
-              <td className="px-4 py-3 text-gray-700">미국</td>
-            </tr>
-            <tr>
-              <td className="px-4 py-3 text-gray-700">데이터베이스</td>
-              <td className="px-4 py-3 text-gray-700">Supabase Inc.</td>
-              <td className="px-4 py-3 text-gray-700">데이터 저장</td>
-              <td className="px-4 py-3 text-gray-700">미국/기타 지역</td>
-            </tr>
-            <tr>
-              <td className="px-4 py-3 text-gray-700">호스팅</td>
-              <td className="px-4 py-3 text-gray-700">Vercel Inc.</td>
-              <td className="px-4 py-3 text-gray-700">웹사이트 운영</td>
-              <td className="px-4 py-3 text-gray-700">미국/기타 지역</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <p className="text-gray-700 mb-2">
-        각 업체는 자체 개인정보 처리방침에 따라 데이터를 처리합니다:
-      </p>
-      <ul className="list-disc list-inside text-gray-700 space-y-2 mb-4">
-        <li>
-          Discord:{" "}
-          <a
-            href="https://discord.com/privacy"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-foreground/60 hover:underline"
-          >
-            https://discord.com/privacy
-          </a>
-        </li>
-        <li>
-          Supabase:{" "}
-          <a
-            href="https://supabase.com/privacy"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-foreground/60 hover:underline"
-          >
-            https://supabase.com/privacy
-          </a>
-        </li>
-        <li>
-          Vercel:{" "}
-          <a
-            href="https://vercel.com/legal/privacy-policy"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-foreground/60 hover:underline"
-          >
-            https://vercel.com/legal/privacy-policy
-          </a>
-        </li>
-      </ul>
-
-      <h2 className="text-2xl font-semibold text-gray-900 mt-10 mb-4 pb-2 border-b border-gray-200">
-        5. 사용자 개인정보 권리
+        4. 사용자 개인정보 권리
       </h2>
       <ul className="list-disc list-inside text-gray-700 space-y-2 mb-4">
         <li>본인의 개인정보를 조회하고 수정할 수 있습니다 (마이페이지)</li>
@@ -161,7 +74,7 @@ export default function PrivacyPolicyContent() {
       </ul>
 
       <h2 className="text-2xl font-semibold text-gray-900 mt-10 mb-4 pb-2 border-b border-gray-200">
-        6. 쿠키 사용
+        5. 쿠키 사용
       </h2>
       <ul className="list-disc list-inside text-gray-700 space-y-2 mb-4">
         <li>서비스는 로그인 상태 유지를 위해 쿠키를 사용합니다.</li>
@@ -172,7 +85,7 @@ export default function PrivacyPolicyContent() {
       </ul>
 
       <h2 className="text-2xl font-semibold text-gray-900 mt-10 mb-4 pb-2 border-b border-gray-200">
-        7. 개인정보 보호
+        6. 개인정보 보호
       </h2>
       <ul className="list-disc list-inside text-gray-700 space-y-2 mb-4">
         <li>Discord OAuth의 보안 로그인을 제공합니다.</li>
@@ -180,7 +93,7 @@ export default function PrivacyPolicyContent() {
       </ul>
 
       <h2 className="text-2xl font-semibold text-gray-900 mt-10 mb-4 pb-2 border-b border-gray-200">
-        8. 개인정보 관련 문의
+        7. 개인정보 관련 문의
       </h2>
       <p className="text-gray-700 mb-3">
         개인정보 관련 문의사항이 있으시면 다음으로 연락해 주세요.
@@ -190,7 +103,7 @@ export default function PrivacyPolicyContent() {
       </ul>
 
       <h2 className="text-2xl font-semibold text-gray-900 mt-10 mb-4 pb-2 border-b border-gray-200">
-        9. 정책 변경
+        8. 정책 변경
       </h2>
       <ul className="list-disc list-inside text-gray-700 space-y-2 mb-4">
         <li>본 방침은 필요에 따라 변경될 수 있습니다.</li>

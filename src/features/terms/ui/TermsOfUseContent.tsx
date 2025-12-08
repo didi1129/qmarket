@@ -10,21 +10,17 @@ export default function TermsOfUseContent() {
         1. 서비스 소개
       </h2>
       <p className="text-gray-700 mb-4">
-        본 서비스는 개인 개발자가 운영하는 게임 아이템 거래 정보 공유
-        플랫폼입니다. 사용자 간 아이템 판매/구매 요청을 등록하고 시세, 아이템
-        상세 정보, 거래 내역 등을 확인할 수 있는 커뮤니티 서비스를 제공합니다.
+        본 서비스는 게임 아이템 거래 정보 공유 플랫폼입니다. 사용자 간 아이템
+        판매/구매 요청을 등록하고, 아이템 상세 정보와 거래 내역 등을 확인할 수
+        있는 커뮤니티 서비스를 제공합니다.
       </p>
 
       <h2 className="text-2xl font-semibold text-gray-900 mt-10 mb-4 pb-2 border-b border-gray-200">
         2. 서비스의 성격 및 면책
       </h2>
       <ul className="list-disc list-inside text-gray-700 space-y-2 mb-4">
-        <li>
-          본 서비스는 비영리 사이드 프로젝트로 운영되며, 거래를 직접 중개하거나
-          보증하지 않습니다.
-        </li>
+        <li>본 서비스는 거래를 직접 중개하거나 보증하지 않습니다.</li>
         <li>사용자 간 거래는 전적으로 당사자 간 책임 하에 이루어집니다.</li>
-        <li>운영자는 서버 장애, 데이터 손실 등에 대해 책임지지 않습니다.</li>
       </ul>
 
       <h2 className="text-2xl font-semibold text-gray-900 mt-10 mb-4 pb-2 border-b border-gray-200">
