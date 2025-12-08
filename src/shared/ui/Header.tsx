@@ -70,7 +70,7 @@ export default function Header() {
       {/* Desktop View */}
       <div className="hidden md:flex flex-1 items-center justify-between">
         <SearchBar
-          className={cn("mx-auto w-full max-w-md", {
+          className={cn("mx-auto w-full max-w-xs", {
             hidden: pathname === "/",
           })}
         />

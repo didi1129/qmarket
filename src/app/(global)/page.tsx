@@ -73,7 +73,7 @@ export default async function Home() {
                 </div>
 
                 {/* 오른쪽 화살표 아이콘 (CTA 강조) */}
-                <div className="hidden md:flex items-center justify-center size-12 rounded-full bg-blue-100 text-blue-500 group-hover:bg-blue-600 group-hover:text-white transition-all">
+                <div className="hidden md:flex items-center justify-center size-12 rounded-full bg-blue-100 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all">
                   <ExternalLink className="size-6" />
                 </div>
               </div>
