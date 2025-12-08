@@ -1,39 +1,63 @@
-import getNewRotationItems from "@/features/items/model/getNewRotationItems";
+import getRotationItems from "@/features/items/model/getRotationItems";
 import SectionTitle from "@/shared/ui/SectionTitle";
 import NewItemsClient from "@/features/items/ui/NewItemsClient";
+import { notFound } from "next/navigation";
 
-export default async function NewItems() {
+export default async function RotationItemsPage({
+  params,
+}: {
+  params: Promise<{
+    type: string;
+  }>;
+}) {
+  const { type } = await params;
+
+  // type 검증
+  if (type !== "new" && type !== "last") {
+    notFound();
+  }
+
   const now = new Date();
-  const year = now.getFullYear();
-  const month = now.getMonth() + 1;
+  let targetDate: Date;
 
+  if (type === "new") {
+    // 이번 달
+    targetDate = now;
+  } else {
+    // 지난 달
+    targetDate = new Date(now);
+    targetDate.setMonth(now.getMonth() - 1);
+  }
+
+  const year = targetDate.getFullYear();
+  const month = targetDate.getMonth() + 1;
   const nextMonth = month === 12 ? 1 : month + 1;
   const nextYear = month === 12 ? year + 1 : year;
   const dateFormat = `${year}-${String(month).padStart(2, "0")}`;
 
   const [maleGatcha, femaleGatcha, maleMagic, femaleMagic] = await Promise.all([
-    getNewRotationItems({
+    getRotationItems({
       dateFormat,
       nextYear,
       nextMonth,
       gender: "남",
       source: "뽑기",
     }),
-    getNewRotationItems({
+    getRotationItems({
       dateFormat,
       nextYear,
       nextMonth,
       gender: "여",
       source: "뽑기",
     }),
-    getNewRotationItems({
+    getRotationItems({
       dateFormat,
       nextYear,
       nextMonth,
       gender: "남",
       source: "요술상자",
     }),
-    getNewRotationItems({
+    getRotationItems({
       dateFormat,
       nextYear,
       nextMonth,

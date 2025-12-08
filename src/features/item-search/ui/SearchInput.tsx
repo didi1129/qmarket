@@ -122,6 +122,7 @@ export default function SearchInput({
         type="text"
         placeholder="아이템명 입력"
         value={value}
+        className="bg-background"
         onChange={handleChange}
         onFocus={handleFocus}
         {...rest}
