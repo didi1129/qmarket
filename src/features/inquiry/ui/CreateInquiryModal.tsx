@@ -127,6 +127,9 @@ const CreateInquiryModal = ({ trigger }: { trigger?: ReactNode }) => {
                 className="resize-none min-h-24"
                 {...register("message")}
               />
+              <p className="text-xs text-foreground/50">
+                아이템 이미지 제보는 qmarket.cs@gmail.com으로 보내주세요.
+              </p>
               {errors.message && (
                 <p className="text-red-600 text-sm mt-1">
                   {errors.message.message}
