@@ -28,7 +28,7 @@ export const ITEM_CATEGORY_MAP = {
   face: "가면",
   slime: "슬라임",
   board: "정답판",
-  game: "게임 아이템",
+  game: "게임아이템",
 };
 
 export const FILTER_CATEGORIES_MAP = {
