@@ -1,7 +1,7 @@
 "use client";
 
 import CreateInquiryModal from "@/features/inquiry/ui/CreateInquiryModal";
-import { Button } from "../../../shared/ui/button";
+import { Button } from "@/shared/ui/button";
 
 export default function LinkToOpenInquiryModal() {
   return (
