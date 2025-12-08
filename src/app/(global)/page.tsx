@@ -82,7 +82,7 @@ export default async function Home() {
         </div>
 
         {/* 하단 그리드 메뉴 */}
-        <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl">
+        <div className="w-full mt-16 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl">
           <Link href="/rotation-items/last" className="h-full">
             <div className="h-full p-6 rounded-2xl bg-card border hover:border-primary/50 transition-colors break-keep">
               <h3 className="text-lg font-semibold mb-2 flex items-center gap-1">
