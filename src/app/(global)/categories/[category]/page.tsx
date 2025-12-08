@@ -39,14 +39,14 @@ export default async function ItemCategoryPage({
         <b className="text-blue-600 inline-block mr-2">
           {ITEM_CATEGORY_MAP[category]}
         </b>
-        아이템 판매/구매 목록
+        판매/구매 목록
       </SectionTitle>
 
       <CategoryItemFilteredList category={category} />
 
       {/* 카테고리별 아이템 전체 목록 */}
       <div className="mt-8">
-        <SectionTitle>{ITEM_CATEGORY_MAP[category]} 아이템 전체</SectionTitle>
+        <SectionTitle>{ITEM_CATEGORY_MAP[category]} 전체</SectionTitle>
         <CategoryItemAccordion items={items} />
       </div>
     </section>

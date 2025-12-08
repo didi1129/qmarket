@@ -16,10 +16,7 @@ export default function ItemImage({
 }: ItemImageProps) {
   return (
     <figure
-      className={cn(
-        "relative flex-shrink-0 rounded-md overflow-hidden",
-        className
-      )}
+      className={cn("relative shrink-0 rounded-md overflow-hidden", className)}
     >
       <Image
         src={imgUrl ?? "/images/empty.png"}
