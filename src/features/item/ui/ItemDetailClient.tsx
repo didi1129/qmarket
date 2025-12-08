@@ -23,6 +23,8 @@ interface ItemDetail {
   image: string | null;
   category: ItemCategory;
   item_source: ItemSource;
+  rotation_date?: string;
+  rotation_degree?: number;
 }
 
 interface ItemDetailProps {
@@ -79,7 +81,14 @@ export default function ItemDetailClient({
                 </li>
                 <li className="flex justify-between border-b pb-1 last:border-b-0">
                   <span className="font-semibold">출처:</span>
-                  <span>{item.item_source}</span>
+                  <span>
+                    {item.item_source}{" "}
+                    {item.rotation_date && (
+                      <em className="text-xs not-italic">
+                        (로테이션: {item.rotation_date})
+                      </em>
+                    )}
+                  </span>
                 </li>
                 <li className="flex justify-between border-b pb-1 last:border-b-0">
                   <span className="font-semibold">평균 호가:</span>

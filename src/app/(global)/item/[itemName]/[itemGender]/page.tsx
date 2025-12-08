@@ -18,7 +18,9 @@ export default async function ItemDetailPage({
 
   const { data: item, error } = await supabaseServer
     .from("items_info")
-    .select("id, name, item_gender, image, category, item_source")
+    .select(
+      "id, name, item_gender, image, category, item_source, rotation_date, rotation_degree"
+    )
     .eq("name", decodedItemName)
     .eq("item_gender", decodedItemGender)
     .single();
