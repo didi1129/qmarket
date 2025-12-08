@@ -9,7 +9,7 @@ import SoldButton from "@/features/item/ui/SoldButton";
 import { usePathname } from "next/navigation";
 import { useUser } from "@/shared/hooks/useUser";
 import Link from "next/link";
-import { formatDateYMD } from "@/shared/lib/formatters";
+import { formatRelativeTime } from "@/shared/lib/formatters";
 import { ExternalLink } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui/tooltip";
 
@@ -75,7 +75,7 @@ const ItemCard = ({ item, userId }: ItemCardProps) => {
           {item.message && (
             <Tooltip>
               <TooltipTrigger asChild>
-                <p className="bg-secondary text-foreground font-medium text-xs rounded-sm px-1.5 py-0.5 w-[150px] truncate">
+                <p className="bg-secondary text-foreground font-medium text-xs rounded-sm px-1.5 py-0.5 w-[120px] md:w-[150px] truncate">
                   {item.message}
                 </p>
               </TooltipTrigger>
@@ -102,8 +102,9 @@ const ItemCard = ({ item, userId }: ItemCardProps) => {
             </>
           )}
 
+          {/* 등록일시 (상대시 적용) */}
           <span className="text-foreground/50">
-            등록일: {formatDateYMD(item.created_at)}
+            {formatRelativeTime(item.created_at)}
           </span>
 
           {/* 마이 페이지 actions */}
