@@ -1,6 +1,7 @@
 import ItemCategoryNav from "@/features/items/ui/ItemCategoryNav";
 import Link from "next/link";
 import { ExternalLink } from "lucide-react";
+import SearchBar from "@/features/item-search/ui/SearchBar";
 
 export default async function Home() {
   const now = new Date();
@@ -17,13 +18,21 @@ export default async function Home() {
   const formattedLastMonth = String(lastMonth).padStart(2, "0");
 
   return (
-    <main className="flex p-4 md:p-0 mt-20">
+    <main className="flex p-4 md:p-0 mt-8">
       <section className="flex flex-col w-full gap-4 items-center">
+        {/* 아이템 검색 */}
+        <div className="flex flex-col gap-2 items-center mb-12 md:w-xl w-full max-w-md">
+          <h2 className="text-2xl font-bold tracking-tight mb-2">
+            아이템 검색
+          </h2>
+          <SearchBar className="w-full [&_input]:!max-w-none [&_input]:rounded-full md:[&_input]:!text-lg [&_input]:h-auto md:[&_input]:!px-6 md:[&_input]:!py-4" />
+        </div>
+
         {/* 아이템 카테고리 메뉴 */}
         <div className="w-full max-w-4xl">
           <div className="mb-4">
             <h2 className="text-2xl font-bold tracking-tight mb-2">
-              🔍 아이템 카테고리별 조회
+              🧭 아이템 카테고리별 조회
             </h2>
           </div>
 
@@ -64,7 +73,7 @@ export default async function Home() {
                 </div>
 
                 {/* 오른쪽 화살표 아이콘 (CTA 강조) */}
-                <div className="hidden md:flex items-center justify-center size-12 rounded-full bg-blue-100 text-blue-500 group-hover:bg-blue-600 group-hover:text-white transition-all">
+                <div className="hidden md:flex items-center justify-center size-12 rounded-full bg-blue-100 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all">
                   <ExternalLink className="size-6" />
                 </div>
               </div>

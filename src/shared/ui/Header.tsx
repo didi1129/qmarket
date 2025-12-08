@@ -27,6 +27,8 @@ import {
   SheetHeader,
   SheetTitle,
 } from "./sheet";
+import { usePathname } from "next/navigation";
+import { cn } from "../lib/utils";
 
 const DynamicCreateInquiryModal = dynamic(
   () => import("@/features/inquiry/ui/CreateInquiryModal"),
@@ -37,6 +39,7 @@ export default function Header() {
   const router = useRouter();
   const { data: user } = useUser();
   const queryClient = useQueryClient();
+  const pathname = usePathname();
 
   const handleSignIn = async () => {
     const res = await login();
@@ -66,9 +69,18 @@ export default function Header() {
 
       {/* Desktop View */}
       <div className="hidden md:flex flex-1 items-center justify-between">
-        <SearchBar className="mx-auto w-full max-w-md" />
+        <SearchBar
+          className={cn("mx-auto w-full max-w-xs", {
+            hidden: pathname === "/",
+          })}
+        />
 
-        <div className="flex gap-2 lg:w-[280px] md:w-[240px] shrink-0 justify-end">
+        <div
+          className={cn("flex gap-2 shrink-0 justify-end", {
+            "lg:w-[280px] md:w-[240px]": pathname !== "/",
+            "w-full": pathname === "/",
+          })}
+        >
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger className="shrink-0 bg-discord hover:bg-discord-hover flex gap-1 px-3 rounded-md items-center border-discord text-white text-sm">

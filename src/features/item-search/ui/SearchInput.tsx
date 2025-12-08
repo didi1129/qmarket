@@ -16,7 +16,7 @@ import { useSearchItemQuery } from "@/shared/hooks/useSearchItemQuery";
 import { SearchItemInfo } from "@/features/item/model/itemTypes";
 import RequestItemModal from "@/features/item/ui/RequestItemModal";
 import { Button } from "@/shared/ui/button";
-import { Clock, X } from "lucide-react";
+import { Clock, X, Search } from "lucide-react";
 
 interface SearchInputProps extends InputHTMLAttributes<HTMLInputElement> {
   value: string;
@@ -122,11 +122,12 @@ export default function SearchInput({
         type="text"
         placeholder="아이템명 입력"
         value={value}
-        className="bg-background"
+        className="bg-background hover:border-blue-300 focus:border-blue-300"
         onChange={handleChange}
         onFocus={handleFocus}
         {...rest}
       />
+      <Search className="absolute text-blue-600 size-5 md:size-6 md:right-6 right-4 top-1/2 -translate-y-1/2 z-[1]" />
 
       {suggestionOpen && (
         <div className="absolute left-0 right-0 top-full z-10 mt-1 rounded-md border bg-popover text-popover-foreground shadow-md">
