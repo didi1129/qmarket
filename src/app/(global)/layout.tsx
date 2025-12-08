@@ -22,7 +22,7 @@ export default async function RootLayout({
       <body className={`${pretendard.className} antialiased`}>
         <QueryProvider>
           <Header />
-          {children}
+          <div className="pt-12">{children}</div>
           <Footer />
           <Toaster
             position="bottom-center"
