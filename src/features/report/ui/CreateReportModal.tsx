@@ -109,8 +109,7 @@ const CreateReportModal = () => {
         <DialogHeader className="mb-4">
           <DialogTitle className="text-left">🚨 신고하기</DialogTitle>
           <DialogDescription className="break-keep text-left">
-            구체적으로 입력해 주시면 더 신속한 조치가 가능하며, 허위 신고 시
-            계정이 제재될 수 있습니다.
+            허위 신고 시 계정이 제재될 수 있습니다.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
@@ -124,7 +123,7 @@ const CreateReportModal = () => {
                 name="item_name"
                 value={reportData.item_name}
                 onChange={handleInputChange}
-                placeholder="아이템명 입력"
+                placeholder="아이템명(성별)"
                 className="col-span-3"
                 required
               />
@@ -139,7 +138,7 @@ const CreateReportModal = () => {
                 name="discord_id"
                 value={reportData.discord_id}
                 onChange={handleInputChange}
-                placeholder="어뷰징 의심 유저의 디스코드 아이디 입력"
+                placeholder="디스코드 아이디"
                 className="col-span-3"
                 required
               />
@@ -152,11 +151,11 @@ const CreateReportModal = () => {
               <Textarea
                 id="details"
                 name="details"
-                placeholder="예: 5분 만에 거래량이 비정상적으로 급증했습니다. 특정 유저가 대량 구매 후 가격을 올리는 행위가 의심됩니다."
-                value={reportData.details}
-                onChange={handleInputChange}
-                rows={5}
+                placeholder="내용을 입력해주세요."
                 required
+                value={reportData.details}
+                className="resize-none min-h-24"
+                onChange={handleInputChange}
               />
             </div>
           </div>
