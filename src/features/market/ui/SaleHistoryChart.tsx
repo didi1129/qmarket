@@ -72,6 +72,7 @@ export default function SaleHistoryChart({ data }: SaleHistoryChartProps) {
             dot={{ r: 4 }}
             activeDot={{ r: 8 }}
             strokeWidth={2}
+            fill="#3b82f6"
           />
         </LineChart>
       </ResponsiveContainer>
