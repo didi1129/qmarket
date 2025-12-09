@@ -18,7 +18,7 @@ export default async function MyItemsPage() {
   if (error || !user) {
     return (
       <div className="flex items-center justify-center lg:max-w-6xl mx-auto lg:px-0 px-4">
-        회원 정보를 찾을 수 없습니다.
+        로그인이 필요합니다.
       </div>
     );
   }

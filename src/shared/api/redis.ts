@@ -1,7 +1,7 @@
 import { Redis } from "@upstash/redis";
 
 const TTL_SECONDS = 60 * 60 * 24; // 24시간
-const DAILY_LIMIT = 12; // 하루 12회
+export const DAILY_LIMIT = 12; // 하루 12회
 // const TTL_SECONDS = 10; // 테스트용
 // const DAILY_LIMIT = 3;
 
@@ -73,4 +73,16 @@ export async function getRemainingTime(userId: string): Promise<number> {
   return ttl > 0 ? ttl : 0;
 }
 
-export { DAILY_LIMIT };
+// 아이템 삭제 시 등록 횟수 1회 복구
+export async function restoreDailyItemCount(userId: string): Promise<void> {
+  const redis = getRedisClient();
+  const today = new Date().toISOString().slice(0, 10);
+  const rateLimitKey = `rate:insert:items:${userId}:${today}`;
+
+  const currentCount = await redis.get<number>(rateLimitKey);
+
+  // 카운트 음수 방지
+  if (currentCount && currentCount > 0) {
+    await redis.decr(rateLimitKey);
+  }
+}

@@ -9,6 +9,7 @@ import { ITEMS_TABLE_NAME } from "@/shared/config/constants";
 import { getSupabaseClientCookie } from "@/shared/api/supabase-cookie";
 import preventCreateExistingItem from "@/features/item/model/preventCreateExistingItem";
 import { getRemainingTime } from "@/shared/api/redis";
+import { restoreDailyItemCount } from "@/shared/api/redis";
 
 interface ItemFormValues {
   id?: number;
@@ -101,4 +102,14 @@ export async function getRemainingTimeAction(): Promise<number> {
   if (!user) return 0;
 
   return await getRemainingTime(user.id);
+}
+
+// 아이템 삭제 시 등록 횟수 1회 복구
+export async function restoreDailyItemCountAction(userId: string) {
+  try {
+    await restoreDailyItemCount(userId);
+  } catch (error) {
+    console.error("Failed to decrease daily count:", error);
+    throw new Error("서버에서 횟수 복구 중 오류가 발생했습니다.");
+  }
 }

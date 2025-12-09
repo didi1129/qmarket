@@ -17,6 +17,7 @@ import { toast } from "sonner";
 import { supabase } from "@/shared/api/supabase-client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ITEMS_TABLE_NAME } from "@/shared/config/constants";
+import { restoreDailyItemCountAction } from "@/app/actions/item-actions";
 
 interface Props {
   itemId: number;
@@ -44,6 +45,14 @@ export function ItemDeleteModal({ itemId, userId }: Props) {
         .eq("user_id", user.id);
 
       if (error) throw new Error(error.message);
+
+      // 아이템 등록 횟수 1회 복구
+      try {
+        await restoreDailyItemCountAction(userId);
+      } catch (redisError) {
+        console.error("Redis count update failed:", redisError);
+      }
+
       return itemId;
     },
 
@@ -51,6 +60,9 @@ export function ItemDeleteModal({ itemId, userId }: Props) {
       toast.success("아이템을 삭제했습니다.");
       queryClient.invalidateQueries({ queryKey: ["my-items", userId] });
       queryClient.invalidateQueries({ queryKey: ["filtered-items", userId] });
+      queryClient.invalidateQueries({
+        queryKey: ["item-create-limit-count", userId],
+      });
     },
 
     onError: (err) => {
