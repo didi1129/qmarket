@@ -49,7 +49,7 @@ export async function createItem(values: ItemFormValues) {
 
   if (error) throw new Error(error.message);
 
-  // 아이템 등록 사용 횟수 증가
+  // 아이템 등록 잔여 횟수 차감
   const currentCount = await checkAndIncrementDailyItemLimit(user.id);
   const remaining = DAILY_LIMIT - currentCount;
 

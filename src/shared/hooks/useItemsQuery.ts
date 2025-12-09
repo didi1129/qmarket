@@ -12,7 +12,6 @@ export const useItemsQuery = () => {
       if (error) throw error;
       return data;
     },
-    staleTime: Infinity,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
     refetchOnMount: false,

@@ -82,11 +82,6 @@ export default function ItemForm({
     formState: { errors },
   } = form;
 
-  // 자동완성에서 선택했는지 추적
-  const [isFromSuggestion, setIsFromSuggestion] = useState(
-    initialData?.image !== "/images/empty.png"
-  );
-
   const createItemMutation = useCreateItemMutation({
     onSuccessCallback: onSuccess,
     isForSale: isForSale,
@@ -98,29 +93,22 @@ export default function ItemForm({
   });
 
   const onSubmit = (values: ItemFormType) => {
-    const payload = {
-      ...values,
-      image: isFromSuggestion ? values.image : "/images/empty.png",
-    };
-
     if (initialData) {
       updateItemMutation.mutate(
         {
           id: initialData.id,
-          data: payload,
+          data: values,
         },
         {
           onSuccess: () => {
             reset();
-            setIsFromSuggestion(false);
           },
         }
       );
     } else {
-      createItemMutation.mutate(payload, {
+      createItemMutation.mutate(values, {
         onSuccess: () => {
           reset();
-          setIsFromSuggestion(false);
         },
       });
     }
@@ -144,7 +132,7 @@ export default function ItemForm({
             {watchedImage && (
               <div className="mb-4">
                 <img
-                  src={!isFromSuggestion ? "/images/empty.png" : watchedImage}
+                  src={watchedImage}
                   alt="미리보기"
                   className="w-24 h-24 object-contain rounded-md border"
                 />
@@ -161,12 +149,9 @@ export default function ItemForm({
                   className="w-full [&_svg]:size-5 [&_svg]:right-4"
                   onSearch={(value) => {
                     field.onChange(value);
-                    setIsFromSuggestion(false); // 직접 입력 시 자동완성 여부 false 처리
-                    form.setValue("image", "/images/empty.png");
                   }}
                   onSelectSuggestion={(s) => {
                     field.onChange(s.name);
-                    setIsFromSuggestion(true);
 
                     const categoryKey = Object.entries(ITEM_CATEGORY_MAP).find(
                       ([_key, label]) => label === s.category
@@ -201,44 +186,6 @@ export default function ItemForm({
               </p>
             )}
           </div>
-
-          {/* 성별 선택 - 아이템 직접 입력 시에만 표시 */}
-          {!isFromSuggestion && watchedItemName && (
-            <div className="grid gap-3">
-              <label htmlFor="item_gender" className="text-sm">
-                성별
-              </label>
-              <Controller
-                name="item_gender"
-                control={control}
-                render={({ field }) => (
-                  <div className="flex gap-2">
-                    <Button
-                      type="button"
-                      variant={field.value === "m" ? "default" : "outline"}
-                      className="flex-1"
-                      onClick={() => field.onChange("m")}
-                    >
-                      남
-                    </Button>
-                    <Button
-                      type="button"
-                      variant={field.value === "w" ? "default" : "outline"}
-                      className="flex-1"
-                      onClick={() => field.onChange("w")}
-                    >
-                      여
-                    </Button>
-                  </div>
-                )}
-              />
-              {errors.item_gender && (
-                <p className="text-red-600 text-sm mt-1">
-                  {errors.item_gender.message}
-                </p>
-              )}
-            </div>
-          )}
 
           <div className="grid gap-3">
             <label htmlFor="price" className="text-sm">

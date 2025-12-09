@@ -77,7 +77,6 @@ export default function SearchInput({
     () =>
       debounce((val: string) => {
         onSearch?.(val);
-        // refetch(); // React Query 검색 수행
       }, 300),
     [refetch]
   );
