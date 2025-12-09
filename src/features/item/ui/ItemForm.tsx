@@ -259,8 +259,9 @@ export default function ItemForm({
               render={({ field }) => (
                 <Textarea
                   id="message"
-                  placeholder="인게임 닉네임, 디스코드 닉네임 등 연락 가능한 정보와 함께 적어주시면 원활한 거래에 도움이 됩니다."
+                  placeholder="인게임 닉네임 등 연락 가능한 정보와 함께 적어주시면 원활한 거래에 도움이 됩니다."
                   value={field.value}
+                  className="resize-none min-h-20"
                   onChange={(e) => field.onChange(e.target.value)}
                 />
               )}

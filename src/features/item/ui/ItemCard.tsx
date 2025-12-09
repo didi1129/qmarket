@@ -109,6 +109,13 @@ const ItemCard = ({ item, userId }: ItemCardProps) => {
             {formatRelativeTime(item.created_at)}
           </span>
 
+          {/* 거래완료일시 */}
+          {item.updated_at && item.is_sold && (
+            <span className="text-foreground/50">
+              거래완료: {formatRelativeTime(item.updated_at)}
+            </span>
+          )}
+
           {/* 마이 페이지 actions */}
           {pathname.includes("my-items") && (
             <div className="flex items-center mt-1 gap-1 self-start">

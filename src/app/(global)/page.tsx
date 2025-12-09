@@ -21,13 +21,13 @@ export default async function Home() {
     <main className="flex mt-8">
       <section className="flex flex-col w-full gap-8 items-center">
         {/* 아이템 검색 */}
-        <div className="mb-16 flex flex-col gap-2 items-center md:w-xl w-full max-w-md">
+        <div className="mb-12 flex flex-col gap-2 items-center md:w-xl w-full max-w-md">
           <div className="mb-4 text-center space-y-2">
             <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
               Q-Market
             </h2>
             <p className="text-foreground/50 text-sm">
-              큐플레이 아이템 판매/구매 등록 및 조회, 아이템 상세 정보, 시세
+              큐플레이 아이템 구매/판매 등록 및 조회, 아이템 상세 정보, 시세
               조회
             </p>
           </div>
@@ -36,7 +36,7 @@ export default async function Home() {
         </div>
 
         {/* 이번 달 로테이션 */}
-        <div className="mb-16 w-full max-w-4xl">
+        <div className="mb-12 w-full max-w-4xl">
           <div className="flex items-center justify-between mb-4 px-2">
             <h3 className="font-bold text-2xl flex items-center gap-2">
               ✨ 이번 달 로테이션

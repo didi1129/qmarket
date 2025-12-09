@@ -33,7 +33,10 @@ export default function ItemUpdateModal({ item }: ItemUpdateModalProps) {
         <Pencil />
       </Button>
 
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent
+        className="sm:max-w-[425px]"
+        onOpenAutoFocus={(e) => e.preventDefault()}
+      >
         <DialogHeader className="mb-4">
           <DialogTitle>아이템 수정</DialogTitle>
           <DialogDescription></DialogDescription>

@@ -113,7 +113,10 @@ export default function Header() {
               </DropdownMenu>
             ) : (
               <Button
-                className="bg-discord hover:bg-discord-hover"
+                className="bg-discord hover:bg-discord-hover focus-visible:ring-2
+      focus-visible:ring-black
+      focus-visible:ring-offset-2"
+                style={{}}
                 onClick={handleSignIn}
               >
                 <DiscordIcon className="w-6 h-6 text-white" /> 로그인

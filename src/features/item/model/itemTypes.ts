@@ -28,6 +28,7 @@ export interface Item {
   user_id: string; // 아이템 등록 유저 uuid (디스코드 uuid)
   category: ItemCategory; // 아이템 카테고리
   created_at: string; // 아이템 등록일
+  updated_at?: string; // 아이템 등록일
   message: string; // 유저 메시지
 }
 
