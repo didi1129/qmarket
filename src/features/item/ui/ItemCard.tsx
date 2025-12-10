@@ -49,7 +49,7 @@ const ItemCard = ({ item, userId }: ItemCardProps) => {
 
       {/* 아이템 정보 */}
       <div className="flex justify-between w-full">
-        <div className="flex flex-col">
+        <div className="flex flex-col shrink-0">
           <h3 className="text-sm font-medium truncate">
             <Link
               href={`/item/${encodedItemName}/${encodedItemGender}`}
@@ -90,18 +90,16 @@ const ItemCard = ({ item, userId }: ItemCardProps) => {
         </div>
 
         {/* 아이템 등록 유저 정보 */}
-        <div className="flex flex-col items-end gap-1 text-xs mt-1">
+        <div className="flex flex-col items-end gap-1 text-xs mt-1 text-right">
           {!pathname.includes("my-items") && !pathname.includes("user") && (
             <>
               <Link
                 href={`/user/${item.user_id}`}
                 className="flex font-medium group hover:text-blue-600 hover:underline underline-offset-2"
               >
-                {item.nickname}(
-                {item.discord_id.length > 8
-                  ? `${item.discord_id.slice(0, 8)}...`
-                  : item.discord_id}
-                )
+                {item.nickname.length > 6
+                  ? `${item.nickname.slice(0, 6)}...`
+                  : item.nickname}
                 <ExternalLink className="mt-0.5 shrink-0 size-3 text-foreground/70 inline-block ml-0.5 group-hover:text-blue-600" />
               </Link>
             </>
