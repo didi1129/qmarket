@@ -26,7 +26,7 @@ export default async function Home() {
             <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
               Q-Market
             </h2>
-            <p className="text-foreground/50 text-sm">
+            <p className="text-foreground/50 text-sm max-w-[70%] mx-auto md:max-w-none md:mx-0">
               큐플레이 아이템 구매/판매 등록 및 조회, 아이템 상세 정보, 시세
               조회
             </p>
@@ -97,7 +97,7 @@ export default async function Home() {
                 <ExternalLink className="size-4" />
               </h3>
               <p className="text-muted-foreground">
-                지난 달의 로테이션 아이템들을 확인해보세요.
+                지난 달 로테이션 아이템 리스트입니다.
               </p>
             </div>
           </Link>
@@ -116,8 +116,7 @@ export default async function Home() {
           <div className="p-6 rounded-2xl bg-card border hover:border-primary/50 transition-colors h-full break-keep">
             <h3 className="text-lg font-semibold mb-2">아이템 정보 조회</h3>
             <p className="text-muted-foreground">
-              아이템 판매/구매 현황, 출처, 시세 등 다양한 정보를 확인할 수
-              있습니다.
+              아이템 판매/구매 현황, 출처, 시세 등 다양한 정보를 확인해보세요.
             </p>
           </div>
         </div>
