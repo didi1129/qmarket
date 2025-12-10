@@ -129,15 +129,13 @@ export default function ItemForm({
               아이템명
             </label>
 
-            {watchedImage && (
-              <div className="mb-4">
-                <img
-                  src={watchedImage}
-                  alt="미리보기"
-                  className="w-24 h-24 object-contain rounded-md border"
-                />
-              </div>
-            )}
+            <div className="mb-4">
+              <img
+                src={watchedImage ?? "/images/empty.png"}
+                alt="미리보기"
+                className="w-24 h-24 object-contain rounded-md border"
+              />
+            </div>
 
             <Controller
               name="item_name"
