@@ -8,6 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/shared/ui/dialog";
+import { Tooltip, TooltipTrigger, TooltipContent } from "@/shared/ui/tooltip";
 import { toast } from "sonner";
 import { Lock, Plus } from "lucide-react";
 import { useUser } from "@/shared/hooks/useUser";
@@ -43,14 +44,32 @@ export default function SellingItemCreateModal() {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <Button
-        variant="default"
-        className="w-auto font-bold bg-blue-600 hover:bg-blue-700"
-        disabled={isDisabled}
-        onClick={handleItemUploadOpen}
-      >
-        {user ? <Plus /> : <Lock />} 판매 아이템 등록
-      </Button>
+      {user ? (
+        <Button
+          variant="default"
+          className="w-auto font-bold bg-blue-600 hover:bg-blue-700"
+          disabled={isDisabled}
+          onClick={handleItemUploadOpen}
+        >
+          <Plus /> 판매 아이템 등록
+        </Button>
+      ) : (
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <span>
+              <Button
+                variant="default"
+                className="w-full font-bold bg-blue-600 hover:bg-blue-700"
+                disabled={isDisabled}
+                onClick={handleItemUploadOpen}
+              >
+                <Lock /> 판매 아이템 등록
+              </Button>
+            </span>
+          </TooltipTrigger>
+          <TooltipContent>로그인이 필요합니다.</TooltipContent>
+        </Tooltip>
+      )}
 
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader className="mb-4">

@@ -2,6 +2,7 @@ import ItemCategoryNav from "@/features/items/ui/ItemCategoryNav";
 import Link from "next/link";
 import { ExternalLink } from "lucide-react";
 import SearchBar from "@/features/item-search/ui/SearchBar";
+import ItemList from "@/features/items/ui/ItemList";
 
 export default async function Home() {
   const now = new Date();
@@ -19,9 +20,9 @@ export default async function Home() {
 
   return (
     <main className="flex mt-8">
-      <section className="flex flex-col w-full gap-8 items-center">
+      <div className="flex flex-col w-full gap-8 items-center">
         {/* 아이템 검색 */}
-        <div className="mb-12 flex flex-col gap-2 items-center md:w-xl w-full max-w-md">
+        <section className="mb-12 flex flex-col gap-2 items-center md:w-xl w-full max-w-md">
           <div className="mb-4 text-center space-y-2">
             <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
               Q-Market
@@ -33,15 +34,13 @@ export default async function Home() {
           </div>
 
           <SearchBar className="w-full [&_input]:!max-w-none [&_input]:rounded-full md:[&_input]:!text-lg [&_input]:h-auto md:[&_input]:!px-6 md:[&_input]:!py-4" />
-        </div>
+        </section>
 
         {/* 이번 달 로테이션 */}
-        <div className="mb-12 w-full max-w-4xl">
-          <div className="flex items-center justify-between mb-4 px-2">
-            <h3 className="font-bold text-2xl flex items-center gap-2">
-              ✨ 이번 달 로테이션
-            </h3>
-          </div>
+        <section className="mb-12 w-full max-w-4xl">
+          <h3 className="font-bold text-2xl flex items-center gap-2 mb-4">
+            ✨ 이번 달 로테이션
+          </h3>
 
           <Link href="/rotation-items/new" className="group block">
             {/* 좌측 상단 배경 그라데이션 */}
@@ -73,20 +72,61 @@ export default async function Home() {
               </div>
             </div>
           </Link>
-        </div>
+        </section>
 
         {/* 아이템 카테고리 메뉴 */}
-        <div className="w-full max-w-4xl">
-          <div className="mb-4">
-            <h2 className="text-2xl font-bold tracking-tight mb-2">
-              🧭 아이템 카테고리별 조회
-            </h2>
-          </div>
+        <section className="w-full max-w-4xl mb-12">
+          <h2 className="text-2xl font-bold tracking-tight mb-4">
+            🧭 아이템 카테고리별 조회
+          </h2>
 
           <div className="p-4 md:p-6 rounded-3xl bg-card border shadow-sm flex justify-center items-center">
             <ItemCategoryNav />
           </div>
-        </div>
+        </section>
+
+        {/* 최근 판매/구매해요 10개 */}
+        <section className="w-full max-w-4xl mb-12">
+          <div className="mb-4">
+            <h2 className="text-2xl font-bold tracking-tight mb-2">
+              ⭐ 최근 판매/구매 현황
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
+            {/* 판매해요 */}
+            <div className="flex flex-col gap-2">
+              <h3 className="md:text-lg font-bold text-base">
+                판매해요
+                <span className="text-sm text-foreground/50 font-normal">
+                  (10개)
+                </span>
+              </h3>
+              <ItemList
+                isForSale={true}
+                isSold={false}
+                limit={10}
+                className="pb-0"
+              />
+            </div>
+
+            {/* 구매해요 */}
+            <div className="flex flex-col gap-2">
+              <h3 className="md:text-lg font-bold text-base">
+                구매해요
+                <span className="text-sm text-foreground/50 font-normal">
+                  (10개)
+                </span>
+              </h3>
+              <ItemList
+                isForSale={false}
+                isSold={false}
+                limit={10}
+                className="pb-0"
+              />
+            </div>
+          </div>
+        </section>
 
         {/* 하단 그리드 메뉴 */}
         <div className="w-full grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl">
@@ -113,14 +153,18 @@ export default async function Home() {
             </div>
           </Link>
 
-          <div className="p-6 rounded-2xl bg-card border hover:border-primary/50 transition-colors h-full break-keep">
-            <h3 className="text-lg font-semibold mb-2">아이템 정보 조회</h3>
-            <p className="text-muted-foreground">
-              아이템 판매/구매 현황, 출처, 시세 등 다양한 정보를 확인해보세요.
-            </p>
-          </div>
+          <Link href="/items">
+            <div className="p-6 rounded-2xl bg-card border hover:border-primary/50 transition-colors h-full break-keep">
+              <h3 className="text-lg font-semibold mb-2 flex items-center gap-1">
+                전체 구매/판매 현황 <ExternalLink className="size-4" />
+              </h3>
+              <p className="text-muted-foreground">
+                등록된 전체 구매해요/판매해요 목록을 둘러보세요.
+              </p>
+            </div>
+          </Link>
         </div>
-      </section>
+      </div>
     </main>
   );
 }

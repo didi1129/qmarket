@@ -13,6 +13,7 @@ interface getFilteredItemsProps {
   maxPrice?: number;
   sortBy?: "created_at" | "price";
   sortOrder?: "asc" | "desc";
+  limit?: number;
 }
 
 const getFilteredItems = async ({
@@ -25,6 +26,7 @@ const getFilteredItems = async ({
   maxPrice,
   sortBy = "created_at",
   sortOrder = "desc",
+  limit,
 }: getFilteredItemsProps) => {
   let query = supabase
     .from(ITEMS_TABLE_NAME)
@@ -45,6 +47,9 @@ const getFilteredItems = async ({
   }
   if (isSold !== undefined) {
     query = query.eq("is_sold", isSold);
+  }
+  if (limit !== undefined) {
+    query = query.limit(limit);
   }
 
   // 가격 필터
