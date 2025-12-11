@@ -20,6 +20,7 @@ interface ItemListProps {
     sortBy?: "created_at" | "price";
     sortOrder?: "asc" | "desc";
   };
+  limit?: number;
 }
 
 export default function ItemList({
@@ -33,6 +34,7 @@ export default function ItemList({
     sortBy: "created_at",
     sortOrder: "desc",
   },
+  limit,
 }: ItemListProps) {
   const { data, isPending } = useQuery({
     queryKey: [
@@ -46,6 +48,7 @@ export default function ItemList({
       filterParams.maxPrice,
       filterParams.sortBy,
       filterParams.sortOrder,
+      limit,
     ],
     queryFn: () =>
       getFilteredItems({
@@ -55,6 +58,7 @@ export default function ItemList({
         isForSale,
         isSold,
         ...filterParams,
+        limit,
       }),
     staleTime: 5 * 60 * 1000,
     gcTime: 10 * 60 * 1000,
