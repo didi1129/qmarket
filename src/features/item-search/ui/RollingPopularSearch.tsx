@@ -97,7 +97,7 @@ export default function RollingPopularSearch({
           </DropdownMenuTrigger>
         </div>
 
-        {/* 4. 드롭다운 컨텐츠 */}
+        {/* 드롭다운 컨텐츠 */}
         <DropdownMenuContent
           className="md:w-[220px] max-h-[400px] overflow-y-auto rounded-xl p-2"
           align="start"
@@ -105,7 +105,12 @@ export default function RollingPopularSearch({
         >
           {data.map((item, idx) => {
             const itemName = item.keyword.split("(")[0];
-            const itemGender = item.keyword.split("(")[1]?.slice(0, 1);
+            const lastOpenParentheses = item.keyword.lastIndexOf("(");
+            const lastCloseParentheses = item.keyword.lastIndexOf(")");
+            const itemGender = item.keyword.slice(
+              lastOpenParentheses + 1,
+              lastCloseParentheses
+            );
 
             return (
               <DropdownMenuItem key={item.keyword} asChild>
