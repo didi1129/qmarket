@@ -33,8 +33,8 @@ export default function PatchNotePage() {
               className="object-contain my-4"
             />
             <p className="leading-relaxed">
-              - 거래 인증 이미지 등록 후, '완료하기' 버튼을 눌러주시면 구매/판매
-              완료 처리가 됩니다.
+              - 거래 인증 이미지 등록 후 <b>&apos;완료하기&apos;</b> 버튼을
+              눌러주시면 구매/판매 완료 처리가 됩니다.
             </p>
             <p className="leading-relaxed">
               - 등록하신 인증샷은 거래 완료 아이템의 메시지 툴팁에서 확인하실 수
