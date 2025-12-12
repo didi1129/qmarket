@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/shared/ui/button";
 import {
   Dialog,
@@ -72,8 +74,8 @@ const CreateInquiryModal = ({ trigger }: { trigger?: ReactNode }) => {
     <Dialog>
       <DialogTrigger asChild>
         {trigger || (
-          <Button variant="outline" size="icon">
-            <MailQuestionMark />
+          <Button variant="link" size="sm" className="p-0 text-xs">
+            문의하기
           </Button>
         )}
       </DialogTrigger>
@@ -81,7 +83,9 @@ const CreateInquiryModal = ({ trigger }: { trigger?: ReactNode }) => {
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader className="mb-4">
           <DialogTitle className="text-left">문의하기</DialogTitle>
-          <DialogDescription></DialogDescription>
+          <DialogDescription className="break-keep">
+            문의사항, 건의사항, 아이템 정보 수정 등 다양한 의견을 받습니다.
+          </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)}>

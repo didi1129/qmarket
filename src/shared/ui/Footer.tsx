@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { cn } from "../lib/utils";
+import CreateInquiryModal from "@/features/inquiry/ui/CreateInquiryModal";
+import CreateReportModal from "@/features/report/ui/CreateReportModal";
 
 export default function Footer({ className }: { className?: string }) {
   const currentYear = new Date().getFullYear();
@@ -15,6 +17,12 @@ export default function Footer({ className }: { className?: string }) {
         <div className="flex flex-col gap-2 text-xs text-foreground/50">
           <p>&copy; {currentYear} Q-Market.</p>
           <Link href="/terms">이용약관 | 개인정보처리방침</Link>
+        </div>
+
+        <div className="flex items-center">
+          <CreateInquiryModal />
+          <span className="text-[12px] mx-1">|</span>
+          <CreateReportModal />
         </div>
       </div>
     </footer>
