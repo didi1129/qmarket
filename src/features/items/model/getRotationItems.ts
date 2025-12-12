@@ -46,7 +46,7 @@ const getRotationItems = async ({
         apikey: ANON_KEY,
         Authorization: `Bearer ${ANON_KEY}`,
       },
-      cache: "force-cache", // 정적 렌더링(ssg), db에서 rotation_date 업데이트 해주고 빌드+push
+      cache: "no-store", // 빌드 시 변경
     });
 
     if (!response.ok) {
