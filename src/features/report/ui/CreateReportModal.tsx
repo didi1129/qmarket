@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/shared/ui/button";
 import {
   Dialog,
@@ -80,8 +82,8 @@ const CreateReportModal = () => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="icon" title="신고하기">
-          <Siren className="h-4 w-4" />
+        <Button variant="link" size="sm" className="p-0 text-xs">
+          신고
         </Button>
       </DialogTrigger>
 
@@ -89,6 +91,8 @@ const CreateReportModal = () => {
         <DialogHeader className="mb-4">
           <DialogTitle className="text-left">🚨 신고하기</DialogTitle>
           <DialogDescription className="break-keep text-left">
+            사기 행위, 시세 조작, 비매너 행위 등의 내용을 제보해주세요.
+            <br />
             허위 신고 시 계정이 제재될 수 있습니다.
           </DialogDescription>
         </DialogHeader>

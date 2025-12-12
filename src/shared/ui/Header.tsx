@@ -4,7 +4,6 @@ import { Button } from "@/shared/ui/button";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/shared/hooks/useUser";
 import { toast } from "sonner";
-import CreateReportModal from "@/features/report/ui/CreateReportModal";
 import { login, logout } from "@/features/auth/signin/model/actions";
 import DiscordIcon from "@/shared/assets/icons/DiscordIcon";
 import Image from "next/image";
@@ -16,7 +15,7 @@ import {
   DropdownMenuTrigger,
 } from "@/shared/ui/dropdown-menu";
 import { useQueryClient } from "@tanstack/react-query";
-import { BadgeQuestionMark, Menu, LogOut } from "lucide-react";
+import { BadgeQuestionMark, Menu, LogOut, BookPlus } from "lucide-react";
 import SearchBar from "@/features/item-search/ui/SearchBar";
 import Link from "next/link";
 import dynamic from "next/dynamic";
@@ -24,11 +23,6 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "./sheet";
 import { usePathname } from "next/navigation";
 import { cn } from "../lib/utils";
 import { useState } from "react";
-
-const DynamicCreateInquiryModal = dynamic(
-  () => import("@/features/inquiry/ui/CreateInquiryModal"),
-  { ssr: false } // 서버 렌더링 비활성화
-);
 
 const DynamicSheetTrigger = dynamic(
   () => import("./sheet").then((mod) => mod.SheetTrigger),
@@ -83,6 +77,30 @@ export default function Header() {
               "w-full": pathname === "/",
             })}
           >
+            {/* actions */}
+            <Button
+              size="icon"
+              title="FAQ"
+              variant="outline"
+              onClick={() => {
+                router.push("/faq");
+                setIsSidebarOpen(false);
+              }}
+            >
+              <BadgeQuestionMark />
+            </Button>
+            <Button
+              size="icon"
+              title="패치노트"
+              variant="outline"
+              onClick={() => {
+                router.push("/patch-note");
+                setIsSidebarOpen(false);
+              }}
+            >
+              <BookPlus />
+            </Button>
+
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger className="shrink-0 bg-discord hover:bg-discord-hover flex gap-1 px-3 rounded-md items-center border-discord text-white text-sm">
@@ -97,7 +115,7 @@ export default function Header() {
                   </figure>
                   {user.user_metadata.custom_claims.global_name}
                 </DropdownMenuTrigger>
-                <DropdownMenuContent>
+                <DropdownMenuContent align="end">
                   <DropdownMenuItem onClick={() => router.push("/my-items")}>
                     마이페이지
                   </DropdownMenuItem>
@@ -116,20 +134,6 @@ export default function Header() {
                 <DiscordIcon className="w-6 h-6 text-white" /> 로그인
               </Button>
             )}
-
-            {/* actions */}
-            <Button
-              size="icon"
-              variant="outline"
-              onClick={() => {
-                router.push("/faq");
-                setIsSidebarOpen(false);
-              }}
-            >
-              <BadgeQuestionMark />
-            </Button>
-            <DynamicCreateInquiryModal />
-            {user && <CreateReportModal />}
           </div>
         </div>
 
@@ -199,8 +203,6 @@ export default function Header() {
                     >
                       <BadgeQuestionMark />
                     </Button>
-                    <DynamicCreateInquiryModal />
-                    {user && <CreateReportModal />}
                   </div>
                 </div>
 
