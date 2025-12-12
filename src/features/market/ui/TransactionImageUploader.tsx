@@ -9,8 +9,10 @@ const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
 
 export default function TransactionImageUploader({
   onUpload,
+  onFileChange,
 }: {
   onUpload?: (v: string) => void;
+  onFileChange?: (v: File | undefined) => void;
 }) {
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -25,6 +27,9 @@ export default function TransactionImageUploader({
     }
 
     setFile(e.target.files?.[0] || null);
+    setIsSucceeded(false);
+
+    onFileChange?.(file);
   };
 
   const handleUpload = async () => {
@@ -43,9 +48,9 @@ export default function TransactionImageUploader({
       });
 
       if (res.ok) {
+        // 업로드 성공 시에만 onUpload 호출
         onUpload?.(fileUrl);
         toast.success("거래 인증 등록에 성공했습니다.");
-        setFile(null); // 파일 선택 초기화
         setIsSucceeded(true);
       }
     } catch (error) {
@@ -63,11 +68,12 @@ export default function TransactionImageUploader({
           type="file"
           accept="image/*"
           onChange={handleFileChange}
-          className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700"
+          disabled={uploading || isSucceeded}
+          className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 disabled:file:text-foreground/50 disabled:file:bg-gray-200"
         />
         <Button
           onClick={handleUpload}
-          disabled={uploading || !file}
+          disabled={uploading || !file || isSucceeded}
           className="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium disabled:bg-gray-400"
         >
           {uploading ? "등록 중..." : isSucceeded ? "등록 완료" : "인증 등록"}

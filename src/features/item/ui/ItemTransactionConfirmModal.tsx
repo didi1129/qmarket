@@ -17,6 +17,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateItemToSold } from "../model/updateItemToSold";
 import { useState } from "react";
 import TransactionImageUploader from "@/features/market/ui/TransactionImageUploader";
+import Image from "next/image";
 
 interface Props {
   itemId: number;
@@ -35,6 +36,25 @@ export default function ItemTransactionConfirmModal({
 
   // 거래 인증 이미지 url
   const [transactionImageUrl, setTransactionImageUrl] = useState("");
+  // 거래 인증 이미지 미리보기
+  const [preview, setPreview] = useState("");
+
+  const handleFileChange = (file: File | undefined) => {
+    if (file) {
+      // 파일 선택 시 미리보기 생성
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setPreview("");
+    }
+  };
+
+  const handleImageUpload = (imgUrl: string) => {
+    setTransactionImageUrl(imgUrl);
+  };
 
   const markAsSoldMutation = useMutation({
     mutationFn: () => updateItemToSold(itemId, isForSale, transactionImageUrl),
@@ -59,8 +79,16 @@ export default function ItemTransactionConfirmModal({
     setIsOpen(true);
   };
 
+  const handleOpenChange = (open: boolean) => {
+    setIsOpen(open);
+    if (!open) {
+      setPreview("");
+      setTransactionImageUrl("");
+    }
+  };
+
   return (
-    <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+    <AlertDialog open={isOpen} onOpenChange={handleOpenChange}>
       <AlertDialogTrigger asChild>
         <Tooltip>
           <TooltipTrigger asChild>
@@ -88,7 +116,20 @@ export default function ItemTransactionConfirmModal({
 
         <div className="flex flex-col gap-2">
           <h4 className="font-medium text-sm">거래 인증 이미지 등록</h4>
-          <TransactionImageUploader onUpload={setTransactionImageUrl} />
+          <TransactionImageUploader
+            onFileChange={handleFileChange}
+            onUpload={handleImageUpload}
+          />
+          {preview && (
+            <div className="relative w-32 h-32 rounded-md overflow-hidden border border-gray-300">
+              <Image
+                src={preview}
+                alt="Transaction Image Preview"
+                layout="fill"
+                objectFit="cover"
+              />
+            </div>
+          )}
         </div>
 
         <AlertDialogFooter>

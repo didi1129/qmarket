@@ -41,9 +41,6 @@ export function PatchNotePopup() {
           </DialogDescription>
         </DialogHeader>
         <div className="flex justify-end gap-2 mt-4">
-          <Button variant="outline" onClick={handleClose}>
-            닫기
-          </Button>
           <Button
             onClick={() => {
               handleClose();
@@ -51,6 +48,9 @@ export function PatchNotePopup() {
             }}
           >
             확인하러 가기
+          </Button>
+          <Button variant="outline" onClick={handleClose}>
+            닫기
           </Button>
         </div>
       </DialogContent>
