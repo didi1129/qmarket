@@ -26,7 +26,7 @@ export default async function UserDetailPage({
   return (
     <div className="lg:max-w-6xl mx-auto lg:px-0 px-4">
       <ButtonToBack className="mb-0" />
-      <UserDetailSection user={user} />
+      <UserDetailSection user={user} isMyPage={false} />
     </div>
   );
 }

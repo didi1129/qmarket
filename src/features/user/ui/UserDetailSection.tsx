@@ -6,13 +6,17 @@ import { UserDetail } from "../model/userTypes";
 import SectionTitle from "@/shared/ui/SectionTitle";
 import MyItemRequestSection from "./MyItemRequestSection";
 import LoadingSpinner from "@/shared/ui/LoadingSpinner";
-import UserItemListHeaderClient from "./UserItemListHeaderClient";
+import UserItemListHeader from "./UserItemListHeader";
 
 interface UserDetailProps {
   user: UserDetail;
+  isMyPage?: boolean;
 }
 
-export default async function UserDetailSection({ user }: UserDetailProps) {
+export default async function UserDetailSection({
+  user,
+  isMyPage,
+}: UserDetailProps) {
   const supabase = await getSupabaseServerCookie();
   const {
     data: { user: loginUser },
@@ -70,13 +74,13 @@ export default async function UserDetailSection({ user }: UserDetailProps) {
       {/* 우측 컨텐츠 (삽니다/팝니다 목록) */}
       <section className="grow md:mt-0 mt-8">
         {/* 구매/판매 등록 버튼 (마이페이지 전용) */}
-        <UserItemListHeaderClient user={user} />
+        {isMyPage && <UserItemListHeader />}
 
         {/* 전체 공개: 팝니다/삽니다 목록 */}
         <BuySellListSection />
 
         {/* 아이템 등록 요청 정보 (마이페이지 전용) */}
-        {loginUser?.id === user.id && <MyItemRequestSection />}
+        {isMyPage && <MyItemRequestSection userId={user.id} />}
       </section>
     </div>
   );

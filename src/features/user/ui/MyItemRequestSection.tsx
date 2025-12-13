@@ -1,32 +1,39 @@
 import SectionTitle from "@/shared/ui/SectionTitle";
-import { supabaseServer } from "@/shared/api/supabase-server";
-import { unstable_cache } from "next/cache";
 import { Info } from "lucide-react";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/shared/ui/tooltip";
 
-const getItemRequests = unstable_cache(
-  async () => {
-    const { data, error } = await supabaseServer
-      .from("item_reg_request")
-      .select("id, item_name, item_gender, isRegistered")
-      .order("created_at", { ascending: false });
+interface ItemRequest {
+  id: number;
+  item_name: string;
+  item_gender: string;
+  isRegistered: boolean;
+}
 
-    if (error) {
-      console.error("데이터 불러오기 실패:", error);
-      return [];
+const getItemRequests = async (userId: string) => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/item-requests?userId=${userId}`,
+    {
+      next: {
+        revalidate: 86400, // 24시간 재검증
+        tags: [`item-reg-requests-${userId}`],
+      },
     }
+  );
 
-    return data || [];
-  },
-  ["item-reg-requests"],
-  {
-    tags: ["item-reg-requests"],
-    revalidate: 86400, // 24시간 후 서버 동기화
+  if (!response.ok) {
+    console.error(`API 호출 실패: ${response.status} ${response.statusText}`);
+    return [];
   }
-);
 
-export default async function MyItemRequestSection() {
-  const data = await getItemRequests();
+  return response.json();
+};
+
+export default async function MyItemRequestSection({
+  userId,
+}: {
+  userId: string;
+}) {
+  const data = await getItemRequests(userId);
 
   return (
     <section className="md:pl-8">
@@ -37,8 +44,8 @@ export default async function MyItemRequestSection() {
             <Info className="size-4 text-foreground/50" />
           </TooltipTrigger>
           <TooltipContent className="text-sm">
-            검색되지 않는 아이템의 등록 요청 내역입니다. 등록 완료 시 목록에서
-            사라집니다.
+            검색되지 않는 아이템을 등록 요청하신 내역입니다. 등록 완료 시
+            목록에서 사라집니다.
           </TooltipContent>
         </Tooltip>
       </SectionTitle>
@@ -49,7 +56,7 @@ export default async function MyItemRequestSection() {
         </p>
       ) : (
         <ul className="flex gap-2 flex-wrap">
-          {data.map((d) => (
+          {data.map((d: ItemRequest) => (
             <li
               key={d.id}
               className={`p-3 mb-2 border border-gray-300 rounded-lg w-auto ${
