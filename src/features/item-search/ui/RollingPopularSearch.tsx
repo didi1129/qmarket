@@ -39,7 +39,7 @@ export default function RollingPopularSearch({
 
   return (
     <div className="relative flex flex-col items-start gap-2 mt-1">
-      <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
+      <DropdownMenu open={isOpen} onOpenChange={setIsOpen} modal={false}>
         <div className="flex items-center gap-3 w-full md:w-[300px]">
           <h5 className="shrink-0 text-sm font-semibold text-slate-700">
             인기 검색어
