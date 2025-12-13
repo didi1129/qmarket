@@ -173,14 +173,13 @@ export default async function Home() {
 
         {/* 하단 그리드 메뉴 */}
         <div className="w-full grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl">
-          <Link href="/rotation-items/last" className="h-full">
-            <div className="h-full p-6 rounded-2xl bg-card border hover:border-primary/50 transition-colors break-keep">
+          <Link href="/items">
+            <div className="p-6 rounded-2xl bg-card border hover:border-primary/50 transition-colors h-full break-keep">
               <h3 className="text-lg font-semibold mb-2 flex items-center gap-1">
-                {lastMonthYear}년 {formattedLastMonth}월 로테이션{" "}
-                <ExternalLink className="size-4" />
+                전체 구매/판매 현황 <ExternalLink className="size-4" />
               </h3>
               <p className="text-muted-foreground">
-                지난 달 로테이션 아이템 리스트입니다.
+                등록된 전체 구매해요/판매해요 목록을 둘러보세요.
               </p>
             </div>
           </Link>
@@ -196,13 +195,14 @@ export default async function Home() {
             </div>
           </Link>
 
-          <Link href="/items">
-            <div className="p-6 rounded-2xl bg-card border hover:border-primary/50 transition-colors h-full break-keep">
+          <Link href="/rotation-items/last" className="h-full">
+            <div className="h-full p-6 rounded-2xl bg-card border hover:border-primary/50 transition-colors break-keep">
               <h3 className="text-lg font-semibold mb-2 flex items-center gap-1">
-                전체 구매/판매 현황 <ExternalLink className="size-4" />
+                {lastMonthYear}년 {formattedLastMonth}월 로테이션{" "}
+                <ExternalLink className="size-4" />
               </h3>
               <p className="text-muted-foreground">
-                등록된 전체 구매해요/판매해요 목록을 둘러보세요.
+                지난 달 로테이션 아이템 리스트입니다.
               </p>
             </div>
           </Link>

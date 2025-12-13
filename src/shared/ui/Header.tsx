@@ -178,7 +178,10 @@ export default function Header() {
                         <div className="flex gap-2">
                           <Button
                             variant="outline"
-                            onClick={() => router.push("/my-items")}
+                            onClick={() => {
+                              router.push("/my-items");
+                              setIsSidebarOpen(false);
+                            }}
                           >
                             마이페이지
                           </Button>
@@ -197,9 +200,12 @@ export default function Header() {
                   <div className="flex gap-2 justify-center">
                     <Button
                       variant="outline"
-                      size="icon"
-                      onClick={() => router.push("/faq")}
                       title="FAQ"
+                      size="icon"
+                      onClick={() => {
+                        router.push("/faq");
+                        setIsSidebarOpen(false);
+                      }}
                     >
                       <BadgeQuestionMark />
                     </Button>

@@ -71,7 +71,7 @@ export default function ItemList({
     <div className={cn("pb-10 shrink-0", className)}>
       <div className="flex flex-col h-[400px] overflow-auto rounded-2xl border border-border">
         {isPending && (
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center h-full">
             <LoadingSpinner />
           </div>
         )}

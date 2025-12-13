@@ -62,10 +62,6 @@ export default function PatchNotePage() {
           </AccordionContent>
         </AccordionItem>
       </Accordion>
-
-      <p className="mt-10 text-center text-sm text-gray-500">
-        이외 궁금하신 점이 있으신가요? <LinkToOpenInquiryModal />
-      </p>
     </div>
   );
 }
