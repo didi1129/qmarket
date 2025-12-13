@@ -77,3 +77,5 @@ export const PROFANITY_LIST = [
   "ㄱㅅㄲ",
   "ㅂㅅ",
 ];
+
+export const TABLET_MIN_WIDTH = 768;

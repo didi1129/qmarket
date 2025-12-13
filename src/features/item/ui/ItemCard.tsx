@@ -13,6 +13,7 @@ import { formatRelativeTime } from "@/shared/lib/formatters";
 import { ExternalLink } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui/tooltip";
 import CheckBadgeIcon from "@/shared/ui/Icon/CheckBadge";
+import { AdaptiveInfo } from "@/shared/ui/AdaptiveInfo";
 
 interface ItemCardProps {
   item: Item;
@@ -88,27 +89,28 @@ const ItemCard = ({ item, userId }: ItemCardProps) => {
           </h4>
 
           {item.message && (
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <p className="bg-secondary text-foreground font-medium text-xs rounded-sm px-1.5 py-0.5 w-[120px] md:w-[150px] truncate">
+            <AdaptiveInfo
+              content={
+                <>
                   {item.message}
-                </p>
-              </TooltipTrigger>
-              <TooltipContent side="bottom" className="whitespace-pre-line">
+                  {item.is_sold && item.transaction_image && (
+                    <div className="mb-1">
+                      <hr className="my-2 opacity-50" />
+                      <span className="block mb-2">✅ 거래 완료 인증샷:</span>
+                      <img
+                        src={item.transaction_image}
+                        alt="거래 인증 이미지"
+                        className="max-w-[300px] object-contain"
+                      />
+                    </div>
+                  )}
+                </>
+              }
+            >
+              <p className="bg-secondary text-foreground font-medium text-xs rounded-sm px-1.5 py-0.5 w-[120px] md:w-[150px] truncate">
                 {item.message}
-                {item.is_sold && item.transaction_image && (
-                  <div className="mb-1">
-                    <hr className="my-2 opacity-50" />
-                    <span className="block mb-2">✅ 거래 완료 인증샷:</span>
-                    <img
-                      src={item.transaction_image}
-                      alt="거래 인증 이미지"
-                      className="max-w-[300px] object-contain"
-                    />
-                  </div>
-                )}
-              </TooltipContent>
-            </Tooltip>
+              </p>
+            </AdaptiveInfo>
           )}
         </div>
 

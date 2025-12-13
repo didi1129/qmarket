@@ -35,9 +35,8 @@ export default async function Home() {
             <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
               Q-Market
             </h2>
-            <p className="text-foreground/50 text-sm max-w-[70%] mx-auto md:max-w-none md:mx-0">
-              큐플레이 아이템 구매/판매 등록 및 조회, 아이템 상세 정보, 시세
-              조회
+            <p className="text-foreground/50 text-sm max-w-[70%] mx-auto md:max-w-none md:mx-0 break-keep">
+              큐플레이 아이템 구매/판매, 아이템 상세 정보, 시세 조회
             </p>
           </div>
 
