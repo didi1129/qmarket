@@ -147,6 +147,8 @@ const ItemCard = ({ item, userId }: ItemCardProps) => {
               {!item.is_sold && userId && (
                 <SoldButton
                   itemId={item.id}
+                  itemName={item.item_name}
+                  itemGender={item.item_gender}
                   userId={userId}
                   isForSale={item.is_for_sale}
                 />

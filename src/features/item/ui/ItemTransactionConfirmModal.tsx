@@ -18,18 +18,16 @@ import { updateItemToSold } from "../model/updateItemToSold";
 import { useState } from "react";
 import TransactionImageUploader from "@/features/market/ui/TransactionImageUploader";
 import Image from "next/image";
-
-interface Props {
-  itemId: number;
-  userId: string;
-  isForSale: boolean;
-}
+import { ItemTransactionConfirm } from "../model/itemTypes";
+import { MouseEvent } from "react";
 
 export default function ItemTransactionConfirmModal({
   itemId,
+  itemName,
+  itemGender,
   userId,
   isForSale,
-}: Props) {
+}: ItemTransactionConfirm) {
   const [isOpen, setIsOpen] = useState(false);
   const queryClient = useQueryClient();
   const forSaleText = isForSale ? "판매" : "구매";
@@ -57,9 +55,14 @@ export default function ItemTransactionConfirmModal({
   };
 
   const markAsSoldMutation = useMutation({
-    mutationFn: () => updateItemToSold(itemId, isForSale, transactionImageUrl),
+    // 클로저로 인해 transactionImageUrl의 최신값이 누락되는 현상을 방지하고자 imgUrl만 따로 매개변수로 전달
+    mutationFn: (imgUrl?: string) =>
+      updateItemToSold(itemId, isForSale, imgUrl),
     onSuccess: async () => {
       toast.success(`${forSaleText} 완료 처리되었습니다.`);
+
+      // 성공했을 때만 모달 닫기
+      setIsOpen(false);
 
       queryClient.invalidateQueries({ queryKey: ["items", userId] });
       queryClient.invalidateQueries({ queryKey: ["my-items", userId] });
@@ -87,6 +90,18 @@ export default function ItemTransactionConfirmModal({
     }
   };
 
+  const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
+    // 이미지는 골랐는데 업로드 버튼을 안 눌렀을 경우
+    if (preview && !transactionImageUrl) {
+      e.preventDefault(); // 폼 제출 기본 동작(모달 닫기) 방지
+      toast.error("이미지 등록 버튼을 먼저 눌러주세요.");
+      return;
+    }
+
+    e.preventDefault(); // 성공 전까지 모달 닫기 방지
+    markAsSoldMutation.mutate(transactionImageUrl);
+  };
+
   return (
     <AlertDialog open={isOpen} onOpenChange={handleOpenChange}>
       <AlertDialogTrigger asChild>
@@ -107,7 +122,10 @@ export default function ItemTransactionConfirmModal({
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            {forSaleText} 완료 처리하시겠습니까?
+            <b className="text-blue-600">
+              {itemName}({itemGender})
+            </b>
+            <p>{forSaleText} 완료 처리하시겠습니까?</p>
           </AlertDialogTitle>
           <AlertDialogDescription>
             * 거래 인증 이미지를 등록하시면 신뢰도가 상승합니다.
@@ -121,12 +139,12 @@ export default function ItemTransactionConfirmModal({
             onUpload={handleImageUpload}
           />
           {preview && (
-            <div className="relative w-32 h-32 rounded-md overflow-hidden border border-gray-300">
+            <div className="relative w-full h-32 rounded-md overflow-hidden border border-gray-300">
               <Image
                 src={preview}
-                alt="Transaction Image Preview"
+                alt="거래 인증 이미지 미리보기"
                 layout="fill"
-                objectFit="cover"
+                objectFit="contain"
               />
             </div>
           )}
@@ -138,7 +156,7 @@ export default function ItemTransactionConfirmModal({
           </AlertDialogCancel>
           <AlertDialogAction
             disabled={markAsSoldMutation.isPending}
-            onClick={() => markAsSoldMutation.mutate()}
+            onClick={handleSubmit}
           >
             {markAsSoldMutation.isPending ? "처리 중..." : "완료하기"}
           </AlertDialogAction>

@@ -52,3 +52,11 @@ export interface RankItem {
   is_sold: boolean; // 판매 완료 여부 (true만 받음)
   updated_at: string; // 판매 완료일
 }
+
+export interface ItemTransactionConfirm {
+  itemId: number;
+  itemName: string;
+  itemGender: string;
+  userId: string;
+  isForSale: boolean;
+}

@@ -2,23 +2,22 @@
 
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui/tooltip";
 import ItemTransactionConfirmModal from "./ItemTransactionConfirmModal";
-
-interface SoldButtonProps {
-  itemId: number;
-  userId: string;
-  isForSale: boolean;
-}
+import { ItemTransactionConfirm } from "../model/itemTypes";
 
 export default function SoldButton({
   itemId,
+  itemName,
+  itemGender,
   userId,
   isForSale,
-}: SoldButtonProps) {
+}: ItemTransactionConfirm) {
   return (
     <Tooltip>
       <TooltipTrigger asChild>
         <ItemTransactionConfirmModal
           itemId={itemId}
+          itemName={itemName}
+          itemGender={itemGender}
           userId={userId}
           isForSale={isForSale}
         />
