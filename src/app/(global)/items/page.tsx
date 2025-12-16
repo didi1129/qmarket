@@ -22,7 +22,7 @@ export default async function ItemsPage() {
       <div className="flex gap-4 md:flex-row flex-col">
         <div className="shrink-0 md:min-w-[264px]">
           <div className="sticky top-20">
-            <h3 className="md:text-lg font-bold mb-2 text-base">아이템 등록</h3>
+            <SectionTitle className="!text-lg">📝 아이템 등록</SectionTitle>
             {/* 구매/판매 아이템 등록 버튼 */}
             <div className="flex flex-col gap-2">
               <SellingItemCreateModal />
@@ -31,25 +31,25 @@ export default async function ItemsPage() {
           </div>
         </div>
 
-        <div className="flex grow gap-4">
-          {/* 팝니다 */}
-          <div className="w-[50%]">
+        <div className="grid grow gap-4 md:grid-cols-2 grid-cols-1">
+          <div className="flex flex-col gap-2">
             <h3 className="md:text-lg font-bold mb-2 text-base">판매해요</h3>
-            <ItemList
-              isForSale={true}
-              isSold={false}
-              className="[&>div]:h-[580px]"
-            />
+            <ItemList isForSale={true} isSold={false} />
           </div>
 
-          {/* 삽니다 */}
-          <div className="w-[50%]">
+          <div className="flex flex-col gap-2">
             <h3 className="md:text-lg font-bold mb-2 text-base">구매해요</h3>
-            <ItemList
-              isForSale={false}
-              isSold={false}
-              className="[&>div]:h-[580px]"
-            />
+            <ItemList isForSale={false} isSold={false} />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <h3 className="md:text-lg font-bold mb-2 text-base">판매완료</h3>
+            <ItemList isForSale={true} isSold={true} />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <h3 className="md:text-lg font-bold mb-2 text-base">구매완료</h3>
+            <ItemList isForSale={false} isSold={true} />
           </div>
         </div>
       </div>
