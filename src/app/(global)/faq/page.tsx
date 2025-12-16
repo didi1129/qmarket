@@ -16,7 +16,7 @@ export default function FAQPage() {
       <SectionTitle className="text-center">자주 묻는 질문 (FAQ)</SectionTitle>
 
       <Accordion type="single" collapsible className="w-full">
-        <AccordionItem value="faq-1" className="border-b">
+        <AccordionItem value="faq-create-items" className="border-b">
           <AccordionTrigger className="text-lg font-semibold text-left hover:no-underline py-4 text-gray-700">
             구매/판매 시 동일한 아이템을 여러 개 등록하고 싶어요.
           </AccordionTrigger>
@@ -33,7 +33,38 @@ export default function FAQPage() {
           </AccordionContent>
         </AccordionItem>
 
-        <AccordionItem value="faq-2" className="border-b">
+        <AccordionItem value="faq-price-how" className="border-b">
+          <AccordionTrigger className="text-lg font-semibold text-left hover:no-underline py-4 text-gray-700">
+            시세는 어떻게 계산되나요?
+          </AccordionTrigger>
+          <AccordionContent className="text-gray-600 p-4 bg-gray-50 border-t">
+            <div className="leading-relaxed">
+              <p>큐마켓의 시세는 아래 거래 기록을 정리·요약해 계산됩니다.</p>
+
+              <ul className="list-disc pl-4 mb-4 last:mb-0">
+                <li>큐마켓에 등록된 거래 완료 데이터</li>
+                <li>인게임 실제 거래 기록 (제보)</li>
+              </ul>
+
+              <p>수집된 데이터에 따라, 아래와 같은 가격 정보가 제공됩니다.</p>
+
+              <ul className="list-disc pl-4 mb-4 last:mb-0">
+                <li>
+                  구매 희망가: 등록된 구매 가격을 바탕으로 한 수요 참고 지표
+                </li>
+                <li>
+                  판매 희망가: 등록된 판매 가격을 바탕으로 한 호가 참고 지표
+                </li>
+                <li>
+                  최근 거래가: 구매·판매가 완료된 거래 기록을 기준으로 한 시세
+                  지표
+                </li>
+              </ul>
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+
+        <AccordionItem value="faq-price-trust" className="border-b">
           <AccordionTrigger className="text-lg font-semibold text-left hover:no-underline py-4 text-gray-700">
             아이템 시세는 믿을 수 있는 데이터인가요?
           </AccordionTrigger>
@@ -46,7 +77,7 @@ export default function FAQPage() {
           </AccordionContent>
         </AccordionItem>
 
-        <AccordionItem value="faq-3" className="border-b">
+        <AccordionItem value="faq-discord-current-server" className="border-b">
           <AccordionTrigger className="text-lg font-semibold text-left hover:no-underline py-4 text-gray-700">
             디스코드 계정으로 로그인 시 &apos;현재 접속한 서버 확인하기&apos;는
             무슨 의미인가요?

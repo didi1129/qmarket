@@ -83,14 +83,14 @@ export default function ItemDetailClient({
                 <li className="flex justify-between border-b pb-1 last:border-b-0">
                   <span className="font-semibold">출처:</span>
                   <span>
-                    {item.item_source ? item.item_source : "-"}{" "}
+                    {item.item_source ? item.item_source : "미등록"}{" "}
                     {item.rotation_date && (
                       <em className="text-xs not-italic">
                         (로테이션: {item.rotation_date}
                         {item.rotation_degree && (
                           <Badge
                             variant="secondary"
-                            className="px-1 py-0 text-[11px] rounded-xs"
+                            className="ml-1 px-1 py-0 text-[11px] rounded-xs"
                           >
                             {item.rotation_degree}차
                           </Badge>
@@ -104,7 +104,7 @@ export default function ItemDetailClient({
                   <span className="font-semibold">판매 희망가:</span>
                   <div>
                     {marketPrice === 0 ? (
-                      <span className="text-[12px] text-foreground/50">
+                      <span className="text-[12px]">
                         등록된 데이터가 없습니다.
                       </span>
                     ) : (
@@ -121,7 +121,7 @@ export default function ItemDetailClient({
                   <span className="font-semibold">구매 희망가:</span>
                   <div>
                     {desiredPrice === 0 ? (
-                      <span className="text-[12px] text-foreground/50">
+                      <span className="text-[12px]">
                         등록된 데이터가 없습니다.
                       </span>
                     ) : (
