@@ -32,13 +32,11 @@ export interface ItemDetail {
 interface ItemDetailProps {
   item: ItemDetail;
   marketPrice: number;
-  expectMarketPrice?: number;
 }
 
 export default function ItemDetailClient({
   item,
   marketPrice,
-  expectMarketPrice,
 }: ItemDetailProps) {
   const [filterParams, setFilterParams] = useState<FilterParams>({
     sortBy: "created_at" as "created_at" | "price",

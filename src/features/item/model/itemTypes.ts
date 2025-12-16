@@ -31,7 +31,6 @@ export interface Item {
   updated_at?: string; // 아이템 등록일
   message: string; // 유저 메시지
   transaction_image?: string; // 거래 완료 인증 이미지 url
-  expect_price?: number; // 예상 시세
 }
 
 export interface SearchItemInfo {
