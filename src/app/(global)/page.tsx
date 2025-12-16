@@ -5,7 +5,6 @@ import SearchBar from "@/features/item-search/ui/SearchBar";
 import ItemList from "@/features/items/ui/ItemList";
 import RollingPopularSearch from "@/features/item-search/ui/RollingPopularSearch";
 import { getPopularSearchesAction } from "../actions/search-actions";
-import { PatchNotePopup } from "@/features/popup/ui/PatchNotePopup";
 import GoToItemsModal from "@/features/items/ui/GoToItemsModal";
 import SignInToast from "@/features/auth/signin/ui/SignInToast";
 import GoToMyItemsModal from "@/features/user/ui/GoToMyItemsModal";
@@ -36,8 +35,6 @@ export default async function Home({
 
   return (
     <main className="flex">
-      <PatchNotePopup />
-
       <div className="flex flex-col w-full gap-8 items-center">
         {/* 아이템 검색 */}
         <section className="mb-12 flex flex-col gap-2 items-center md:w-xl w-full max-w-md">
