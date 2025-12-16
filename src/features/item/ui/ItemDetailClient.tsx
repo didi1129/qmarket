@@ -18,6 +18,9 @@ import SectionTitle from "@/shared/ui/SectionTitle";
 import SellingItemCreateModal from "./SellingItemCreateModal";
 import PurchaseItemCreateModal from "./PurchaseItemCreateModal";
 import { Badge } from "@/shared/ui/badge";
+import Link from "next/link";
+import { ExternalLink } from "lucide-react";
+
 export interface ItemDetail {
   id: string;
   name: string;
@@ -31,14 +34,14 @@ export interface ItemDetail {
 
 interface ItemDetailProps {
   item: ItemDetail;
-  marketPrice: number;
-  expectMarketPrice?: number;
+  marketPrice: number; // 판매 희망가 (호가)
+  desiredPrice: number; // 구매 희망가
 }
 
 export default function ItemDetailClient({
   item,
   marketPrice,
-  expectMarketPrice,
+  desiredPrice,
 }: ItemDetailProps) {
   const [filterParams, setFilterParams] = useState<FilterParams>({
     sortBy: "created_at" as "created_at" | "price",
@@ -80,14 +83,14 @@ export default function ItemDetailClient({
                 <li className="flex justify-between border-b pb-1 last:border-b-0">
                   <span className="font-semibold">출처:</span>
                   <span>
-                    {item.item_source ? item.item_source : "-"}{" "}
+                    {item.item_source ? item.item_source : "미등록"}{" "}
                     {item.rotation_date && (
                       <em className="text-xs not-italic">
-                        (로테이션: {item.rotation_date}{" "}
+                        (로테이션: {item.rotation_date}
                         {item.rotation_degree && (
                           <Badge
                             variant="secondary"
-                            className="px-1 py-0 text-[11px] rounded-xs"
+                            className="ml-1 px-1 py-0 text-[11px] rounded-xs"
                           >
                             {item.rotation_degree}차
                           </Badge>
@@ -98,20 +101,39 @@ export default function ItemDetailClient({
                   </span>
                 </li>
                 <li className="flex justify-between border-b pb-1 last:border-b-0">
-                  <span className="font-semibold">평균 호가:</span>
-                  <span>
-                    {marketPrice === 0
-                      ? "-"
-                      : marketPrice.toLocaleString("ko-KR")}
-                    원{/* <span className="ml-1 text-xs">(최근 10건)</span> */}
-                  </span>
+                  <span className="font-semibold">판매 희망가:</span>
+                  <div>
+                    {marketPrice === 0 ? (
+                      <span className="text-[12px]">
+                        등록된 데이터가 없습니다.
+                      </span>
+                    ) : (
+                      <span>
+                        {`${marketPrice.toLocaleString("ko-KR")}원`}{" "}
+                        <span className="ml-1 text-[11px] text-foreground/50">
+                          (최근 10건)
+                        </span>
+                      </span>
+                    )}
+                  </div>
                 </li>
-                {/* {expectMarketPrice && (
-                  <li className="flex justify-between border-b pb-1 last:border-b-0">
-                    <span className="font-semibold">예상 시세:</span>
-                    <span>{expectMarketPrice.toLocaleString("ko-KR")}원</span>
-                  </li>
-                )} */}
+                <li className="flex justify-between border-b pb-1 last:border-b-0">
+                  <span className="font-semibold">구매 희망가:</span>
+                  <div>
+                    {desiredPrice === 0 ? (
+                      <span className="text-[12px]">
+                        등록된 데이터가 없습니다.
+                      </span>
+                    ) : (
+                      <span>
+                        {`${desiredPrice.toLocaleString("ko-KR")}원`}{" "}
+                        <span className="ml-1 text-[11px] text-foreground/50">
+                          (최근 10건)
+                        </span>
+                      </span>
+                    )}
+                  </div>
+                </li>
                 <li className="flex flex-col gap-1 border-b pb-1 last:border-b-0">
                   <div className="flex justify-between">
                     <span className="font-semibold">최근 거래가:</span>
@@ -135,7 +157,13 @@ export default function ItemDetailClient({
                   </div>
 
                   <p className="text-foreground/50 text-xs break-keep">
-                    * 아이템 시세는 참고용이며 정확하지 않을 수 있습니다.
+                    * 아이템 시세는 참고용으로만 확인해주세요.{" "}
+                    <Link
+                      href="/faq"
+                      className="inline-flex gap-0.5 items-center underline underline-offset-1 hover:text-foreground/70"
+                    >
+                      FAQ <ExternalLink className="size-2.5" />
+                    </Link>
                   </p>
                 </li>
                 <li className="flex justify-between border-b pb-1 last:border-b-0">

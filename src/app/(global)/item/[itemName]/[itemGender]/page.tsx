@@ -2,7 +2,7 @@ import ItemDetailClient from "@/features/item/ui/ItemDetailClient";
 import { supabaseServer } from "@/shared/api/supabase-server";
 import RequestItemModal from "@/features/item/ui/RequestItemModal";
 import { getItemMarketPrice } from "@/features/item/model/getItemMarketPrice";
-import { getExpectMarketPrice } from "@/features/item/model/getExpectMarketPrice";
+import getDesiredPrice from "@/features/item/model/getDesiredPrice";
 
 export default async function ItemDetailPage({
   params,
@@ -16,7 +16,7 @@ export default async function ItemDetailPage({
     decodedItemName,
     decodedItemGender
   );
-  const expectMarketPrice = await getExpectMarketPrice(
+  const desiredPrice = await getDesiredPrice(
     decodedItemName,
     decodedItemGender
   );
@@ -47,7 +47,7 @@ export default async function ItemDetailPage({
         <ItemDetailClient
           item={item}
           marketPrice={marketPrice.price}
-          expectMarketPrice={expectMarketPrice}
+          desiredPrice={desiredPrice}
         />
       )}
     </section>

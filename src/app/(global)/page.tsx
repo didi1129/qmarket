@@ -6,8 +6,15 @@ import ItemList from "@/features/items/ui/ItemList";
 import RollingPopularSearch from "@/features/item-search/ui/RollingPopularSearch";
 import { getPopularSearchesAction } from "../actions/search-actions";
 import { PatchNotePopup } from "@/features/popup/ui/PatchNotePopup";
+import GoToItemsModal from "@/features/items/ui/GoToItemsModal";
+import SignInToast from "@/features/auth/signin/ui/SignInToast";
+import GoToMyItemsModal from "@/features/user/ui/GoToMyItemsModal";
 
-export default async function Home() {
+export default async function Home({
+  params,
+}: {
+  params: Promise<{ auth_reason?: string }>;
+}) {
   const now = new Date();
   const year = now.getFullYear();
   const month = now.getMonth() + 1;
@@ -24,6 +31,9 @@ export default async function Home() {
   // 인기 검색어 로드
   const data = await getPopularSearchesAction();
 
+  // 리디렉션 토스트 띄우기용 파라미터
+  const { auth_reason } = await params;
+
   return (
     <main className="flex">
       <PatchNotePopup />
@@ -32,11 +42,11 @@ export default async function Home() {
         {/* 아이템 검색 */}
         <section className="mb-12 flex flex-col gap-2 items-center md:w-xl w-full max-w-md">
           <div className="mb-4 text-center space-y-2">
-            <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
-              Q-Market
+            <h2 className="text-xl md:text-2xl font-bold tracking-tight">
+              큐플레이 아이템 거래 현황 · 시세 조회
             </h2>
             <p className="text-foreground/50 text-sm max-w-[70%] mx-auto md:max-w-none md:mx-0 break-keep">
-              큐플레이 아이템 구매/판매, 아이템 상세 정보, 시세 조회
+              최근 거래 · 시세 확인 · 아이템 정보
             </p>
           </div>
 
@@ -44,6 +54,64 @@ export default async function Home() {
 
           {/* 인기 검색어 TOP 5 */}
           <RollingPopularSearch data={data} />
+        </section>
+
+        {/* 최근 판매/구매 현황 */}
+        <section className="w-full max-w-4xl mb-12">
+          <div className="mb-4">
+            <h2 className="text-2xl font-bold tracking-tight mb-2">
+              ⭐ 거래 현황
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
+            {/* 판매해요 */}
+            <div className="flex flex-col gap-2">
+              <h3 className="md:text-lg font-bold text-base">판매해요</h3>
+              <ItemList
+                isForSale={true}
+                isSold={false}
+                limit={3}
+                className="pb-0 [&>div]:h-[260px]"
+              />
+            </div>
+
+            {/* 구매해요 */}
+            <div className="flex flex-col gap-2">
+              <h3 className="md:text-lg font-bold text-base">구매해요</h3>
+              <ItemList
+                isForSale={false}
+                isSold={false}
+                limit={3}
+                className="pb-0 [&>div]:h-[260px]"
+              />
+            </div>
+
+            {/* 판매완료 */}
+            <div className="flex flex-col gap-2 mt-4">
+              <h3 className="md:text-lg font-bold text-base">판매완료</h3>
+              <ItemList
+                isForSale={true}
+                isSold={true}
+                limit={2}
+                className="pb-0 [&>div]:h-[176px]"
+              />
+            </div>
+
+            {/* 구매완료 */}
+            <div className="flex flex-col gap-2 mt-4">
+              <h3 className="md:text-lg font-bold text-base">구매완료</h3>
+              <ItemList
+                isForSale={false}
+                isSold={true}
+                limit={2}
+                className="pb-0 [&>div]:h-[176px]"
+              />
+            </div>
+          </div>
+
+          {/* 전체 거래 현황 보기 CTA */}
+          <GoToItemsModal />
         </section>
 
         {/* 이번 달 로테이션 */}
@@ -85,7 +153,7 @@ export default async function Home() {
         </section>
 
         {/* 아이템 카테고리 메뉴 */}
-        <section className="w-full max-w-4xl mb-12">
+        <section className="w-full max-w-4xl">
           <h2 className="text-2xl font-bold tracking-tight mb-4">
             🧭 아이템 카테고리별 조회
           </h2>
@@ -95,104 +163,9 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* 최근 판매/구매해요 10개 */}
-        <section className="w-full max-w-4xl mb-12">
-          <div className="mb-4">
-            <h2 className="text-2xl font-bold tracking-tight mb-2">
-              ⭐ 최근 판매/구매 현황
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
-            {/* 판매해요 */}
-            <div className="flex flex-col gap-2">
-              <h3 className="md:text-lg font-bold text-base">
-                판매해요
-                <span className="text-sm text-foreground/50 font-normal">
-                  (최대 10개)
-                </span>
-              </h3>
-              <ItemList
-                isForSale={true}
-                isSold={false}
-                limit={10}
-                className="pb-0"
-              />
-            </div>
-
-            {/* 구매해요 */}
-            <div className="flex flex-col gap-2">
-              <h3 className="md:text-lg font-bold text-base">
-                구매해요
-                <span className="text-sm text-foreground/50 font-normal">
-                  (최대 10개)
-                </span>
-              </h3>
-              <ItemList
-                isForSale={false}
-                isSold={false}
-                limit={10}
-                className="pb-0"
-              />
-            </div>
-
-            {/* 판매완료 */}
-            <div className="flex flex-col gap-2 mt-4">
-              <h3 className="md:text-lg font-bold text-base">
-                판매완료
-                <span className="text-sm text-foreground/50 font-normal">
-                  (최대 10개)
-                </span>
-              </h3>
-              <ItemList
-                isForSale={true}
-                isSold={true}
-                limit={10}
-                className="pb-0"
-              />
-            </div>
-
-            {/* 구매완료 */}
-            <div className="flex flex-col gap-2 mt-4">
-              <h3 className="md:text-lg font-bold text-base">
-                구매완료
-                <span className="text-sm text-foreground/50 font-normal">
-                  (최대 10개)
-                </span>
-              </h3>
-              <ItemList
-                isForSale={false}
-                isSold={true}
-                limit={10}
-                className="pb-0"
-              />
-            </div>
-          </div>
-        </section>
-
         {/* 하단 그리드 메뉴 */}
-        <div className="w-full grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl">
-          <Link href="/items">
-            <div className="p-6 rounded-2xl bg-card border hover:border-primary/50 transition-colors h-full break-keep">
-              <h3 className="text-lg font-semibold mb-2 flex items-center gap-1">
-                전체 구매/판매 현황 <ExternalLink className="size-4" />
-              </h3>
-              <p className="text-muted-foreground">
-                등록된 전체 구매해요/판매해요 목록을 둘러보세요.
-              </p>
-            </div>
-          </Link>
-
-          <Link href="/my-items" className="h-full">
-            <div className="h-full p-6 rounded-2xl bg-card border hover:border-primary/50 transition-colors break-keep">
-              <h3 className="text-lg font-semibold mb-2 flex items-center gap-1">
-                구매/판매 아이템 등록 <ExternalLink className="size-4" />
-              </h3>
-              <p className="text-muted-foreground">
-                구매하거나 판매하고 싶은 아이템을 등록할 수 있습니다.
-              </p>
-            </div>
-          </Link>
+        <section className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-4xl">
+          <GoToMyItemsModal />
 
           <Link href="/rotation-items/last" className="h-full">
             <div className="h-full p-6 rounded-2xl bg-card border hover:border-primary/50 transition-colors break-keep">
@@ -205,8 +178,19 @@ export default async function Home() {
               </p>
             </div>
           </Link>
-        </div>
+        </section>
+
+        {/* 안내 섹션 */}
+        <section className="px-8 py-4 bg-muted-foreground/5 rounded-2xl text-foreground/50">
+          <p className="text-center text-sm break-keep">
+            큐마켓은 가격을 결정하지 않으며, 가격 판단을 돕는 참고 정보를
+            제공합니다.
+          </p>
+        </section>
       </div>
+
+      {/* auth guard: 권한 필요 페이지에서 메인으로 리디렉션 시 표시될 토스트 */}
+      {auth_reason === "login_required" && <SignInToast />}
     </main>
   );
 }

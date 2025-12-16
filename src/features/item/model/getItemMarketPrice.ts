@@ -6,7 +6,7 @@ import { ITEMS_TABLE_NAME } from "@/shared/config/constants";
  * 아이템 현재 판매가(호가) 시세 계산
  */
 export async function getItemMarketPrice(itemName: string, itemGender: string) {
-  if (!itemName || itemName.trim().length === 0) {
+  if (!itemName || !itemGender) {
     return { price: 0, count: 0 };
   }
 
@@ -15,7 +15,7 @@ export async function getItemMarketPrice(itemName: string, itemGender: string) {
     .select("price")
     .eq("item_name", itemName)
     .eq("item_gender", itemGender)
-    .order("price", { ascending: true }) // 최신순
+    .order("price", { ascending: true })
     .eq("is_sold", false) // 판매중인 레코드만 선택
     .eq("is_for_sale", true)
     .limit(10); // 최신 10개까지만 조회
