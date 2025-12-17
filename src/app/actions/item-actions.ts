@@ -8,8 +8,11 @@ import {
   restoreDailyItemCount,
 } from "@/shared/api/redis";
 import { ITEMS_TABLE_NAME } from "@/shared/config/constants";
-import { getSupabaseClientCookie } from "@/shared/api/supabase-cookie";
 import preventCreateExistingItem from "@/features/item/model/preventCreateExistingItem";
+import { getUserServer } from "@/shared/api/get-supabase-user-server";
+import { supabaseServer } from "@/shared/api/supabase-server";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 interface ItemFormValues {
   id?: number;
@@ -29,10 +32,7 @@ interface ItemFormValues {
 
 // 아이템 등록
 export async function createItem(values: ItemFormValues) {
-  const supabase = await getSupabaseClientCookie();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getUserServer();
   if (!user) throw new Error("로그인이 필요합니다.");
 
   // 아이템 중복 등록 방지
@@ -43,7 +43,7 @@ export async function createItem(values: ItemFormValues) {
     userId: user.id,
   });
 
-  const { data, error } = await supabase
+  const { data, error } = await supabaseServer
     .from(ITEMS_TABLE_NAME)
     // .from("items_test")
     .insert([{ ...values, user_id: user.id }])
@@ -55,20 +55,20 @@ export async function createItem(values: ItemFormValues) {
   const currentCount = await checkAndIncrementDailyItemLimit(user.id);
   const remaining = DAILY_LIMIT - currentCount;
 
+  revalidatePath("/items");
+  revalidatePath("/my-items");
+
   return { data, remaining };
 }
 
 // 아이템 수정
 export async function updateItem(values: ItemFormValues) {
-  const supabase = await getSupabaseClientCookie();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getUserServer();
   if (!user) throw new Error("로그인이 필요합니다.");
 
   const { id, ...updateData } = values;
 
-  const { data, error } = await supabase
+  const { data, error } = await supabaseServer
     .from(ITEMS_TABLE_NAME)
     .update(updateData)
     .eq("id", id)
@@ -83,10 +83,7 @@ export async function updateItem(values: ItemFormValues) {
 
 // 아이템 일일 등록 가능 횟수 표시 (redis 함수는 서버에서만 사용 가능하므로 서버 액션 함수 별도 생성)
 export async function getDailyItemCountAction() {
-  const supabase = await getSupabaseClientCookie();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getUserServer();
   if (!user) return { count: 0, remaining: DAILY_LIMIT };
 
   const count = await getDailyItemCount(user.id);
@@ -95,11 +92,7 @@ export async function getDailyItemCountAction() {
 }
 
 export async function getRemainingTimeAction(): Promise<number> {
-  const supabase = await getSupabaseClientCookie();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
+  const user = await getUserServer();
   if (!user) return 0;
 
   return await getRemainingTime(user.id);

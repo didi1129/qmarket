@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
+import { getUserServer } from "./shared/api/get-supabase-user-server";
 
 export async function middleware(request: NextRequest) {
   const response = NextResponse.next();
@@ -19,9 +20,7 @@ export async function middleware(request: NextRequest) {
     }
   );
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getUserServer();
 
   // 로그인 상태면 /signin, /signup 접근 차단
   if (user && ["/signin", "/signup"].includes(request.nextUrl.pathname)) {

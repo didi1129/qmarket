@@ -1,13 +1,10 @@
-import { getSupabaseServerCookie } from "@/shared/api/supabase-cookie";
 import { supabaseServer } from "@/shared/api/supabase-server";
 import UserDetailSection from "@/features/user/ui/UserDetailSection";
 import ButtonToMain from "@/shared/ui/LinkButton/ButtonToMain";
+import { getUserServer } from "@/shared/api/get-supabase-user-server";
 
 export default async function MyItemsPage() {
-  const supabase = await getSupabaseServerCookie();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getUserServer();
 
   const { data: userDetail, error } = await supabaseServer
     .from("user_profiles")

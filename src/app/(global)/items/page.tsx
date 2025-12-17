@@ -1,14 +1,13 @@
 import { redirect } from "next/navigation";
-import { getSupabaseServerCookie } from "@/shared/api/supabase-cookie";
 import ItemList from "@/features/items/ui/ItemList";
 import SectionTitle from "@/shared/ui/SectionTitle";
 import SellingItemCreateModal from "@/features/item/ui/SellingItemCreateModal";
 import PurchaseItemCreateModal from "@/features/item/ui/PurchaseItemCreateModal";
 import ButtonToMain from "@/shared/ui/LinkButton/ButtonToMain";
+import { getUserServer } from "@/shared/api/get-supabase-user-server";
 
 export default async function ItemsPage() {
-  const supabase = await getSupabaseServerCookie();
-  const { data: user } = await supabase.auth.getUser();
+  const user = await getUserServer();
 
   if (!user) {
     redirect("/");

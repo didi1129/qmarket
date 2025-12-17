@@ -18,6 +18,7 @@ import { supabase } from "@/shared/api/supabase-client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ITEMS_TABLE_NAME } from "@/shared/config/constants";
 import { restoreDailyItemCountAction } from "@/app/actions/item-actions";
+import { useUser } from "@/shared/hooks/useUser";
 
 interface Props {
   itemId: number;
@@ -26,14 +27,10 @@ interface Props {
 
 export function ItemDeleteModal({ itemId, userId }: Props) {
   const queryClient = useQueryClient();
+  const { data: user, error: userError } = useUser();
 
   const deleteItemMutation = useMutation({
     mutationFn: async () => {
-      const {
-        data: { user },
-        error: userError,
-      } = await supabase.auth.getUser();
-
       if (userError || !user) {
         throw new Error("로그인이 필요합니다.");
       }
