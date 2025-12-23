@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, ChangeEvent, useEffect } from "react";
+import { useState, ChangeEvent } from "react";
 import {
   Dialog,
   DialogContent,
@@ -12,7 +12,7 @@ import {
 import { Button } from "@/shared/ui/button";
 import { Textarea } from "@/shared/ui/textarea";
 import { Label } from "@/shared/ui/label";
-import { Camera, Loader2, CheckCircle2 } from "lucide-react";
+import { Loader2, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
 import { getUploadUrl } from "@/app/actions/s3-actions";
 import { useUser } from "@/shared/hooks/useUser";
@@ -149,9 +149,9 @@ export default function EntryUploadModal() {
       <DialogTrigger asChild>
         <Button
           size="lg"
-          className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-6 text-base rounded-2xl shadow-lg transition-all transform hover:scale-105"
+          className="w-full max-w-[250px] md:max-w-[500px] bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-6 md:py-8 text-base md:text-2xl rounded-2xl shadow-lg transition-all transform hover:scale-105"
         >
-          <Camera className="size-5" />
+          <CheckCircle2 className="md:size-7 mr-1" />
           컨테스트 참여하기
         </Button>
       </DialogTrigger>
@@ -165,10 +165,16 @@ export default function EntryUploadModal() {
             <DialogDescription className="text-foreground/50 text-sm">
               배경까지 포함된 아바타 이미지를 등록해주세요!
               {remainingCount !== null && (
-                <span className="inline-block rounded-lg mt-1 px-4 py-2 text-purple-600 bg-purple-100">
+                <span className="inline-block rounded-lg mt-3 px-4 py-2 text-purple-600 bg-purple-100">
                   <b>{user?.user_metadata.custom_claims?.global_name}</b>님의
                   남은 참가 횟수: <b>{remainingCount}회</b>
                 </span>
+              )}
+              {remainingCount === 0 && (
+                <p className="mt-1 text-[12px] text-red-500 font-medium">
+                  참가 횟수를 모두 사용했습니다. 기존 참가 글을 삭제하면 잔여
+                  횟수가 복원됩니다.
+                </p>
               )}
             </DialogDescription>
           </DialogHeader>
@@ -179,25 +185,15 @@ export default function EntryUploadModal() {
               <Label htmlFor="photo" className="text-foreground font-medium">
                 아바타 스크린샷 (최대 2MB)
               </Label>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleFileChange}
-                disabled={isSubmitting || isSucceeded || remainingCount === 0}
-                className="block w-full text-sm text-gray-500
-                  file:mr-4 file:py-2 file:px-4
-                  file:rounded-full file:border-0
-                  file:text-sm file:font-semibold
-                  file:bg-pink-50 file:text-pink-700
-                  hover:file:bg-pink-100
-                  disabled:opacity-50 cursor-pointer"
-              />
-
-              {remainingCount === 0 && (
-                <p className="text-sm text-red-500 font-medium">
-                  참가 횟수를 모두 사용했습니다.
-                </p>
-              )}
+              <div className="p-2 bg-pink-100 rounded-lg">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  disabled={isSubmitting || isSucceeded || remainingCount === 0}
+                  className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-pink-50 file:text-pink-700 hover:file:bg-pink-200 disabled:opacity-50 disabled:hover:file:bg-gray-200 disabled:file:bg-gray-200 disabled:file:text-gray-500 cursor-pointer"
+                />
+              </div>
 
               {previewUrl && (
                 <div className="relative mt-2 p-2 rounded-xl w-[75%] mx-auto overflow-hidden bg-gradient-to-b from-[#53A0DA] to-[#2359B6] border-2 border-[#002656] shadow-lg">
@@ -230,7 +226,7 @@ export default function EntryUploadModal() {
                   <Textarea
                     {...field}
                     id="description"
-                    placeholder="코디 컨셉을 설명해주세요! (선택)"
+                    placeholder="컨셉을 설명해주세요! (선택)"
                     disabled={
                       isSubmitting || isSucceeded || remainingCount === 0
                     }
