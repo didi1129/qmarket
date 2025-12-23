@@ -16,7 +16,7 @@ export default function EntryList({ user }: { user: User | null }) {
       queryKey: ["best_dresser"],
       queryFn: async ({ pageParam = 0 }) => {
         const from = (pageParam as number) * ITEMS_PER_PAGE;
-        const to = from + ITEMS_PER_PAGE - 1; // +1이 아니라 -1이어야 12개를 가져옵니다.
+        const to = from + ITEMS_PER_PAGE - 1;
 
         const { data, error } = await supabase
           .from("best_dresser")

@@ -107,11 +107,11 @@ export default function BestDresserUploadModal() {
       });
 
       toast.success("컨테스트에 참가되었습니다!");
-      setIsSucceeded(true);
 
       // 참가 폼 초기화
       reset();
       setPreviewUrl(null);
+      setIsSucceeded(false);
 
       // 모달 닫기
       setOpen(false);
