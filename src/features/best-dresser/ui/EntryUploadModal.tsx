@@ -12,7 +12,7 @@ import {
 import { Button } from "@/shared/ui/button";
 import { Textarea } from "@/shared/ui/textarea";
 import { Label } from "@/shared/ui/label";
-import { Camera, Loader2, CheckCircle2 } from "lucide-react";
+import { Camera, Loader2, CheckCircle2, Pencil } from "lucide-react";
 import { toast } from "sonner";
 import { getUploadUrl } from "@/app/actions/s3-actions";
 import { useUser } from "@/shared/hooks/useUser";
@@ -23,15 +23,11 @@ import {
   registerBestDresser,
   getRemainingEntryCount,
 } from "@/app/actions/best-dresser-actions";
+import { EntryFormValues } from "../model/bestDresserType";
 
 const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
 
-interface DresserFormValues {
-  imageFile: File | null;
-  description: string;
-}
-
-export default function BestDresserUploadModal() {
+export default function EntryUploadModal() {
   const [open, setOpen] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isSucceeded, setIsSucceeded] = useState(false);
@@ -47,7 +43,7 @@ export default function BestDresserUploadModal() {
     watch,
     reset,
     formState: { isSubmitting },
-  } = useForm<DresserFormValues>({
+  } = useForm<EntryFormValues>({
     defaultValues: {
       imageFile: null,
       description: "",
@@ -89,7 +85,7 @@ export default function BestDresserUploadModal() {
     }
   }, [open, user]);
 
-  const onSubmit = async (values: DresserFormValues) => {
+  const onSubmit = async (values: EntryFormValues) => {
     if (!user) {
       toast.error("로그인이 필요합니다.");
       return;
@@ -113,7 +109,10 @@ export default function BestDresserUploadModal() {
       });
 
       // 참가 등록 횟수 체크 후 등록
-      const result = await registerBestDresser(fileUrl, values.description);
+      const result = await registerBestDresser(
+        fileUrl,
+        values.description ?? ""
+      );
 
       if (!result.success) {
         toast.error(result.error || "등록 중 오류가 발생했습니다.");

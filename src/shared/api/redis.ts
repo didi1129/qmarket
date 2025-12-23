@@ -153,9 +153,11 @@ export async function getPopularSearches() {
   }
 }
 
+/* 베스트 드레서 참가 횟수 카운트 */
 const MAX_ENTRIES_PER_USER = 3;
 const REDIS_KEY_PREFIX = "best_dresser:entries:";
 
+// 유저별 잔여 횟수, 최대 등록 횟수 지정
 export async function checkUserEntryLimit(userId: string): Promise<{
   canEnter: boolean;
   currentCount: number;
@@ -172,16 +174,45 @@ export async function checkUserEntryLimit(userId: string): Promise<{
   };
 }
 
+// 참가 등록 후 잔여 횟수 카운트
 export async function incrementUserEntryCount(userId: string): Promise<void> {
   const redis = getRedisClient();
   const key = `${REDIS_KEY_PREFIX}${userId}`;
   await redis.incr(key);
-  // 선택사항: 만료 시간 설정 (예: 30일)
-  // await redis.expire(key, 60 * 60 * 24 * 30)
 }
 
+// 유저별 잔여 횟수 불러오기
 export async function getUserEntryCount(userId: string): Promise<number> {
   const redis = getRedisClient();
   const key = `${REDIS_KEY_PREFIX}${userId}`;
   return (await redis.get<number>(key)) || 0;
+}
+
+// 게시글 삭제 시 잔여 횟수 복원
+export async function restoreEntryCount(userId: string) {
+  const redis = getRedisClient();
+  const key = `entry_count:${userId}`;
+
+  try {
+    const currentCount = await redis.get<number>(key);
+
+    // 기록이 없거나 이미 3회라면 복원하지 않음
+    if (currentCount === null || currentCount >= MAX_ENTRIES_PER_USER) {
+      return { success: true, remainingCount: MAX_ENTRIES_PER_USER };
+    }
+
+    // 횟수 1 증가 (복원)
+    const updatedCount = await redis.incr(key);
+
+    // 잔여 횟수 3 초과 방지
+    if (updatedCount > MAX_ENTRIES_PER_USER) {
+      await redis.set(key, MAX_ENTRIES_PER_USER);
+      return { success: true, remainingCount: MAX_ENTRIES_PER_USER };
+    }
+
+    return { success: true, remainingCount: updatedCount };
+  } catch (error) {
+    console.error("Redis 복원 에러:", error);
+    return { success: false, error: "횟수 복원에 실패했습니다." };
+  }
 }

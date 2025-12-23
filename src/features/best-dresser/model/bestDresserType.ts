@@ -10,3 +10,8 @@ export interface BestDresserEntry {
 }
 
 export type BestDresserInsert = Omit<BestDresserEntry, "id" | "created_at">;
+
+export interface EntryFormValues {
+  imageFile: File | null;
+  description?: string;
+}

@@ -48,7 +48,7 @@ export default function EntryList({ user }: { user: User | null }) {
           <p className="text-sm text-foreground/50">로딩중...</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-16">
           {data?.pages.map((page, pageIndex) =>
             page.map((entry, entryIndex) => {
               // 첫번째 페이지의 1,2,3번째 요소에만 스타일 추가 (무한 스크롤 시 각 페이지별 1,2,3번째 요소 스타일 방지)

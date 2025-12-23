@@ -1,4 +1,4 @@
-import UploadModal from "@/features/best-dresser/ui/UploadModal";
+import UploadModal from "@/features/best-dresser/ui/EntryUploadModal";
 import Footer from "@/shared/ui/Footer";
 import { getUserServer } from "@/shared/api/get-supabase-user-server";
 import EntryList from "@/features/best-dresser/ui/EntryList";
@@ -26,7 +26,7 @@ export default async function BestDresserPage() {
             <li>결과 발표: 2025.12.31</li>
           </ul>
           <p className="text-sm text-foreground">
-            * 계정당 3회까지 참가자로 등록 가능합니다.
+            * 계정당 3회까지 코디 등록이 가능합니다.
           </p>
           <p className="text-sm text-foreground">
             * 1, 2, 3등은 메인 페이지에 게재됩니다.
