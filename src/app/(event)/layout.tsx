@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { pretendard } from "@/shared/config/fonts";
+import { galmuri9 } from "@/shared/config/fonts";
 import { Analytics } from "@vercel/analytics/next";
 import { Toaster } from "sonner";
 import Header from "@/shared/ui/Header";
@@ -19,7 +19,7 @@ export default async function EventPageLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={`${pretendard.className} antialiased`}>
+      <body className={`${galmuri9.className} antialiased`}>
         <QueryProvider>
           <Header />
           {children}
