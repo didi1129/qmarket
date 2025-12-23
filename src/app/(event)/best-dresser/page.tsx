@@ -3,8 +3,41 @@ import Footer from "@/shared/ui/Footer";
 import { getUserServer } from "@/shared/api/get-supabase-user-server";
 import EntryList from "@/features/best-dresser/ui/EntryList";
 
+function isContestClosed(): boolean {
+  // 현재 UTC 시간
+  const now = new Date();
+
+  // KST 기준 마감 시각: 2025-12-31 00:00:00 (UTC 기준으로 2025-12-30 15:00:00) (KST = UTC + 9)
+  const contestEndUTC = new Date("2025-12-30T15:00:00Z");
+
+  return now >= contestEndUTC;
+}
+
 export default async function BestDresserPage() {
   const user = await getUserServer();
+  const closed = isContestClosed();
+
+  if (closed) {
+    return (
+      <main className="min-h-screen flex items-center justify-center px-6">
+        <div className="text-center max-w-xl">
+          <div className="text-6xl mb-6">🎉</div>
+          <h1 className="text-3xl md:text-4xl font-black mb-4">
+            2025 큐플레이 베스트 드레서
+            <br />
+            컨테스트가 마감되었습니다!
+          </h1>
+          <p className="text-lg text-gray-600 leading-relaxed">
+            참여해주셔서 감사합니다.
+            <br />
+            <span className="font-bold text-purple-600">
+              12월 31일에 당첨자 발표를 확인해주세요!
+            </span>
+          </p>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main>
@@ -86,7 +119,7 @@ export default async function BestDresserPage() {
         {/* 컨테스트 참가자 목록 */}
         <EntryList user={user} />
 
-        <div className="border rounded-xl border-border p-6 text-sm mt-40">
+        <div className="border rounded-xl border-border p-6 text-sm">
           <p className="text-sm text-foreground/60">
             * 중복 참가 이미지, 컨테스트와 관련 없는 이미지는 별도의 공지 없이
             삭제됩니다.
