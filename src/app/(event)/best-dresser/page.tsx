@@ -9,7 +9,7 @@ export default async function BestDresserPage() {
   return (
     <main className="md:mt-[-70px] md:pt-[200px] min-h-screen bg-gradient-to-br from-red-50 via-yellow-50 to-purple-50 py-12 px-4">
       <div className="max-w-6xl mx-auto">
-        <header className="text-center mb-16">
+        <header className="text-center mb-8">
           <h1 className="text-5xl font-extrabold text-foreground mb-4 tracking-tight">
             👗{" "}
             <span className="bg-[linear-gradient(to_right,#ef4444,#eab308,#22c55e,#3b82f6,#a855f7)] bg-clip-text text-transparent">
@@ -30,7 +30,7 @@ export default async function BestDresserPage() {
         </header>
 
         {/* 참여하기 */}
-        <div className="flex justify-center mb-24">
+        <div className="flex justify-center mb-40">
           <UploadModal />
         </div>
 

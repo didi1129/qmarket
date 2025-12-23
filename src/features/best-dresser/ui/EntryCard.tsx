@@ -203,7 +203,7 @@ export default function EntryCard({ data, user, rank }: EntryCardProps) {
           type="button"
           size="icon"
           onClick={handleVote}
-          className={`absolute -top-4 -right-4 w-auto max-w-[56px] px-4 pt-10 pb-8 mt-2 rounded-full font-bold transition-all flex flex-col items-center justify-center gap-1 border-2 active:scale-95 focus-visible:bg-blue-500 hover:bg-blue-500 ${
+          className={`absolute -top-10 -right-5 w-auto max-w-[56px] px-4 pt-10 pb-8 mt-2 rounded-full font-bold transition-all flex flex-col items-center justify-center gap-1 border-2 active:scale-95 focus-visible:bg-blue-500 hover:bg-blue-500 ${
             isVoted
               ? "bg-blue-500 border-blue-500 text-white shadow-lg shadow-blue-200"
               : "bg-white border-blue-100 text-blue-500 hover:bg-blue-50 hover:border-blue-200"
