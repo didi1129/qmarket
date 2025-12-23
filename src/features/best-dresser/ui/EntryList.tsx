@@ -42,10 +42,15 @@ export default function EntryList({ user }: { user: User | null }) {
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-12">
-        {data?.pages.map((page) =>
-          page.map((entry) => (
-            <EntryCard key={entry.id} data={entry} user={user} />
-          ))
+        {data?.pages.map((page, pageIndex) =>
+          page.map((entry, entryIndex) => {
+            // 첫번째 페이지의 1,2,3번째 요소에만 스타일 추가 (무한 스크롤 시 각 페이지별 1,2,3번째 요소 스타일 방지)
+            const rank = pageIndex === 0 ? entryIndex : -1;
+
+            return (
+              <EntryCard key={entry.id} data={entry} user={user} rank={rank} />
+            );
+          })
         )}
       </div>
 

@@ -12,9 +12,24 @@ import { Heart } from "lucide-react";
 interface EntryCardProps {
   data: BestDresserEntry;
   user: User | null;
+  rank: number;
 }
 
-export default function EntryCard({ data, user }: EntryCardProps) {
+// rank 값에 따른 스타일 분기
+const getRankStyles = (r: number | undefined) => {
+  switch (r) {
+    case 0: // 1위
+      return "ring-4 ring-yellow-400 shadow-[0_0_25px_rgba(250,204,21,0.5)] bg-gradient-to-b from-yellow-50 to-white scale-[1.02] z-10";
+    case 1: // 2위
+      return "ring-4 ring-slate-300 shadow-[0_0_20px_rgba(148,163,184,0.3)] bg-gradient-to-b from-slate-50 to-white";
+    case 2: // 3위
+      return "ring-4 ring-amber-900/30 shadow-[0_0_15px_rgba(134, 75, 36, 0.2)] bg-gradient-to-b from-amber-50 to-white";
+    default:
+      return "bg-white/70 border border-white/50";
+  }
+};
+
+export default function EntryCard({ data, user, rank }: EntryCardProps) {
   const queryClient = useQueryClient();
 
   // 중복 투표 방지
@@ -136,8 +151,30 @@ export default function EntryCard({ data, user }: EntryCardProps) {
     // }
   };
 
+  const isTopRank = rank >= 0 && rank <= 2;
+  const rankLabels = ["🥇 1등", "🥈 2등", "🥉 3등"];
+
   return (
-    <div className="w-[270px] mx-auto md:w-auto md:mx-0 bg-white/70 p-3 backdrop-blur-md rounded-2xl shadow-xl border border-white/50">
+    <div
+      className={`w-[270px] mx-auto md:w-auto md:mx-0 p-3 backdrop-blur-md rounded-2xl shadow-xl ${getRankStyles(
+        rank
+      )}`}
+    >
+      {/* 1, 2, 3위 뱃지 */}
+      {isTopRank && (
+        <span
+          className={`absolute -top-8.5 left-4 px-3 pb-1 pt-1.5 rounded-tl-xl rounded-tr-xl text-sm font-black ${
+            rank === 0
+              ? "bg-yellow-400 text-yellow-900"
+              : rank === 1
+              ? "bg-slate-400 text-white"
+              : "bg-amber-900/50 text-white"
+          }`}
+        >
+          {rankLabels[rank]}
+        </span>
+      )}
+
       {/* 이미지 */}
       <div className="relative w-[184px] h-[236px] mx-auto">
         <img
