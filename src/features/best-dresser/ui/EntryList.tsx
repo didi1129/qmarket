@@ -20,7 +20,7 @@ export default function EntryList({ user }: { user: User | null }) {
 
         const { data, error } = await supabase
           .from("best_dresser")
-          .select("*")
+          .select("*, comments_count:best_dresser_comments(count)")
           .order("votes", { ascending: false })
           .order("created_at", { ascending: false })
           .range(from, to);

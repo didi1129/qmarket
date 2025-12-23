@@ -1,5 +1,6 @@
 import { supabaseServer } from "@/shared/api/supabase-server";
 import CommentSection from "@/features/comment/ui/CommentSection";
+import ButtonToBack from "@/shared/ui/LinkButton/ButtonToBack";
 
 export default async function EntryDetailPage({
   params,
@@ -18,6 +19,8 @@ export default async function EntryDetailPage({
 
   return (
     <div className="max-w-4xl mx-auto py-12 px-4 mt-20">
+      <ButtonToBack />
+
       <div className="mb-8 flex flex-col justify-center items-center">
         <img
           src={entry.image_url}

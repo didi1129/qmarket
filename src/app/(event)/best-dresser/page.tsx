@@ -8,7 +8,7 @@ export default async function BestDresserPage() {
 
   return (
     <main>
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl mx-auto pt-20">
         <header className="text-center mb-8">
           <h1 className="text-5xl font-extrabold text-foreground mb-4 tracking-tight">
             👗{" "}

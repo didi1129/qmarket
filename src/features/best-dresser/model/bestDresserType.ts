@@ -6,6 +6,7 @@ export interface BestDresserEntry {
   nickname: string | null;
   votes: number;
   description?: string;
+  comments_count: { count: number }[];
 }
 
 export type BestDresserInsert = Omit<BestDresserEntry, "id" | "created_at">;

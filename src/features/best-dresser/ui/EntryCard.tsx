@@ -7,7 +7,7 @@ import { Button } from "@/shared/ui/button";
 import { InfiniteData } from "@tanstack/react-query";
 import { User } from "@supabase/supabase-js";
 import { toast } from "sonner";
-import { Heart } from "lucide-react";
+import { Heart, MessageCircleMoreIcon } from "lucide-react";
 import { formatRelativeTime } from "@/shared/lib/formatters";
 import Link from "next/link";
 
@@ -33,6 +33,8 @@ const getRankStyles = (r: number | undefined) => {
 
 export default function EntryCard({ data, user, rank }: EntryCardProps) {
   const queryClient = useQueryClient();
+
+  const commentCount = data.comments_count?.[0]?.count || 0;
 
   // 중복 투표 방지
   const { data: myVote } = useQuery({
@@ -201,12 +203,24 @@ export default function EntryCard({ data, user, rank }: EntryCardProps) {
               </span>
             </span>
 
-            <span className="text-xs text-foreground/50">
-              등록:
-              <span className="ml-0.5">
-                {formatRelativeTime(data.created_at)}
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-foreground/50">
+                등록:
+                <span className="ml-0.5">
+                  {formatRelativeTime(data.created_at)}
+                </span>
               </span>
-            </span>
+
+              {/* 댓글 수 */}
+              {commentCount > 0 && (
+                <div className="flex items-center gap-1 text-blue-600">
+                  <MessageCircleMoreIcon className="size-3.5" />
+                  <span className="text-xs font-medium">
+                    댓글 {commentCount}
+                  </span>
+                </div>
+              )}
+            </div>
           </div>
 
           <Button
