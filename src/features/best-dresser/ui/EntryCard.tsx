@@ -9,6 +9,7 @@ import { User } from "@supabase/supabase-js";
 import { toast } from "sonner";
 import { Heart } from "lucide-react";
 import { formatRelativeTime } from "@/shared/lib/formatters";
+import Link from "next/link";
 
 interface EntryCardProps {
   data: BestDresserEntry;
@@ -156,75 +157,77 @@ export default function EntryCard({ data, user, rank }: EntryCardProps) {
   const rankLabels = ["🥇 1등", "🥈 2등", "🥉 3등"];
 
   return (
-    <div
-      className={`w-[270px] mx-auto md:w-auto md:mx-0 p-3 backdrop-blur-md rounded-2xl shadow-xl ${getRankStyles(
-        rank
-      )}`}
-    >
-      {/* 1, 2, 3위 뱃지 */}
-      {isTopRank && (
-        <span
-          className={`absolute -top-8.5 left-4 px-3 pb-1 pt-1.5 rounded-tl-xl rounded-tr-xl text-sm font-black ${
-            rank === 0
-              ? "bg-yellow-400 text-yellow-900"
-              : rank === 1
-              ? "bg-slate-400 text-white"
-              : "bg-amber-900/50 text-white"
-          }`}
-        >
-          {rankLabels[rank]}
-        </span>
-      )}
-
-      {/* 이미지 */}
-      <div className="relative w-[184px] h-[236px] mx-auto">
-        <img
-          src={data.image_url}
-          alt="Avatar"
-          className="object-contain w-full h-full rounded-xl overflow-hidden"
-        />
-      </div>
-
-      {/* 내용 */}
-      <div className="mt-2 flex flex-col gap-2">
-        <p className="h-[62px] overflow-y-auto text-sm text-gray-700 leading-relaxed px-3 py-2 bg-gray-100/80 rounded-lg">
-          {data.description || "등록된 설명이 없습니다."}
-        </p>
-
-        <div className="flex items-center justify-between">
-          <span className="text-xs text-foreground/50">
-            참가자:
-            <span className="ml-0.5 font-medium text-gray-800">
-              {data.nickname}
-            </span>
+    <Link href={`/best-dresser/${data.id}`}>
+      <div
+        className={`hover:scale-105 transition-transform w-[270px] mx-auto md:w-auto md:mx-0 p-3 backdrop-blur-md rounded-2xl shadow-xl ${getRankStyles(
+          rank
+        )}`}
+      >
+        {/* 1, 2, 3위 뱃지 */}
+        {isTopRank && (
+          <span
+            className={`absolute -top-8.5 left-4 px-3 pb-1 pt-1.5 rounded-tl-xl rounded-tr-xl text-sm font-black ${
+              rank === 0
+                ? "bg-yellow-400 text-yellow-900"
+                : rank === 1
+                ? "bg-slate-400 text-white"
+                : "bg-amber-900/50 text-white"
+            }`}
+          >
+            {rankLabels[rank]}
           </span>
+        )}
 
-          <span className="text-xs text-foreground/50">
-            등록:
-            <span className="ml-0.5">
-              {formatRelativeTime(data.created_at)}
-            </span>
-          </span>
+        {/* 이미지 */}
+        <div className="relative w-[184px] h-[236px] mx-auto">
+          <img
+            src={data.image_url}
+            alt="Avatar"
+            className="object-contain w-full h-full rounded-xl overflow-hidden"
+          />
         </div>
 
-        <Button
-          type="button"
-          size="icon"
-          onClick={handleVote}
-          className={`absolute -top-10 -right-5 w-auto max-w-[56px] px-4 py-8 mt-2 rounded-full font-bold transition-all flex flex-col items-center justify-center gap-1 border-2 active:scale-95 focus-visible:bg-blue-500 hover:bg-blue-500 ${
-            isVoted
-              ? "bg-blue-500 border-blue-500 text-white shadow-lg shadow-blue-200"
-              : "bg-white border-blue-100 text-blue-500 hover:bg-blue-50 hover:border-blue-200"
-          }`}
-        >
-          <Heart
-            className={`size-5 transition-transform ${
-              isVoted ? "fill-current scale-110" : "scale-100"
+        {/* 내용 */}
+        <div className="mt-2 flex flex-col gap-2">
+          <p className="h-[62px] overflow-y-auto text-sm text-gray-700 leading-relaxed px-3 py-2 bg-gray-100/80 rounded-lg">
+            {data.description || "등록된 설명이 없습니다."}
+          </p>
+
+          <div className="flex items-center justify-between">
+            <span className="text-xs text-foreground/50">
+              참가자:
+              <span className="ml-0.5 font-medium text-gray-800">
+                {data.nickname}
+              </span>
+            </span>
+
+            <span className="text-xs text-foreground/50">
+              등록:
+              <span className="ml-0.5">
+                {formatRelativeTime(data.created_at)}
+              </span>
+            </span>
+          </div>
+
+          <Button
+            type="button"
+            size="icon"
+            onClick={handleVote}
+            className={`absolute -top-10 -right-5 w-auto max-w-[56px] px-4 py-8 mt-2 rounded-full font-bold transition-all flex flex-col items-center justify-center gap-1 border-2 active:scale-95 focus-visible:bg-blue-500 hover:bg-blue-500 ${
+              isVoted
+                ? "bg-blue-500 border-blue-500 text-white shadow-lg shadow-blue-200"
+                : "bg-white border-blue-100 text-blue-500 hover:bg-blue-50 hover:border-blue-200"
             }`}
-          />
-          <span className="tracking-tight">{data.votes}</span>
-        </Button>
+          >
+            <Heart
+              className={`size-5 transition-transform ${
+                isVoted ? "fill-current scale-110" : "scale-100"
+              }`}
+            />
+            <span className="tracking-tight">{data.votes}</span>
+          </Button>
+        </div>
       </div>
-    </div>
+    </Link>
   );
 }

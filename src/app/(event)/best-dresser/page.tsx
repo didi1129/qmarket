@@ -7,7 +7,7 @@ export default async function BestDresserPage() {
   const user = await getUserServer();
 
   return (
-    <main className="md:mt-[-70px] md:pt-[200px] min-h-screen bg-gradient-to-br from-red-50 via-yellow-50 to-purple-50 py-12 px-4">
+    <main>
       <div className="max-w-6xl mx-auto">
         <header className="text-center mb-8">
           <h1 className="text-5xl font-extrabold text-foreground mb-4 tracking-tight">

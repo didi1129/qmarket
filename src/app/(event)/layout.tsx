@@ -19,7 +19,9 @@ export default async function EventPageLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={`${galmuri9.className} antialiased`}>
+      <body
+        className={`${galmuri9.className} antialiased min-h-screen py-12 px-4 bg-gradient-to-br from-red-50 via-yellow-50 to-purple-50`}
+      >
         <QueryProvider>
           <Header />
           {children}
