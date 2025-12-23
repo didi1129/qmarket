@@ -12,18 +12,16 @@ import {
 import { Button } from "@/shared/ui/button";
 import { Textarea } from "@/shared/ui/textarea";
 import { Label } from "@/shared/ui/label";
-import { Camera, Loader2, CheckCircle2, Pencil } from "lucide-react";
+import { Camera, Loader2, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
 import { getUploadUrl } from "@/app/actions/s3-actions";
 import { useUser } from "@/shared/hooks/useUser";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import { useForm, Controller } from "react-hook-form";
 import { useQueryClient } from "@tanstack/react-query";
-import {
-  registerBestDresser,
-  getRemainingEntryCount,
-} from "@/app/actions/best-dresser-actions";
+import { registerBestDresser } from "@/app/actions/best-dresser-actions";
 import { EntryFormValues } from "../model/bestDresserType";
+import { useRemainingCount } from "@/shared/hooks/useRemainingCount";
 
 const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
 
@@ -31,10 +29,11 @@ export default function EntryUploadModal() {
   const [open, setOpen] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isSucceeded, setIsSucceeded] = useState(false);
-  const [remainingCount, setRemainingCount] = useState<number | null>(null);
 
   const { data: user } = useUser();
   const queryClient = useQueryClient();
+
+  const { data: remainingCount } = useRemainingCount(user?.id);
 
   const {
     handleSubmit,
@@ -68,22 +67,6 @@ export default function EntryUploadModal() {
       setIsSucceeded(false);
     }
   };
-
-  // 남은 참가 횟수 조회
-  useEffect(() => {
-    const fetchRemainingCount = async () => {
-      if (!user) return;
-
-      const result = await getRemainingEntryCount();
-      if (result.success && result.remainingCount !== undefined) {
-        setRemainingCount(result.remainingCount);
-      }
-    };
-
-    if (open && user) {
-      fetchRemainingCount();
-    }
-  }, [open, user]);
 
   const onSubmit = async (values: EntryFormValues) => {
     if (!user) {
@@ -119,18 +102,21 @@ export default function EntryUploadModal() {
         return;
       }
 
+      // 게시물 목록 갱신
       await queryClient.invalidateQueries({
         queryKey: ["best_dresser"],
       });
 
-      if (result.remainingCount !== undefined) {
-        setRemainingCount(result.remainingCount);
-        toast.success(
-          `컨테스트에 참가되었습니다! (남은 횟수: ${result.remainingCount}회)`
-        );
-      } else {
-        toast.success("컨테스트에 참가되었습니다!");
-      }
+      // 잔여 횟수 갱신
+      await queryClient.invalidateQueries({
+        queryKey: ["remainingCount", user?.id],
+      });
+
+      toast.success(
+        result.remainingCount !== undefined
+          ? `컨테스트에 참가되었습니다! (남은 횟수: ${result.remainingCount}회)`
+          : "컨테스트에 참가되었습니다!"
+      );
 
       // 참가 폼 초기화
       reset();
@@ -187,7 +173,7 @@ export default function EntryUploadModal() {
             </DialogDescription>
           </DialogHeader>
 
-          <div className="flex flex-col gap-6 py-4">
+          <div className="flex flex-col gap-12 py-12">
             {/* 이미지 필드 */}
             <div className="flex flex-col gap-2">
               <Label htmlFor="photo" className="text-foreground font-medium">

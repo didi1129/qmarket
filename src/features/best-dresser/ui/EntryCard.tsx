@@ -78,6 +78,7 @@ export default function EntryCard({ data, user, rank }: EntryCardProps) {
         "remainingCount" in redisResult ? redisResult.remainingCount : 3;
       toast.success(`삭제 완료! (잔여 횟수: ${count}회)`);
       queryClient.invalidateQueries({ queryKey: ["best_dresser"] });
+      queryClient.invalidateQueries({ queryKey: ["remainingCount", user?.id] });
 
       // 4. DB 삭제 후 S3 이미지 삭제 (이미지 삭제 실패 시 콘솔 에러로만 표시)
       const s3Result = await deleteS3Image(data.image_url);

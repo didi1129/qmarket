@@ -191,26 +191,29 @@ export async function getUserEntryCount(userId: string): Promise<number> {
 // 게시글 삭제 시 잔여 횟수 복원
 export async function restoreEntryCount(userId: string) {
   const redis = getRedisClient();
-  const key = `entry_count:${userId}`;
+  const key = `${REDIS_KEY_PREFIX}${userId}`;
 
   try {
     const currentCount = await redis.get<number>(key);
 
-    // 기록이 없거나 이미 3회라면 복원하지 않음
-    if (currentCount === null || currentCount >= MAX_ENTRIES_PER_USER) {
+    // 기록이 없거나 이미 0이라면 복원하지 않음
+    if (currentCount === null || currentCount <= 0) {
       return { success: true, remainingCount: MAX_ENTRIES_PER_USER };
     }
 
-    // 횟수 1 증가 (복원)
-    const updatedCount = await redis.incr(key);
+    // 사용 횟수 1 감소 (잔여 횟수 1 복원)
+    const updatedCount = await redis.decr(key);
 
-    // 잔여 횟수 3 초과 방지
-    if (updatedCount > MAX_ENTRIES_PER_USER) {
-      await redis.set(key, MAX_ENTRIES_PER_USER);
+    // 사용 횟수 음수 방지
+    if (updatedCount < 0) {
+      await redis.set(key, 0);
       return { success: true, remainingCount: MAX_ENTRIES_PER_USER };
     }
 
-    return { success: true, remainingCount: updatedCount };
+    return {
+      success: true,
+      remainingCount: Math.max(0, MAX_ENTRIES_PER_USER - updatedCount),
+    };
   } catch (error) {
     console.error("Redis 복원 에러:", error);
     return { success: false, error: "횟수 복원에 실패했습니다." };
