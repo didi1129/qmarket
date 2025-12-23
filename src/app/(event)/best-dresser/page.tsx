@@ -1,43 +1,10 @@
-"use client";
-
-import { supabase } from "@/shared/api/supabase-client";
-import EntryCard from "@/features/best-dresser/ui/EntryCard";
 import UploadModal from "@/features/best-dresser/ui/UploadModal";
 import Footer from "@/shared/ui/Footer";
-import useInfiniteScroll from "@/shared/hooks/useInfiniteScroll";
-import { Loader2 } from "lucide-react";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { getUserServer } from "@/shared/api/get-supabase-user-server";
+import EntryList from "@/features/best-dresser/ui/EntryList";
 
-const ITEMS_PER_PAGE = 12;
-
-export default function BestDresserPage() {
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending } =
-    useInfiniteQuery({
-      queryKey: ["best_dresser"],
-      queryFn: async ({ pageParam = 0 }) => {
-        const from = (pageParam as number) * ITEMS_PER_PAGE;
-        const to = from + ITEMS_PER_PAGE + 1;
-
-        const { data, error } = await supabase
-          .from("best_dresser")
-          .select("*")
-          .order("created_at", { ascending: false })
-          .range(from, to);
-
-        if (error) throw error;
-        return data;
-      },
-      initialPageParam: 0,
-      getNextPageParam: (lastPage, allPages) => {
-        return lastPage.length === ITEMS_PER_PAGE ? allPages.length : undefined;
-      },
-    });
-
-  const { loadMoreRef } = useInfiniteScroll({
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  });
+export default async function BestDresserPage() {
+  const user = await getUserServer();
 
   return (
     <main className="md:mt-[-70px] md:pt-[200px] min-h-screen bg-gradient-to-br from-red-50 via-yellow-50 to-purple-50 py-12 px-4">
@@ -68,20 +35,7 @@ export default function BestDresserPage() {
         </div>
 
         {/* 컨테스트 참가자 목록 */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-4">
-          {data?.pages.map((page) =>
-            page.map((entry) => <EntryCard key={entry.id} data={entry} />)
-          )}
-
-          <div
-            ref={loadMoreRef}
-            className="h-20 flex items-center justify-center mt-10"
-          >
-            {isFetchingNextPage && (
-              <Loader2 className="animate-spin text-pink-500" />
-            )}
-          </div>
-        </div>
+        <EntryList user={user} />
       </div>
 
       <Footer className="mt-20" />
