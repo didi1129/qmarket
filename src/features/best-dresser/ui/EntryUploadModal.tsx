@@ -178,10 +178,10 @@ export default function EntryUploadModal() {
                 </span>
               )}
               {remainingCount === 0 && (
-                <p className="mt-1 text-[12px] text-red-500 font-medium">
+                <span className="block mt-1 text-[12px] text-red-500 font-medium">
                   참가 횟수를 모두 사용했습니다. 기존 참가 글을 삭제하면 잔여
                   횟수가 복원됩니다.
-                </p>
+                </span>
               )}
             </DialogDescription>
           </DialogHeader>
