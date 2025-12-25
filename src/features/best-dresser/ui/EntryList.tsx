@@ -14,7 +14,7 @@ const ITEMS_PER_PAGE = 12;
 type SortType = "latest" | "votes";
 
 export default function EntryList({ user }: { user: User | null }) {
-  const [sort, setSort] = useState<SortType>("votes");
+  const [sort, setSort] = useState<SortType>("latest");
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isPending } =
     useInfiniteQuery({
@@ -82,18 +82,6 @@ export default function EntryList({ user }: { user: User | null }) {
         <div className="flex justify-end mb-8">
           <div className="flex rounded-lg bg-muted p-1">
             <button
-              onClick={() => setSort("votes")}
-              className={`px-4 py-2 text-sm font-bold rounded-md transition
-        ${
-          sort === "votes"
-            ? "bg-white shadow text-pink-600"
-            : "text-foreground/50 hover:text-foreground"
-        }`}
-            >
-              👍 좋아요순
-            </button>
-
-            <button
               onClick={() => setSort("latest")}
               className={`px-4 py-2 text-sm font-bold rounded-md transition
         ${
@@ -103,6 +91,17 @@ export default function EntryList({ user }: { user: User | null }) {
         }`}
             >
               🕒 최신순
+            </button>
+            <button
+              onClick={() => setSort("votes")}
+              className={`px-4 py-2 text-sm font-bold rounded-md transition
+        ${
+          sort === "votes"
+            ? "bg-white shadow text-pink-600"
+            : "text-foreground/50 hover:text-foreground"
+        }`}
+            >
+              👍 좋아요순
             </button>
           </div>
         </div>
