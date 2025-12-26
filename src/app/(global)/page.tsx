@@ -7,15 +7,10 @@ import ItemList from "@/features/items/ui/ItemList";
 import RollingPopularSearch from "@/features/item-search/ui/RollingPopularSearch";
 import { getPopularSearchesAction } from "../actions/search-actions";
 import GoToItemsModal from "@/features/items/ui/GoToItemsModal";
-import SignInToast from "@/features/auth/signin/ui/SignInToast";
 import GoToMyItemsModal from "@/features/user/ui/GoToMyItemsModal";
 import UrlCleaner from "@/shared/lib/UrlCleaner";
 
-export default async function Home({
-  params,
-}: {
-  params: Promise<{ auth_reason?: string }>;
-}) {
+export default async function Home() {
   const now = new Date();
   const year = now.getFullYear();
   const month = now.getMonth() + 1;
@@ -31,9 +26,6 @@ export default async function Home({
 
   // 인기 검색어 로드
   const data = await getPopularSearchesAction();
-
-  // 리디렉션 토스트 띄우기용 파라미터
-  const { auth_reason } = await params;
 
   return (
     <>
