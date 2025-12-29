@@ -234,7 +234,7 @@ export default async function Home({
           </section>
 
           {/* 베스트 드레서 섹션 */}
-          <section>
+          {/* <section>
             <div className="flex items-center justify-between mb-8">
               <h2 className="text-2xl font-bold tracking-tight">
                 ✨ 2025 큐플레이 베스트 드레서
@@ -243,7 +243,7 @@ export default async function Home({
             </div>
 
             <BestDresserList />
-          </section>
+          </section> */}
         </div>
       </main>
     </>
