@@ -100,7 +100,7 @@ export default async function BestDresserPage() {
         </div>
 
         {/* 베스트 드레서 섹션 */}
-        <section>
+        {/* <section>
           <h2 className="mb-12 text-4xl md:text-6xl break-keep font-black leading-tight flex items-center justify-center gap-4">
             <span className="inline-block animate-bounce text-4xl md:text-5xl">
               🎉
@@ -113,10 +113,10 @@ export default async function BestDresserPage() {
             </span>
           </h2>
           <BestDresserSection />
-        </section>
+        </section> */}
 
         {/* 당첨자 섹션 */}
-        <section>
+        {/* <section>
           <h2 className="mb-12 text-4xl md:text-6xl break-keep font-black leading-tight flex items-center justify-center gap-4">
             <span className="inline-block animate-bounce text-4xl md:text-5xl">
               🎉
@@ -142,7 +142,7 @@ export default async function BestDresserPage() {
               <b>DM 수신 허용 여부</b>를 확인해주세요!
             </p>
           </div>
-        </section>
+        </section> */}
 
         {/* 컨테스트 참가자 목록 */}
         <div className="mt-24">
