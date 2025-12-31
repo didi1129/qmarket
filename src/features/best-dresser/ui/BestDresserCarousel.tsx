@@ -21,7 +21,7 @@ export default function BestDresserCarousel({
   return (
     <div className="relative group mx-4">
       <Swiper
-        loop={true}
+        loop={false}
         spaceBetween={20}
         slidesPerView={1}
         navigation={{
@@ -34,7 +34,7 @@ export default function BestDresserCarousel({
             spaceBetween: 20,
           },
         }}
-        autoplay={{ delay: 3000, disableOnInteraction: false }}
+        // autoplay={{ delay: 3000, disableOnInteraction: false }}
       >
         {data.map((entry, i) => (
           <SwiperSlide key={entry.id}>

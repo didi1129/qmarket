@@ -95,29 +95,35 @@ export default async function BestDresserPage() {
         </div>
 
         {/* 참여하기 */}
-        <div className="flex justify-center mb-16">
+        {/* <div className="flex justify-center mb-16">
           <EntryUploadModal disabled={isClosed} />
-        </div>
+        </div> */}
 
         {/* 베스트 드레서 섹션 */}
-        {/* <section>
-          <h2 className="mb-12 text-4xl md:text-6xl break-keep font-black leading-tight flex items-center justify-center gap-4">
-            <span className="inline-block animate-bounce text-4xl md:text-5xl">
-              🎉
-            </span>
-            <div className="bg-gradient-to-r from-purple-600 via-pink-500 to-yellow-400 bg-clip-text text-transparent">
-              수상자
-            </div>
-            <span className="inline-block animate-bounce text-4xl md:text-5xl">
-              🎉
-            </span>
-          </h2>
+        <section className="mt-8">
+          <div className="mb-8">
+            <h2 className="mb-3 text-4xl md:text-6xl break-keep font-black leading-tight flex items-center justify-center gap-4">
+              <span className="inline-block animate-bounce text-4xl md:text-5xl">
+                🎉
+              </span>
+              <div className="bg-gradient-to-r from-purple-600 via-pink-500 to-yellow-400 bg-clip-text text-transparent">
+                수상자
+              </div>
+              <span className="inline-block animate-bounce text-4xl md:text-5xl">
+                🎉
+              </span>
+            </h2>
+            <p className="text-center text-gray-700 break-keep">
+              2025 큐플레이 베스트 드레서에 선정되신 것을 축하드립니다!
+            </p>
+          </div>
+
           <BestDresserSection />
-        </section> */}
+        </section>
 
         {/* 당첨자 섹션 */}
-        {/* <section>
-          <h2 className="mb-12 text-4xl md:text-6xl break-keep font-black leading-tight flex items-center justify-center gap-4">
+        <section>
+          <h2 className="mb-8 text-4xl md:text-6xl break-keep font-black leading-tight flex items-center justify-center gap-4">
             <span className="inline-block animate-bounce text-4xl md:text-5xl">
               🎉
             </span>
@@ -130,19 +136,19 @@ export default async function BestDresserPage() {
           </h2>
 
           <div className="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-xl p-4 mb-6 max-w-md mx-auto border-2 border-yellow-300/50 shadow-md text-center break-keep">
-            <p className="flex justify-center gap-1 text-gray-700 mt-1">
-              🎁
-              <span className="font-bold text-orange-600">가나디</span>
-              <span className="font-bold text-orange-600">붕어빵</span>
-              <span className="font-bold text-orange-600">루루</span>
-              🎁
+            <p className="text-center text-gray-700 mt-1">
+              <span className="inline-block mr-1">🎁</span>
+              <span className="font-bold text-orange-600">
+                하노리 써치 승기
+              </span>
+              <span className="ml-1">🎁</span>
             </p>
             <p className="text-sm text-foreground/70 mt-3">
               당첨자 분들께는 <b>디스코드 DM으로 기프티콘</b>이 발송될 예정이니{" "}
               <b>DM 수신 허용 여부</b>를 확인해주세요!
             </p>
           </div>
-        </section> */}
+        </section>
 
         {/* 컨테스트 참가자 목록 */}
         <div className="mt-24">

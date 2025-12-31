@@ -219,7 +219,7 @@ export default async function Home() {
           </section>
 
           {/* 안내 섹션 */}
-          <section className="px-8 py-4 bg-muted-foreground/5 rounded-2xl text-foreground/50">
+          <section className="my-8 px-8 py-4 bg-muted-foreground/5 rounded-2xl text-foreground/50">
             <p className="text-center text-sm break-keep">
               큐마켓은 가격을 결정하지 않으며, 가격 판단을 돕는 참고 정보를
               제공합니다.
@@ -227,16 +227,16 @@ export default async function Home() {
           </section>
 
           {/* 베스트 드레서 섹션 */}
-          {/* <section>
+          <section className="w-full max-w-4xl">
             <div className="flex items-center justify-between mb-8">
               <h2 className="text-2xl font-bold tracking-tight">
-                ✨ 2025 큐플레이 베스트 드레서
+                ✨ 2025 베스트 드레서
               </h2>
               <ButtonToBestDresserPage />
             </div>
 
             <BestDresserSection />
-          </section> */}
+          </section>
         </div>
       </main>
     </>

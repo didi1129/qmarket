@@ -87,11 +87,13 @@ export const CUSTOM_ENTRY_TAGS = (idx: number) => {
     case 1:
       return "#백설공주";
     case 2:
-      return "#산타 #크리스마스";
+      return "#봄 #따뜻함";
     case 3:
       return "#군고구마 #사세요";
     case 4:
-      return "#봄 #따뜻함";
+      return "#산타 #크리스마스";
+    case 5:
+      return "#열무김치";
     default:
       return "";
   }
