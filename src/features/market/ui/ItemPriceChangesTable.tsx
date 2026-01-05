@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { getItemPriceChanges } from "../model/getItemPriceChanges";
 import { formatRelativeTime } from "@/shared/lib/formatters";
+import Link from "next/link";
 
 export default async function ItemPriceChangesTable({
   limit,
@@ -13,15 +14,25 @@ export default async function ItemPriceChangesTable({
   const today = new Date().toISOString().split("T")[0];
 
   return (
-    <div className="w-full overflow-x-auto">
-      <table className="w-full border-collapse text-left">
+    <div className="w-full max-h-[400px] overflow-y-auto">
+      <table className="w-full border-separate border-spacing-0 text-left">
         <thead>
           <tr className="border-b border-gray-200 text-sm text-gray-500">
-            <th className="pb-3 font-medium">아이템</th>
-            <th className="pb-3 font-medium">현재 시세</th>
-            <th className="pb-3 font-medium">이전 시세</th>
-            <th className="pb-3 font-medium text-center">변동률</th>
-            <th className="pb-3 font-medium text-right">최근 거래일</th>
+            <th className="sticky top-0 z-1 bg-background shadow-sm py-2 font-medium">
+              아이템
+            </th>
+            <th className="sticky top-0 z-1 bg-background shadow-sm py-2 font-medium">
+              현재 시세
+            </th>
+            <th className="sticky top-0 z-1 bg-background shadow-sm py-2 font-medium">
+              이전 시세
+            </th>
+            <th className="sticky top-0 z-1 bg-background shadow-sm py-2 font-medium text-center">
+              변동률
+            </th>
+            <th className="sticky top-0 z-1 bg-background shadow-sm py-2 font-medium text-right">
+              최근 거래일
+            </th>
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-100">
@@ -29,9 +40,7 @@ export default async function ItemPriceChangesTable({
             const isRising = item.change_rate > 0;
             const isFalling = item.change_rate < 0;
 
-            // 신규 데이터 판별
-            // 1. log_date가 오늘이고
-            // 2. prev_price가 null이거나 0인 데이터
+            // 신규 데이터 판별 (log_date가 오늘이고, prev_price가 null이거나 0인 데이터)
             const itemLogDate = new Date(item.log_date)
               .toISOString()
               .split("T")[0];
@@ -40,10 +49,7 @@ export default async function ItemPriceChangesTable({
               (!item.prev_price || item.prev_price === 0);
 
             return (
-              <tr
-                key={item.id}
-                className="group hover:bg-gray-50 transition-colors"
-              >
+              <tr key={item.id} className="hover:bg-gray-50 transition-colors">
                 {/* 아이템 정보 */}
                 <td className="py-1">
                   <div className="flex items-center gap-3">
@@ -55,14 +61,17 @@ export default async function ItemPriceChangesTable({
                         className="object-contain rounded-lg"
                       />
                     </div>
-                    <div>
-                      <b className="font-bold text-foreground mr-1">
+                    <Link
+                      href={`/item/${item.item_name}/${item.item_gender}`}
+                      prefetch={false}
+                    >
+                      <b className="font-bold text-foreground mr-1 hover:underline hover:underline-offset-2 hover:text-blue-500">
                         {item.item_name}
                       </b>
                       <span className="text-xs text-gray-400">
                         ({item.item_gender})
                       </span>
-                    </div>
+                    </Link>
                   </div>
                 </td>
 
