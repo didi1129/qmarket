@@ -3,18 +3,12 @@
 import { useState } from "react";
 import ItemsFilter from "@/features/item-search/ui/ItemsFilter";
 import ItemList from "./ItemList";
-
-interface FilterParams {
-  minPrice?: number;
-  maxPrice?: number;
-  sortBy: "created_at" | "price";
-  sortOrder: "asc" | "desc";
-}
+import { FilterParams } from "@/features/item-search/model/filterTypes";
 
 export default function ItemsClient() {
   const [filterParams, setFilterParams] = useState<FilterParams>({
-    sortBy: "created_at" as "created_at" | "price",
-    sortOrder: "desc" as "asc" | "desc",
+    sortBy: "updated_at",
+    sortOrder: "desc",
   });
 
   return (

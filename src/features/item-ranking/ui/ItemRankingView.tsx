@@ -3,7 +3,6 @@
 import ItemRankingTable from "@/features/item-ranking/ui/ItemRankingTable";
 import { supabase } from "@/shared/api/supabase-client";
 import { useState } from "react";
-import ItemMultiFilter from "@/features/item-search/ui/ItemMultiFilter";
 import { ItemGenderKey } from "@/features/item-search/ui/ItemGenderFilter";
 import { ItemCategoryKey } from "@/features/item-search/ui/ItemCategoryFilter";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -110,13 +109,6 @@ export default function ItemRankingView() {
           </AccordionTrigger>
           <AccordionContent>
             <div className="flex flex-wrap gap-4 items-center mb-8 p-4 rounded-xl border border-gray-200 shadow-sm bg-white">
-              {/* 필터 */}
-              <ItemMultiFilter
-                category={filters.category}
-                gender={filters.gender}
-                onChange={setFilters}
-              />
-
               {/* 검색바 */}
               <div className="flex flex-col gap-1">
                 <Label className="text-sm text-gray-600 font-medium">

@@ -15,9 +15,7 @@ import {
 } from "@/shared/ui/select";
 import { Badge } from "@/shared/ui/badge";
 import { X } from "lucide-react";
-
-type SortOption = "created_at" | "price";
-type SortOrder = "asc" | "desc";
+import { SortOption, SortOrder } from "../model/filterTypes";
 
 interface ItemsFilterProps {
   variant?: "wide" | "sidebar";
@@ -38,7 +36,7 @@ export default function ItemsFilter({
   const [isFilterApplied, setIsFilterApplied] = useState(false);
   const minPriceRef = useRef<HTMLInputElement>(null);
   const maxPriceRef = useRef<HTMLInputElement>(null);
-  const [sortBy, setSortBy] = useState<SortOption>("created_at");
+  const [sortBy, setSortBy] = useState<SortOption>("updated_at");
   const [sortOrder, setSortOrder] = useState<SortOrder>("desc");
 
   // 필터 데이터 헬퍼 함수
@@ -85,10 +83,10 @@ export default function ItemsFilter({
     if (maxPriceRef.current) {
       maxPriceRef.current.value = "";
     }
-    setSortBy("created_at");
+    setSortBy("updated_at");
     setSortOrder("desc");
     onFilterChange({
-      sortBy: "created_at",
+      sortBy: "updated_at",
       sortOrder: "desc",
     });
   };
@@ -178,7 +176,7 @@ export default function ItemsFilter({
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectItem value="created_at">시간순</SelectItem>
+                  <SelectItem value="updated_at">시간순</SelectItem>
                   <SelectItem value="price">가격순</SelectItem>
                 </SelectGroup>
               </SelectContent>
