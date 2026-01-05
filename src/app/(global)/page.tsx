@@ -6,12 +6,13 @@ import SearchBar from "@/features/item-search/ui/SearchBar";
 import ItemList from "@/features/items/ui/ItemList";
 import RollingPopularSearch from "@/features/item-search/ui/RollingPopularSearch";
 import { getPopularSearchesAction } from "../actions/search-actions";
-import GoToItemsModal from "@/features/items/ui/GoToItemsModal";
-import GoToMyItemsModal from "@/features/user/ui/GoToMyItemsModal";
 import UrlCleaner from "@/shared/lib/UrlCleaner";
 import BestDresserSection from "@/features/best-dresser/ui/BestDresserSection";
 import ButtonToBestDresserPage from "@/features/best-dresser/ui/ButtonToBestDresserPage";
-import ItemPriceChangesSection from "@/features/market/ui/ItemPriceChangesSection";
+import ItemPriceChangesTable from "@/features/market/ui/ItemPriceChangesTable";
+import GoToItemsButton from "@/features/items/ui/GoToItemsButton";
+import GoToMyItemsButton from "@/features/user/ui/GoToMyItemsButton";
+import GoToItemPriceChangesButton from "@/features/market/ui/GoToItemPriceChangesButton";
 
 export default async function Home() {
   const now = new Date();
@@ -111,12 +112,19 @@ export default async function Home() {
             </div>
 
             {/* 전체 거래 현황 보기 CTA */}
-            <GoToItemsModal />
+            <GoToItemsButton />
           </section>
 
           {/* 시세 변동 내역 */}
-          <section>
-            <ItemPriceChangesSection />
+          <section className="mb-12 w-full max-w-4xl">
+            <h2 className="text-2xl font-bold tracking-tight mb-4">
+              📊 시세 변동 내역
+            </h2>
+
+            <ItemPriceChangesTable limit={3} />
+
+            {/* 전체 시세 변동 내역 보기 CTA */}
+            <GoToItemPriceChangesButton />
           </section>
 
           {/* 이번 달 로테이션 */}
@@ -170,7 +178,7 @@ export default async function Home() {
 
           {/* 하단 그리드 메뉴 */}
           <section className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-4xl">
-            <GoToMyItemsModal />
+            <GoToMyItemsButton />
 
             <Link href="/rotation-items/last" className="h-full">
               <div className="h-full p-6 rounded-2xl bg-card border hover:border-primary/50 transition-colors break-keep">

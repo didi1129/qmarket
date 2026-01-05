@@ -1,0 +1,124 @@
+import Image from "next/image";
+import { getItemPriceChanges } from "../model/getItemPriceChanges";
+import { formatRelativeTime } from "@/shared/lib/formatters";
+
+export default async function ItemPriceChangesTable({
+  limit,
+}: {
+  limit?: number;
+}) {
+  const priceChanges = await getItemPriceChanges(limit);
+
+  // 오늘 날짜 (YYYY-MM-DD, 시간 제외 비교용)
+  const today = new Date().toISOString().split("T")[0];
+
+  return (
+    <div className="w-full overflow-x-auto">
+      <table className="w-full border-collapse text-left">
+        <thead>
+          <tr className="border-b border-gray-200 text-sm text-gray-500">
+            <th className="pb-3 font-medium">아이템</th>
+            <th className="pb-3 font-medium">현재 시세</th>
+            <th className="pb-3 font-medium">이전 시세</th>
+            <th className="pb-3 font-medium text-center">변동률</th>
+            <th className="pb-3 font-medium text-right">비교 기준</th>
+            <th className="pb-3 font-medium text-right">최근 거래일</th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-gray-100">
+          {priceChanges.map((item) => {
+            const isRising = item.change_rate > 0;
+            const isFalling = item.change_rate < 0;
+
+            // 신규 데이터 판별
+            // 1. log_date가 오늘이고
+            // 2. prev_price가 null이거나 0인 데이터
+            const itemLogDate = new Date(item.log_date)
+              .toISOString()
+              .split("T")[0];
+            const isNewItem =
+              itemLogDate === today &&
+              (!item.prev_price || item.prev_price === 0);
+
+            return (
+              <tr
+                key={item.id}
+                className="group hover:bg-gray-50 transition-colors"
+              >
+                {/* 아이템 정보 */}
+                <td className="py-1">
+                  <div className="flex items-center gap-3">
+                    <div className="relative w-12 h-14 bg-gray-50 flex-shrink-0">
+                      <Image
+                        src={item.image || "/images/empty.png"}
+                        alt={item.item_name}
+                        fill
+                        className="object-contain rounded-lg"
+                      />
+                    </div>
+                    <div>
+                      <b className="font-bold text-foreground mr-1">
+                        {item.item_name}
+                      </b>
+                      <span className="text-xs text-gray-400">
+                        ({item.item_gender})
+                      </span>
+                    </div>
+                  </div>
+                </td>
+
+                {/* 최근 시세 */}
+                <td className="py-4 font-semibold text-gray-900">
+                  {item.cur_price.toLocaleString("ko-KR")}
+                </td>
+
+                {/* 직전 시세 */}
+                <td className="py-4 text-gray-500">
+                  {item.prev_price?.toLocaleString("ko-KR") || "-"}
+                </td>
+
+                {/* 변동률 */}
+                <td className="py-4 text-center">
+                  <span
+                    className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold ${
+                      isRising
+                        ? "bg-red-50 text-red-600"
+                        : isFalling
+                        ? "bg-blue-50 text-blue-600"
+                        : "bg-gray-100 text-gray-600"
+                    }`}
+                  >
+                    <span className="text-[10px] mr-0.5">
+                      {isRising ? "▲" : isFalling ? "▼" : ""}
+                    </span>
+                    {Math.abs(Math.floor(item.change_rate))}%
+                  </span>
+                </td>
+
+                {/* 비교 기준 */}
+                <td className="py-4 text-right">
+                  {isNewItem ? (
+                    <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-gray-100 text-gray-600">
+                      신규
+                    </span>
+                  ) : (
+                    <span className="text-sm text-gray-400">
+                      {item.days_since_last_sale === 0
+                        ? "변동 없음"
+                        : `${item.days_since_last_sale}일 전 대비`}
+                    </span>
+                  )}
+                </td>
+
+                {/* 최근 거래일 */}
+                <td className="py-4 text-right text-sm text-gray-400">
+                  {formatRelativeTime(item.log_date)}
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
+}

@@ -1,11 +1,7 @@
 import { supabase } from "@/shared/api/supabase-client";
 
-export async function getItemPriceChanges() {
-  const oneWeekAgo = new Date();
-  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-  const oneWeekAgoISO = oneWeekAgo.toISOString().split("T")[0]; // YYYY-MM-DD
-
-  const { data, error } = await supabase
+export async function getItemPriceChanges(limit?: number) {
+  let query = supabase
     .from("item_price_changes")
     .select(
       `
@@ -15,10 +11,14 @@ export async function getItemPriceChanges() {
       )
     `
     )
-    .gte("log_date", oneWeekAgoISO)
-    .neq("change_rate", 0)
     .order("log_date", { ascending: false })
     .order("change_rate", { ascending: false });
+
+  if (limit) {
+    query = query.limit(limit);
+  }
+
+  const { data, error } = await query;
 
   if (error) {
     console.error("시세 변동 내역 조회 오류:", error);
