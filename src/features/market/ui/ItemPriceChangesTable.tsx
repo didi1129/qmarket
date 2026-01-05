@@ -21,7 +21,6 @@ export default async function ItemPriceChangesTable({
             <th className="pb-3 font-medium">현재 시세</th>
             <th className="pb-3 font-medium">이전 시세</th>
             <th className="pb-3 font-medium text-center">변동률</th>
-            <th className="pb-3 font-medium text-right">비교 기준</th>
             <th className="pb-3 font-medium text-right">최근 거래일</th>
           </tr>
         </thead>
@@ -74,40 +73,37 @@ export default async function ItemPriceChangesTable({
 
                 {/* 직전 시세 */}
                 <td className="py-4 text-gray-500">
-                  {item.prev_price?.toLocaleString("ko-KR") || "-"}
+                  {item.prev_price
+                    ? Math.floor(item.prev_price).toLocaleString("ko-KR")
+                    : "-"}
                 </td>
 
-                {/* 변동률 */}
+                {/* 변동률 & 비교 기준 */}
                 <td className="py-4 text-center">
-                  <span
-                    className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold ${
-                      isRising
-                        ? "bg-red-50 text-red-600"
-                        : isFalling
-                        ? "bg-blue-50 text-blue-600"
-                        : "bg-gray-100 text-gray-600"
-                    }`}
-                  >
-                    <span className="text-[10px] mr-0.5">
-                      {isRising ? "▲" : isFalling ? "▼" : ""}
+                  <div className="flex flex-col items-center justify-center gap-1">
+                    <span
+                      className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold ${
+                        isRising
+                          ? "bg-red-50 text-red-600"
+                          : isFalling
+                          ? "bg-blue-50 text-blue-600"
+                          : "bg-gray-100 text-gray-600"
+                      }`}
+                    >
+                      <span className="text-[10px] mr-0.5">
+                        {isRising ? "▲" : isFalling ? "▼" : ""}
+                      </span>
+                      {Math.abs(Math.floor(item.change_rate))}%
                     </span>
-                    {Math.abs(Math.floor(item.change_rate))}%
-                  </span>
-                </td>
 
-                {/* 비교 기준 */}
-                <td className="py-4 text-right">
-                  {isNewItem ? (
-                    <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-gray-100 text-gray-600">
-                      신규
+                    <span className="text-xs text-gray-400">
+                      {isNewItem
+                        ? "(신규)"
+                        : item.days_since_last_sale === 0
+                        ? ""
+                        : `(${item.days_since_last_sale}일 전 대비)`}
                     </span>
-                  ) : (
-                    <span className="text-sm text-gray-400">
-                      {item.days_since_last_sale === 0
-                        ? "변동 없음"
-                        : `${item.days_since_last_sale}일 전 대비`}
-                    </span>
-                  )}
+                  </div>
                 </td>
 
                 {/* 최근 거래일 */}

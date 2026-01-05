@@ -128,6 +128,17 @@ export default async function Home() {
             <GoToItemPriceChangesButton />
           </section>
 
+          {/* 아이템 카테고리 메뉴 */}
+          <section className="mb-16 w-full max-w-4xl">
+            <h2 className="text-2xl font-bold tracking-tight mb-4">
+              🧭 아이템 카테고리별
+            </h2>
+
+            <div className="p-4 md:p-6 rounded-3xl bg-card border shadow-sm flex justify-center items-center">
+              <ItemCategoryNav />
+            </div>
+          </section>
+
           {/* 이번 달 로테이션 */}
           <section className="mb-12 w-full max-w-4xl">
             <h3 className="font-bold text-2xl flex items-center gap-2 mb-4">
@@ -164,17 +175,6 @@ export default async function Home() {
                 </div>
               </div>
             </Link>
-          </section>
-
-          {/* 아이템 카테고리 메뉴 */}
-          <section className="w-full max-w-4xl">
-            <h2 className="text-2xl font-bold tracking-tight mb-4">
-              🧭 아이템 카테고리별
-            </h2>
-
-            <div className="p-4 md:p-6 rounded-3xl bg-card border shadow-sm flex justify-center items-center">
-              <ItemCategoryNav />
-            </div>
           </section>
 
           {/* 하단 그리드 메뉴 */}
