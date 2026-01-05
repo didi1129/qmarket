@@ -4,7 +4,7 @@ import { useState } from "react";
 import ItemList from "./ItemList";
 import { ItemCategory } from "@/features/item/model/itemTypes";
 import ItemsFilter from "@/features/item-search/ui/ItemsFilter";
-import { FilterParams } from "../model/types";
+import { FilterParams } from "@/features/item-search/model/filterTypes";
 
 export default function CategoryItemFilteredList({
   category,
@@ -12,8 +12,8 @@ export default function CategoryItemFilteredList({
   category: ItemCategory;
 }) {
   const [filterParams, setFilterParams] = useState<FilterParams>({
-    sortBy: "created_at" as "created_at" | "price",
-    sortOrder: "desc" as "asc" | "desc",
+    sortBy: "updated_at",
+    sortOrder: "desc",
   });
 
   return (

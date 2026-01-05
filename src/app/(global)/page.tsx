@@ -113,6 +113,18 @@ export default async function Home() {
             <GoToItemsModal />
           </section>
 
+          {/* 시세 변동 내역 */}
+          <section className="mb-12 w-full max-w-4xl">
+            <h2 className="text-2xl font-bold tracking-tight mb-4">
+              📊 이번 주 시세 변동 내역
+            </h2>
+
+            <ItemPriceChangesSection limit={3} />
+
+            {/* 전체 시세 변동 내역 보기 CTA */}
+            <GoToItemsModal />
+          </section>
+
           {/* 이번 달 로테이션 */}
           <section className="mb-12 w-full max-w-4xl">
             <h3 className="font-bold text-2xl flex items-center gap-2 mb-4">

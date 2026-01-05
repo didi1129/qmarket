@@ -17,7 +17,7 @@ interface ItemListProps {
   filterParams?: {
     minPrice?: number;
     maxPrice?: number;
-    sortBy?: "created_at" | "price";
+    sortBy?: "updated_at" | "price";
     sortOrder?: "asc" | "desc";
   };
   limit?: number;
@@ -31,7 +31,7 @@ export default function ItemList({
   isSold,
   className,
   filterParams = {
-    sortBy: "created_at",
+    sortBy: "updated_at",
     sortOrder: "desc",
   },
   limit,

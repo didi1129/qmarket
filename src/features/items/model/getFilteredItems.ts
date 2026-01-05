@@ -11,7 +11,7 @@ interface getFilteredItemsProps {
   isSold?: boolean;
   minPrice?: number;
   maxPrice?: number;
-  sortBy?: "created_at" | "price";
+  sortBy?: "updated_at" | "price";
   sortOrder?: "asc" | "desc";
   limit?: number;
 }
@@ -24,7 +24,7 @@ const getFilteredItems = async ({
   isSold,
   minPrice,
   maxPrice,
-  sortBy = "created_at",
+  sortBy = "updated_at",
   sortOrder = "desc",
   limit,
 }: getFilteredItemsProps) => {
@@ -64,7 +64,7 @@ const getFilteredItems = async ({
   // 정렬
   query = query.order(sortBy, { ascending: sortOrder === "asc" });
 
-  const { data, error } = await query.order("created_at", { ascending: false });
+  const { data, error } = await query;
 
   if (data) {
     return data.map((item) => ({

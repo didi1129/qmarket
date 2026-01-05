@@ -12,7 +12,6 @@ import ButtonToBack from "@/shared/ui/LinkButton/ButtonToBack";
 import ItemList from "@/features/items/ui/ItemList";
 import ItemsFilter from "@/features/item-search/ui/ItemsFilter";
 import { useState } from "react";
-import { FilterParams } from "@/features/items/model/types";
 import LoadingSpinner from "@/shared/ui/LoadingSpinner";
 import SectionTitle from "@/shared/ui/SectionTitle";
 import SellingItemCreateModal from "./SellingItemCreateModal";
@@ -20,6 +19,7 @@ import PurchaseItemCreateModal from "./PurchaseItemCreateModal";
 import { Badge } from "@/shared/ui/badge";
 import Link from "next/link";
 import { ExternalLink } from "lucide-react";
+import { FilterParams } from "@/features/item-search/model/filterTypes";
 
 export interface ItemDetail {
   id: string;
@@ -44,8 +44,8 @@ export default function ItemDetailClient({
   desiredPrice,
 }: ItemDetailProps) {
   const [filterParams, setFilterParams] = useState<FilterParams>({
-    sortBy: "created_at" as "created_at" | "price",
-    sortOrder: "desc" as "asc" | "desc",
+    sortBy: "updated_at",
+    sortOrder: "desc",
   });
 
   const { data: saleHistory, isPending } = useQuery({
