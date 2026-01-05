@@ -13,7 +13,6 @@ import ItemPriceChangesTable from "@/features/market/ui/ItemPriceChangesTable";
 import GoToItemsButton from "@/features/items/ui/GoToItemsButton";
 import GoToMyItemsButton from "@/features/user/ui/GoToMyItemsButton";
 import GoToItemPriceChangesButton from "@/features/market/ui/GoToItemPriceChangesButton";
-import ItemPriceChangesSection from "@/features/market/ui/ItemPriceChangesSection";
 
 export default async function Home() {
   const now = new Date();
