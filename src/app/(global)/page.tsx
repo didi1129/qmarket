@@ -121,7 +121,7 @@ export default async function Home() {
               📊 이번주 시세 변동
             </h2>
 
-            <ItemPriceChangesTable limit={3} />
+            <ItemPriceChangesTable limit={3} preview={true} />
 
             {/* 전체 시세 변동 내역 보기 CTA */}
             <GoToItemPriceChangesButton />

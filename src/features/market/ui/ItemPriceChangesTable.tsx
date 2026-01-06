@@ -18,7 +18,15 @@ import { Button } from "@/shared/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/shared/lib/utils";
 
-export default function ItemPriceChangesTable({ limit }: { limit?: number }) {
+interface Props {
+  limit?: number;
+  preview?: boolean;
+}
+
+export default function ItemPriceChangesTable({
+  limit,
+  preview = false,
+}: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const weekParam = searchParams.get("week");
@@ -65,14 +73,23 @@ export default function ItemPriceChangesTable({ limit }: { limit?: number }) {
           type="button"
           variant="ghost"
           onClick={() => moveWeek(addWeeks(weekStart, -1))}
-          className="text-sm text-gray-500 hover:text-gray-900"
+          className={cn("text-sm text-gray-500 hover:text-gray-900", {
+            hidden: preview,
+          })}
         >
           <ChevronLeft /> 지난주
         </Button>
 
-        <div className="flex flex-col items-center gap-0.5 px-4 py-2 rounded-lg bg-gray-50 border">
+        <div
+          className={cn(
+            "flex flex-col items-center gap-0.5 px-4 py-2 rounded-lg bg-gray-50 border",
+            {
+              "items-start": preview,
+            }
+          )}
+        >
           <span className="text-sm text-foreground/80 font-bold">
-            {format(start, "MM")}월 {getWeekOfMonth(start)}주차
+            {format(start, "M")}월 {getWeekOfMonth(start)}주차
           </span>
 
           <span className="text-xs text-foreground/50">
@@ -87,6 +104,7 @@ export default function ItemPriceChangesTable({ limit }: { limit?: number }) {
           className={cn("flex items-center gap-1", {
             "text-gray-300 border-gray-200 cursor-not-allowed": isNextDisabled,
             "text-gray-600 hover:bg-gray-50": !isNextDisabled,
+            hidden: preview,
           })}
           onClick={() => moveWeek(addWeeks(weekStart, 1))}
         >
@@ -94,7 +112,14 @@ export default function ItemPriceChangesTable({ limit }: { limit?: number }) {
         </Button>
       </div>
 
-      <div className="w-full h-[480px] px-4 pb-4 border rounded-lg overflow-y-auto bg-background">
+      <div
+        className={cn(
+          "w-full h-[480px] px-4 pb-4 border rounded-lg overflow-y-auto bg-background",
+          {
+            "h-[280px]": preview,
+          }
+        )}
+      >
         {isPending ? (
           <div className="flex items-center justify-center h-full">
             <LoadingSpinner />
