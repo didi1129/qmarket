@@ -21,6 +21,7 @@ import {
   ChevronDown,
   ChevronUp,
 } from "lucide-react";
+import ChevronUpDown from "@/shared/ui/Icon/ChevronUpDown";
 import { cn } from "@/shared/lib/utils";
 
 interface Props {
@@ -28,11 +29,15 @@ interface Props {
   preview?: boolean;
 }
 
+type ChangeRateSortOrder = "default" | "desc" | "asc";
+
 export default function ItemPriceChangesTable({
   limit,
   preview = false,
 }: Props) {
-  const [sortOrder, setSortOrder] = useState<"desc" | "asc">("desc"); // api 대신 프론트에서 정렬 처리 (supabase api는 음/양수 숫자 정렬용 표현식 order를 지원하지 않음)
+  const [sortOrder, setSortOrder] = useState<ChangeRateSortOrder>("default"); // 변동률 정렬: api 대신 프론트에서 정렬 처리 (supabase api는 음/양수 숫자 정렬용 표현식 order를 지원하지 않음)
+  const [filter, setFilter] = useState<"all" | "up" | "down">("all"); // 변동률 전체, 상승, 하락 필터링
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const weekParam = searchParams.get("week");
@@ -71,60 +76,131 @@ export default function ItemPriceChangesTable({
     router.replace(`?week=${formatDateYMD(date)}`);
   };
 
-  const sortedPriceChanges = useMemo(() => {
-    return [...priceChanges].sort((a, b) => {
-      const diff = Math.abs(b.change_rate) - Math.abs(a.change_rate);
-      return sortOrder === "desc" ? diff : -diff;
+  const toggleSortOrder = () => {
+    setSortOrder((prev) => {
+      if (prev === "default") return "desc";
+      if (prev === "desc") return "asc";
+      return "default";
     });
-  }, [priceChanges, sortOrder]);
+  };
+
+  const filteredAndSortedPriceChanges = useMemo(() => {
+    let list = [...priceChanges];
+
+    // 1️⃣ 상승 / 하락 필터
+    if (filter === "up") {
+      list = list.filter((item) => item.change_rate > 0);
+    }
+
+    if (filter === "down") {
+      list = list.filter((item) => item.change_rate < 0);
+    }
+
+    // 2️⃣ 정렬
+    if (sortOrder === "default") {
+      // 최근 거래일 순 (최신이 위)
+      list.sort(
+        (a, b) =>
+          new Date(b.log_date).getTime() - new Date(a.log_date).getTime()
+      );
+    }
+
+    if (sortOrder === "desc") {
+      // 절댓값 기준 큰 순
+      list.sort((a, b) => Math.abs(b.change_rate) - Math.abs(a.change_rate));
+    }
+
+    if (sortOrder === "asc") {
+      // 절댓값 기준 작은 순
+      list.sort((a, b) => Math.abs(a.change_rate) - Math.abs(b.change_rate));
+    }
+
+    return list;
+  }, [priceChanges, filter, sortOrder]);
 
   return (
     <>
       {/* 테이블 헤더 */}
-      <div className="flex items-center justify-between mb-2">
-        <Button
-          type="button"
-          variant="ghost"
-          onClick={() => moveWeek(addWeeks(weekStart, -1))}
-          className={cn("text-sm text-gray-500 hover:text-gray-900", {
-            hidden: preview,
-          })}
-        >
-          <ChevronLeft /> 지난주
-        </Button>
+      <div className="flex flex-col items-center">
+        <div className="flex w-full items-center justify-between mb-2">
+          <Button
+            type="button"
+            variant="ghost"
+            onClick={() => moveWeek(addWeeks(weekStart, -1))}
+            className={cn("text-sm text-gray-500 hover:text-gray-900", {
+              hidden: preview,
+            })}
+          >
+            <ChevronLeft /> 지난주
+          </Button>
 
-        <div
-          className={cn(
-            "flex flex-col items-center gap-0.5 px-4 py-2 rounded-lg bg-gray-50 border",
-            {
-              "items-start": preview,
-            }
-          )}
-        >
-          <span className="text-sm text-foreground/80 font-bold">
-            {format(start, "M")}월 {getWeekOfMonth(start)}주차
-          </span>
+          <div
+            className={cn(
+              "flex flex-col items-center gap-0.5 px-4 py-2 rounded-lg bg-gray-50 border",
+              {
+                "items-start": preview,
+              }
+            )}
+          >
+            <span className="text-sm text-foreground/80 font-bold">
+              {format(start, "M")}월 {getWeekOfMonth(start)}주차
+            </span>
 
-          <span className="text-xs text-foreground/50">
-            {format(start, "yyyy.MM.dd")} ~ {format(end, "MM.dd")}
-          </span>
+            <span className="text-xs text-foreground/50">
+              {format(start, "yyyy.MM.dd")} ~ {format(end, "MM.dd")}
+            </span>
+          </div>
+
+          <Button
+            type="button"
+            variant="ghost"
+            disabled={isNextDisabled}
+            className={cn("flex items-center gap-1", {
+              "text-gray-300 border-gray-200 cursor-not-allowed":
+                isNextDisabled,
+              "text-gray-600 hover:bg-gray-50": !isNextDisabled,
+              hidden: preview,
+            })}
+            onClick={() => moveWeek(addWeeks(weekStart, 1))}
+          >
+            다음주 <ChevronRight />
+          </Button>
         </div>
 
-        <Button
-          type="button"
-          variant="ghost"
-          disabled={isNextDisabled}
-          className={cn("flex items-center gap-1", {
-            "text-gray-300 border-gray-200 cursor-not-allowed": isNextDisabled,
-            "text-gray-600 hover:bg-gray-50": !isNextDisabled,
-            hidden: preview,
-          })}
-          onClick={() => moveWeek(addWeeks(weekStart, 1))}
-        >
-          다음주 <ChevronRight />
-        </Button>
+        <div className="flex items-center gap-2 mb-3">
+          <button
+            onClick={() => setFilter("all")}
+            className={cn("px-3 py-1 text-xs rounded-full", {
+              "bg-gray-900 text-white": filter === "all",
+              "bg-gray-100 text-gray-600": filter !== "all",
+            })}
+          >
+            변동률 전체
+          </button>
+
+          <button
+            onClick={() => setFilter("up")}
+            className={cn("px-3 py-1 text-xs rounded-full", {
+              "bg-red-500 text-white": filter === "up",
+              "bg-red-50 text-red-500": filter !== "up",
+            })}
+          >
+            상승
+          </button>
+
+          <button
+            onClick={() => setFilter("down")}
+            className={cn("px-3 py-1 text-xs rounded-full", {
+              "bg-blue-500 text-white": filter === "down",
+              "bg-blue-50 text-blue-500": filter !== "down",
+            })}
+          >
+            하락
+          </button>
+        </div>
       </div>
 
+      {/* 테이블 본문 */}
       <div
         className={cn(
           "w-full h-[480px] px-4 pb-4 border rounded-lg overflow-y-auto bg-background",
@@ -156,16 +232,16 @@ export default function ItemPriceChangesTable({
                     size="sm"
                     variant="ghost"
                     className="inline-flex items-center gap-1 hover:text-foreground"
-                    onClick={() =>
-                      setSortOrder((prev) => (prev === "desc" ? "asc" : "desc"))
-                    }
+                    onClick={toggleSortOrder}
                   >
                     변동률
-                    {sortOrder === "desc" ? (
-                      <ChevronDown className="w-4 h-4" />
-                    ) : (
-                      <ChevronUp className="w-4 h-4" />
+                    {sortOrder === "default" && (
+                      <ChevronUpDown className="w-4 h-4" />
                     )}
+                    {sortOrder === "desc" && (
+                      <ChevronDown className="w-4 h-4" />
+                    )}
+                    {sortOrder === "asc" && <ChevronUp className="w-4 h-4" />}
                   </Button>
                 </th>
                 <th className="sticky top-0 z-1 bg-background px-2 py-3 font-medium text-right">
@@ -186,7 +262,7 @@ export default function ItemPriceChangesTable({
                 </tr>
               )}
               {priceChanges.length > 0 &&
-                sortedPriceChanges.map((item) => {
+                filteredAndSortedPriceChanges.map((item) => {
                   const isRising = item.change_rate > 0;
                   const isFalling = item.change_rate < 0;
 
