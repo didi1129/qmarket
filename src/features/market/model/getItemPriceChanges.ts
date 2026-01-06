@@ -20,8 +20,7 @@ export async function getItemPriceChanges({
     .neq("change_rate", 0)
     .gte("log_date", startDate.toISOString().slice(0, 10))
     .lte("log_date", endDate.toISOString().slice(0, 10))
-    .order("log_date", { ascending: false })
-    .order("change_rate", { ascending: false });
+    .order("log_date", { ascending: false });
 
   if (limit) query = query.limit(limit);
 

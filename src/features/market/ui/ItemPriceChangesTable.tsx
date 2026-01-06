@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -15,7 +15,12 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "@/shared/ui/LoadingSpinner";
 import { Button } from "@/shared/ui/button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronDown,
+  ChevronUp,
+} from "lucide-react";
 import { cn } from "@/shared/lib/utils";
 
 interface Props {
@@ -27,6 +32,7 @@ export default function ItemPriceChangesTable({
   limit,
   preview = false,
 }: Props) {
+  const [sortOrder, setSortOrder] = useState<"desc" | "asc">("desc"); // api 대신 프론트에서 정렬 처리 (supabase api는 음/양수 숫자 정렬용 표현식 order를 지원하지 않음)
   const router = useRouter();
   const searchParams = useSearchParams();
   const weekParam = searchParams.get("week");
@@ -52,7 +58,7 @@ export default function ItemPriceChangesTable({
     isPending,
     isFetching,
   } = useQuery({
-    queryKey: ["itemPriceChanges", formatDateYMD(start)],
+    queryKey: ["itemPriceChanges", formatDateYMD(start), sortOrder],
     queryFn: () =>
       getItemPriceChanges({
         limit,
@@ -64,6 +70,13 @@ export default function ItemPriceChangesTable({
   const moveWeek = (date: Date) => {
     router.replace(`?week=${formatDateYMD(date)}`);
   };
+
+  const sortedPriceChanges = useMemo(() => {
+    return [...priceChanges].sort((a, b) => {
+      const diff = Math.abs(b.change_rate) - Math.abs(a.change_rate);
+      return sortOrder === "desc" ? diff : -diff;
+    });
+  }, [priceChanges, sortOrder]);
 
   return (
     <>
@@ -138,7 +151,22 @@ export default function ItemPriceChangesTable({
                   이전 시세
                 </th>
                 <th className="sticky top-0 z-1 bg-background px-2 py-3 font-medium text-center">
-                  변동률
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="ghost"
+                    className="inline-flex items-center gap-1 hover:text-foreground"
+                    onClick={() =>
+                      setSortOrder((prev) => (prev === "desc" ? "asc" : "desc"))
+                    }
+                  >
+                    변동률
+                    {sortOrder === "desc" ? (
+                      <ChevronDown className="w-4 h-4" />
+                    ) : (
+                      <ChevronUp className="w-4 h-4" />
+                    )}
+                  </Button>
                 </th>
                 <th className="sticky top-0 z-1 bg-background px-2 py-3 font-medium text-right">
                   최근 거래일
@@ -158,7 +186,7 @@ export default function ItemPriceChangesTable({
                 </tr>
               )}
               {priceChanges.length > 0 &&
-                priceChanges.map((item) => {
+                sortedPriceChanges.map((item) => {
                   const isRising = item.change_rate > 0;
                   const isFalling = item.change_rate < 0;
 
