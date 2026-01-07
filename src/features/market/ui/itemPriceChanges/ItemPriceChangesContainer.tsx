@@ -56,7 +56,7 @@ export default function ItemPriceChangesContainer({
           filter={filter}
         />
 
-        {/* 캐싱 데이터 유지 + 갱신 */}
+        {/* 캐싱 데이터 기반 갱신 */}
         {!isPending && isFetching && (
           <div className="text-xs text-gray-400 text-center py-2">
             데이터 업데이트 중…
@@ -65,7 +65,7 @@ export default function ItemPriceChangesContainer({
       </div>
 
       {/* 시세 변동 요약 */}
-      <ItemPriceChangesSummary items={priceChanges} />
+      {!preview && <ItemPriceChangesSummary items={priceChanges} />}
     </>
   );
 }

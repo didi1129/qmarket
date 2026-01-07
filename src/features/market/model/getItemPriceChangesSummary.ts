@@ -1,6 +1,6 @@
 import { ItemPriceChange } from "./itemPriceChangeTypes";
 
-export const getItemPriceChangesSummaryWeekly = ({
+export const getItemPriceChangesSummary = ({
   items,
 }: {
   items: ItemPriceChange[];

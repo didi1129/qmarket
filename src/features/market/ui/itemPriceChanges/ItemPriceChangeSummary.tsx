@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { getItemPriceChangesSummaryWeekly } from "../../model/getItemPriceChangesSummaryWeekly";
+import { getItemPriceChangesSummary } from "../../model/getItemPriceChangesSummary";
 import { ItemPriceChange } from "../../model/itemPriceChangeTypes";
 
 export default function ItemPriceChangesSummary({
@@ -7,16 +7,13 @@ export default function ItemPriceChangesSummary({
 }: {
   items: ItemPriceChange[];
 }) {
-  const summary = useMemo(
-    () => getItemPriceChangesSummaryWeekly({ items }),
-    [items]
-  );
+  const summary = useMemo(() => getItemPriceChangesSummary({ items }), [items]);
 
   if (!summary) return null;
 
   return (
-    <section className="mt-8 border rounded-lg p-4 bg-gray-50">
-      <h3 className="text-sm font-semibold mb-3">📊 주간 시세 변동 요약</h3>
+    <section className="mt-4 border rounded-lg p-4 bg-gray-50">
+      <h3 className="text-lg font-semibold mb-3">🔮 시세 변동 요약</h3>
 
       <div className="grid grid-cols-2 gap-4 text-sm">
         <div>
@@ -35,7 +32,7 @@ export default function ItemPriceChangesSummary({
           <p className="text-gray-500">최대 상승</p>
           <p className="text-red-600 font-medium">
             {summary.maxUp
-              ? `${summary.maxUp.item_name} +${summary.maxUp.change_rate}%`
+              ? `${summary.maxUp.item_name}(${summary.maxUp.item_gender}) +${summary.maxUp.change_rate}%`
               : "-"}
           </p>
         </div>
@@ -44,7 +41,7 @@ export default function ItemPriceChangesSummary({
           <p className="text-gray-500">최대 하락</p>
           <p className="text-blue-600 font-medium">
             {summary.maxDown
-              ? `${summary.maxDown.item_name} ${summary.maxDown.change_rate}%`
+              ? `${summary.maxDown.item_name}(${summary.maxDown.item_gender}) ${summary.maxDown.change_rate}%`
               : "-"}
           </p>
         </div>
