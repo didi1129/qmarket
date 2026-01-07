@@ -1,7 +1,8 @@
-import ItemPriceChangesTable from "@/features/market/ui/ItemPriceChangesTable";
+import ItemPriceChangesTable from "@/features/market/ui/itemPriceChanges/ItemPriceChangesTable";
 import ButtonToBack from "@/shared/ui/LinkButton/ButtonToBack";
 import { redirect } from "next/navigation";
 import { getUserServer } from "@/shared/api/get-supabase-user-server";
+import ItemPriceChangesContainer from "@/features/market/ui/itemPriceChanges/ItemPriceChangesContainer";
 
 export default async function ItemPriceChangesPage() {
   const user = await getUserServer();
@@ -24,7 +25,8 @@ export default async function ItemPriceChangesPage() {
         </ul>
 
         {/* 시세 변동 내역 */}
-        <ItemPriceChangesTable />
+        {/* <ItemPriceChangesTable /> */}
+        <ItemPriceChangesContainer />
       </section>
     </section>
   );

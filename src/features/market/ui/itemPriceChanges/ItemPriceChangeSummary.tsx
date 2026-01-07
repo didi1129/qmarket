@@ -1,6 +1,6 @@
 import { useMemo } from "react";
-import { getItemPriceChangesSummaryWeekly } from "../model/getItemPriceChangesSummaryWeekly";
-import { ItemPriceChange } from "../model/itemPriceChangeTypes";
+import { getItemPriceChangesSummaryWeekly } from "../../model/getItemPriceChangesSummaryWeekly";
+import { ItemPriceChange } from "../../model/itemPriceChangeTypes";
 
 export default function ItemPriceChangesSummary({
   items,
@@ -20,7 +20,7 @@ export default function ItemPriceChangesSummary({
 
       <div className="grid grid-cols-2 gap-4 text-sm">
         <div>
-          <p className="text-gray-500">변동 아이템</p>
+          <p className="text-gray-500">변동 아이템 (신규, 유지 포함)</p>
           <p className="font-medium">{summary.total}개</p>
         </div>
 

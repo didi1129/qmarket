@@ -19,7 +19,7 @@ export async function getItemPriceChanges({
       items_info ( image )
     `
     )
-    .neq("change_rate", 0)
+    // .neq("change_rate", 0)
     .gte("log_date", formatDateYMD(startDate))
     .lt("log_date", formatDateYMD(nextWeekStart))
     .order("log_date", { ascending: false });
