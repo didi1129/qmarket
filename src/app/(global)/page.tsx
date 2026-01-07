@@ -130,7 +130,7 @@ export default async function Home() {
           {/* 안내 섹션 */}
           <section className="my-12 px-8 py-4 bg-muted-foreground/5 rounded-2xl text-foreground/50">
             <p className="text-center text-sm break-keep">
-              큐마켓은 가격을 결정하지 않으며, 가격 판단을 돕는 참고 정보를
+              큐마켓은 가격을 결정하지 않으며, 거래에 필요한 참고 정보를
               제공합니다.
             </p>
           </section>

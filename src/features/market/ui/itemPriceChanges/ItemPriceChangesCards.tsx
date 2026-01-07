@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/shared/lib/utils";
 import { formatRelativeTime } from "@/shared/lib/formatters";
-import { ItemPriceChange } from "../model/itemPriceChangeTypes";
+import { ItemPriceChange } from "../../model/itemPriceChangeTypes";
 import LoadingSpinner from "@/shared/ui/LoadingSpinner";
 
 export default function ItemPriceChangesCards({
