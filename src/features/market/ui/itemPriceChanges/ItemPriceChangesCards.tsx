@@ -32,7 +32,7 @@ export default function ItemPriceChangesCards({
   }
 
   return (
-    <ul className="flex flex-col gap-2">
+    <ul className="flex flex-col gap-2 max-h-[520px] overflow-y-auto pr-1">
       {items.map((item) => {
         const isRising = item.change_rate > 0;
         const isFalling = item.change_rate < 0;
@@ -75,7 +75,7 @@ export default function ItemPriceChangesCards({
                     비교 기준 ·
                     <span className="ml-1">
                       {isNewItem
-                        ? "(신규)"
+                        ? "신규"
                         : item.days_since_last_sale === 0
                         ? ""
                         : `${item.days_since_last_sale}일 전 대비`}

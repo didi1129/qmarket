@@ -36,6 +36,7 @@ export default function ItemPriceChangesContainer({
         limit,
         startDate: start,
       }),
+    refetchInterval: 1000 * 60, // 1분
   });
 
   const priceChanges = Array.isArray(data) ? data : [];
