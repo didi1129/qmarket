@@ -3,7 +3,7 @@ import { getLatestPatchNoteDate } from "@/app/actions/patch-note";
 
 export function useLatestPatchNote() {
   return useQuery({
-    queryKey: ["latestPatchNote"],
+    queryKey: ["latest-patch-note"],
     queryFn: async () => {
       const latestDate = await getLatestPatchNoteDate();
       return latestDate;

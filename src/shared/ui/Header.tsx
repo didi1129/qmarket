@@ -25,6 +25,7 @@ import { cn } from "../lib/utils";
 import { useState } from "react";
 import { ALLOWED_RETURN_TO } from "../config/constants";
 import PatchNoteButton from "@/features/patch-note/ui/PatchNoteButton";
+import FAQButton from "@/features/faq/ui/FAQButton";
 
 const DynamicSheetTrigger = dynamic(
   () => import("./sheet").then((mod) => mod.SheetTrigger),
@@ -88,17 +89,7 @@ export default function Header() {
             })}
           >
             {/* actions */}
-            <Button
-              size="icon"
-              title="FAQ"
-              variant="outline"
-              onClick={() => {
-                router.push("/faq");
-                setIsSidebarOpen(false);
-              }}
-            >
-              <BadgeQuestionMark />
-            </Button>
+            <FAQButton onClose={() => setIsSidebarOpen(false)} />
             <PatchNoteButton onClose={() => setIsSidebarOpen(false)} />
 
             {user ? (
