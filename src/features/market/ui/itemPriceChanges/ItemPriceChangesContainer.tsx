@@ -65,6 +65,8 @@ export default function ItemPriceChangesContainer({
         )}
       </div>
 
+      <hr className="mt-4" />
+
       {/* 시세 변동 요약 */}
       {!preview && <ItemPriceChangesSummary items={priceChanges} />}
     </>

@@ -16,7 +16,7 @@ export default async function ItemPriceChangesPage() {
   }
 
   return (
-    <section className="w-full max-w-4xl mx-auto space-y-16">
+    <div className="w-full max-w-4xl mx-auto space-y-16">
       <ButtonToBack />
 
       <section>
@@ -34,7 +34,14 @@ export default async function ItemPriceChangesPage() {
 
         {/* 시세 변동 내역 */}
         <ItemPriceChangesContainer />
+
+        <div className="my-12 px-8 py-4 bg-muted-foreground/5 rounded-2xl text-foreground/50">
+          <p className="text-center text-sm break-keep">
+            큐마켓은 가격을 결정하지 않으며, 거래에 필요한 참고 정보를
+            제공합니다.
+          </p>
+        </div>
       </section>
-    </section>
+    </div>
   );
 }

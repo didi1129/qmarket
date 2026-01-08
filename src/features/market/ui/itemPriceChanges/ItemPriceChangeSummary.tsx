@@ -35,6 +35,10 @@ export default function ItemPriceChangesSummary({
               ? `${summary.maxUp.item_name}(${summary.maxUp.item_gender}) +${summary.maxUp.change_rate}%`
               : "-"}
           </p>
+          <span>
+            {summary.maxUp?.prev_price.toLocaleString()} →{" "}
+            <b>{summary.maxUp?.cur_price.toLocaleString()}</b>
+          </span>
         </div>
 
         <div>
@@ -44,6 +48,10 @@ export default function ItemPriceChangesSummary({
               ? `${summary.maxDown.item_name}(${summary.maxDown.item_gender}) ${summary.maxDown.change_rate}%`
               : "-"}
           </p>
+          <span>
+            {summary.maxDown?.prev_price.toLocaleString()} →{" "}
+            <b>{summary.maxDown?.cur_price.toLocaleString()}</b>
+          </span>
         </div>
       </div>
     </section>
