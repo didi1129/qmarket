@@ -36,7 +36,7 @@ export default function ItemPriceChangesContainer({
         limit,
         startDate: start,
       }),
-    refetchInterval: 1000 * 60, // 1분
+    refetchInterval: 1000 * 60 * 60, // 1시간
   });
 
   const priceChanges = Array.isArray(data) ? data : [];
@@ -64,6 +64,8 @@ export default function ItemPriceChangesContainer({
           </div>
         )}
       </div>
+
+      <hr className="mt-4" />
 
       {/* 시세 변동 요약 */}
       {!preview && <ItemPriceChangesSummary items={priceChanges} />}
