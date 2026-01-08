@@ -4,7 +4,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/shared/ui/accordion";
-import LinkToOpenInquiryModal from "@/features/inquiry/ui/LinkToOpenInquiryModal";
 import ButtonToMain from "@/shared/ui/LinkButton/ButtonToMain";
 import SectionTitle from "@/shared/ui/SectionTitle";
 
@@ -20,72 +19,87 @@ export default function PatchNotePage() {
           <AccordionTrigger className="text-lg font-semibold text-left hover:no-underline py-4 text-gray-700">
             2026.01.08. 업데이트 안내
           </AccordionTrigger>
+
           <AccordionContent className="text-foreground p-4 bg-gray-50 border-t break-keep">
-            <h4 className="font-bold text-xl mb-4">📢 시세 변동 리포트 추가</h4>
-            <p className="leading-relaxed">
-              [시세 변동 내역] 섹션 및 페이지가 추가되었습니다. <br />
-              해당 섹션에서 매주 아이템별 시세 변동 내역을 확인하실 수 있습니다.
-            </p>
-
-            <br />
-
-            <h5 className="text-lg font-bold">
-              1️⃣ 메인 - 시세 변동 내역 섹션 추가
-            </h5>
-            <img
-              src="/images/patch-price-changes-1.png"
-              alt="메인 페이지 시세 변동 내역 섹션 미리보기"
-              className="object-contain my-4"
-            />
-            <p className="leading-relaxed">
-              - 메인 페이지에 주간 시세 변동 내역 일부가 표시됩니다.
-              <br />- 로그인 후 시세 변동 내역 페이지로 이동 시 전체 내역을
-              확인하실 수 있습니다.
-            </p>
-
-            <br />
-
-            <h5 className="text-lg font-bold">2️⃣ 시세 변동 내역 페이지 추가</h5>
-            <img
-              src="/images/patch-price-changes-2.png"
-              alt="시세 변동 내역 페이지 미리보기"
-              className="object-contain my-4"
-            />
-            <p className="leading-relaxed">
-              - 시세 변동 내역 페이지에서는 전체 시세 변동 내역 및 요약 정보를
-              확인하실 수 있습니다.{" "}
-              <span className="text-foreground/50">
-                (큐마켓 등록 데이터 기반)
-              </span>
-              <br />- 아이템별 시세 변동률, 이전 시세, 현재 시세 정보 등의 상세
-              내용이 제공됩니다.
-            </p>
-
-            <br />
-
-            <img
-              src="/images/patch-price-changes-3.png"
-              alt="시세 변동 요약 미리보기"
-              className="object-contain my-4"
-            />
-            <p className="leading-relaxed">
-              - 페이지 하단에는 주간 시세 변동 요약 정보가 제공됩니다.
-            </p>
-
-            <br />
-            <br />
+            <h4 className="font-bold text-xl mb-2">📢 시세 변동 리포트 추가</h4>
 
             <p className="leading-relaxed">
-              시세 변동 내역은 큐마켓에 등록된 거래 데이터를 기반으로 산출되며,
-              인게임과 직접적으로 연결되어 있지 않으므로 참고용으로 활용해주시기
-              바랍니다.
+              아이템별 <strong>주간 시세 변동 내역</strong>을 확인할 수 있는
+              기능이 추가되었습니다.
             </p>
 
-            <br />
+            <p className="text-sm text-foreground/60 mt-1">
+              거래 타이밍 판단을 돕기 위해, 최근 거래 데이터를 주간 단위로
+              집계한 시세 변동 정보를 제공합니다.
+            </p>
 
-            <p className="leading-relaxed mt-4">감사합니다.</p>
+            <details className="mt-6">
+              <summary className="cursor-pointer font-semibold text-gray-700">
+                자세히 보기
+              </summary>
+
+              <div className="mt-4">
+                <h5 className="text-lg font-bold">
+                  1️⃣ 메인 - 시세 변동 내역 섹션 추가
+                </h5>
+
+                <img
+                  src="/images/patch-price-changes-1.png"
+                  alt="메인 페이지 시세 변동 내역 섹션 미리보기"
+                  className="object-contain my-4"
+                />
+
+                <p className="leading-relaxed">
+                  - 메인 페이지에서 주간 시세 변동 내역 일부를 확인할 수
+                  있습니다.
+                  <br />- 로그인 후 시세 변동 내역 페이지로 이동하면 전체 내역을
+                  확인할 수 있습니다.
+                </p>
+
+                <br />
+
+                <h5 className="text-lg font-bold">
+                  2️⃣ 시세 변동 내역 페이지 추가
+                </h5>
+
+                <img
+                  src="/images/patch-price-changes-2.png"
+                  alt="시세 변동 내역 페이지 미리보기"
+                  className="object-contain my-4"
+                />
+
+                <p className="leading-relaxed">
+                  - 전체 시세 변동 내역과 요약 정보를 제공합니다.{" "}
+                  <span className="text-foreground/50">
+                    (사이트 등록 거래 데이터 기준)
+                  </span>
+                  <br />- 아이템별 시세 변동률, 이전 시세, 현재 시세 정보를
+                  확인할 수 있습니다.
+                </p>
+
+                <img
+                  src="/images/patch-price-changes-3.png"
+                  alt="시세 변동 요약 미리보기"
+                  className="object-contain my-4"
+                />
+
+                <p className="leading-relaxed">
+                  - 페이지 하단에서 주간 시세 변동 요약 정보를 확인할 수
+                  있습니다.
+                </p>
+
+                <p className="leading-relaxed text-sm text-foreground/60 mt-6">
+                  시세 변동 내역은 사이트에 등록된 거래 데이터를 기반으로
+                  산출되며, 인게임과 직접적으로 연동되지 않은 데이터이므로
+                  참고용으로 활용해주시기 바랍니다.
+                </p>
+
+                <p className="leading-relaxed mt-6">감사합니다.</p>
+              </div>
+            </details>
           </AccordionContent>
         </AccordionItem>
+
         <AccordionItem value="patch-2025-12-12" className="border-b">
           <AccordionTrigger className="text-lg font-semibold text-left hover:no-underline py-4 text-gray-700">
             2025.12.12. 업데이트 안내

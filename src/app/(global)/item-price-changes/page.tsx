@@ -1,4 +1,3 @@
-import ItemPriceChangesTable from "@/features/market/ui/itemPriceChanges/ItemPriceChangesTable";
 import ButtonToBack from "@/shared/ui/LinkButton/ButtonToBack";
 import { redirect } from "next/navigation";
 import { getUserServer } from "@/shared/api/get-supabase-user-server";
