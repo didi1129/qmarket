@@ -6,11 +6,13 @@ import SearchBar from "@/features/item-search/ui/SearchBar";
 import ItemList from "@/features/items/ui/ItemList";
 import RollingPopularSearch from "@/features/item-search/ui/RollingPopularSearch";
 import { getPopularSearchesAction } from "../actions/search-actions";
-import GoToItemsModal from "@/features/items/ui/GoToItemsModal";
-import GoToMyItemsModal from "@/features/user/ui/GoToMyItemsModal";
 import UrlCleaner from "@/shared/lib/UrlCleaner";
 import BestDresserSection from "@/features/best-dresser/ui/BestDresserSection";
 import ButtonToBestDresserPage from "@/features/best-dresser/ui/ButtonToBestDresserPage";
+import GoToItemsButton from "@/features/items/ui/GoToItemsButton";
+import GoToMyItemsButton from "@/features/user/ui/GoToMyItemsButton";
+import GoToItemPriceChangesButton from "@/features/market/ui/itemPriceChanges/GoToItemPriceChangesButton";
+import ItemPriceChangesContainer from "@/features/market/ui/itemPriceChanges/ItemPriceChangesContainer";
 
 export default async function Home() {
   const now = new Date();
@@ -45,7 +47,7 @@ export default async function Home() {
                 큐플레이 아이템 거래 현황 · 시세 조회
               </h2>
               <p className="text-foreground/50 text-sm max-w-[70%] mx-auto md:max-w-none md:mx-0 break-keep">
-                최근 거래 · 시세 확인 · 아이템 정보
+                구매/판매 · 시세 확인 · 아이템 정보
               </p>
             </div>
 
@@ -110,23 +112,42 @@ export default async function Home() {
             </div>
 
             {/* 전체 거래 현황 보기 CTA */}
-            <GoToItemsModal />
+            <GoToItemsButton />
           </section>
 
           {/* 시세 변동 내역 */}
-          <section className="mb-12 w-full max-w-4xl">
+          <section className="w-full max-w-4xl">
             <h2 className="text-2xl font-bold tracking-tight mb-4">
-              📊 이번 주 시세 변동 내역
+              📊 주간 시세 변동 내역
             </h2>
 
-            <ItemPriceChangesSection limit={3} />
+            <ItemPriceChangesContainer limit={3} preview={true} />
 
             {/* 전체 시세 변동 내역 보기 CTA */}
-            <GoToItemsModal />
+            <GoToItemPriceChangesButton />
+          </section>
+
+          {/* 안내 섹션 */}
+          <section className="my-12 px-8 py-4 bg-muted-foreground/5 rounded-2xl text-foreground/50">
+            <p className="text-center text-sm break-keep">
+              큐마켓은 가격을 결정하지 않으며, 거래에 필요한 참고 정보를
+              제공합니다.
+            </p>
+          </section>
+
+          {/* 아이템 카테고리 메뉴 */}
+          <section className="mb-16 w-full max-w-4xl">
+            <h2 className="text-2xl font-bold tracking-tight mb-4">
+              🧭 아이템 카테고리별 거래
+            </h2>
+
+            <div className="p-4 md:p-6 rounded-3xl bg-card border shadow-sm flex justify-center items-center">
+              <ItemCategoryNav />
+            </div>
           </section>
 
           {/* 이번 달 로테이션 */}
-          <section className="mb-12 w-full max-w-4xl">
+          <section className="w-full max-w-4xl">
             <h3 className="font-bold text-2xl flex items-center gap-2 mb-4">
               ✨ 이번 달 로테이션
             </h3>
@@ -163,20 +184,9 @@ export default async function Home() {
             </Link>
           </section>
 
-          {/* 아이템 카테고리 메뉴 */}
-          <section className="w-full max-w-4xl">
-            <h2 className="text-2xl font-bold tracking-tight mb-4">
-              🧭 아이템 카테고리별
-            </h2>
-
-            <div className="p-4 md:p-6 rounded-3xl bg-card border shadow-sm flex justify-center items-center">
-              <ItemCategoryNav />
-            </div>
-          </section>
-
           {/* 하단 그리드 메뉴 */}
-          <section className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-4xl">
-            <GoToMyItemsModal />
+          <section className="mb-12 w-full grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-4xl">
+            <GoToMyItemsButton />
 
             <Link href="/rotation-items/last" className="h-full">
               <div className="h-full p-6 rounded-2xl bg-card border hover:border-primary/50 transition-colors break-keep">
@@ -189,14 +199,6 @@ export default async function Home() {
                 </p>
               </div>
             </Link>
-          </section>
-
-          {/* 안내 섹션 */}
-          <section className="my-8 px-8 py-4 bg-muted-foreground/5 rounded-2xl text-foreground/50">
-            <p className="text-center text-sm break-keep">
-              큐마켓은 가격을 결정하지 않으며, 가격 판단을 돕는 참고 정보를
-              제공합니다.
-            </p>
           </section>
 
           {/* 베스트 드레서 섹션 */}

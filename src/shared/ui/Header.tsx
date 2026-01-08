@@ -24,6 +24,8 @@ import { usePathname } from "next/navigation";
 import { cn } from "../lib/utils";
 import { useState } from "react";
 import { ALLOWED_RETURN_TO } from "../config/constants";
+import PatchNoteButton from "@/features/patch-note/ui/PatchNoteButton";
+import FAQButton from "@/features/faq/ui/FAQButton";
 
 const DynamicSheetTrigger = dynamic(
   () => import("./sheet").then((mod) => mod.SheetTrigger),
@@ -32,6 +34,7 @@ const DynamicSheetTrigger = dynamic(
 
 export default function Header() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   const router = useRouter();
   const { data: user } = useUser();
   const queryClient = useQueryClient();
@@ -86,28 +89,8 @@ export default function Header() {
             })}
           >
             {/* actions */}
-            <Button
-              size="icon"
-              title="FAQ"
-              variant="outline"
-              onClick={() => {
-                router.push("/faq");
-                setIsSidebarOpen(false);
-              }}
-            >
-              <BadgeQuestionMark />
-            </Button>
-            <Button
-              size="icon"
-              title="패치노트"
-              variant="outline"
-              onClick={() => {
-                router.push("/patch-note");
-                setIsSidebarOpen(false);
-              }}
-            >
-              <BookPlus />
-            </Button>
+            <FAQButton onClose={() => setIsSidebarOpen(false)} />
+            <PatchNoteButton onClose={() => setIsSidebarOpen(false)} />
 
             {user ? (
               <DropdownMenu modal={false}>
