@@ -76,7 +76,7 @@ export default function ItemPriceChangesTable({
       dailyGroups
         .map(({ date, items }) => {
           // 변동률 전체/상승/하락 필터링
-          let filteredItems = items.filter((item) => {
+          const filteredItems = items.filter((item) => {
             if (filter === "up") return item.change_rate > 0;
             if (filter === "down") return item.change_rate < 0;
             return true;
