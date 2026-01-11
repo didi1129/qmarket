@@ -8,6 +8,7 @@ import { getUserServer } from "@/shared/api/get-supabase-user-server";
 import { QueryProvider } from "@/shared/providers/QueryProvider";
 import { galmuri9 } from "@/shared/config/fonts";
 import "@/globals.css";
+import { Toaster } from "sonner";
 
 export default async function AdminLayout({
   children,
@@ -38,6 +39,13 @@ export default async function AdminLayout({
         <QueryProvider dehydratedState={dehydratedState}>
           <HydrationBoundary state={dehydratedState}>
             {children}
+            <Toaster
+              position="bottom-center"
+              richColors
+              toastOptions={{
+                className: "font-pretendard",
+              }}
+            />
           </HydrationBoundary>
         </QueryProvider>
       </body>
