@@ -70,34 +70,44 @@ export default function ItemPriceChangesTable({
     });
   };
 
-  // 필터링 + 정렬
-  const filteredAndSortedItems = useMemo(() => {
-    if (!items || !Array.isArray(items)) return [];
+  // 필터링, 정렬
+  const filteredDailyGroups = useMemo(() => {
+    return (
+      dailyGroups
+        .map(({ date, items }) => {
+          // 변동률 전체/상승/하락 필터링
+          let filteredItems = items.filter((item) => {
+            if (filter === "up") return item.change_rate > 0;
+            if (filter === "down") return item.change_rate < 0;
+            return true;
+          });
 
-    let list = [...items];
+          // 정렬: 일별 그룹 내에서만 (전체 주간 데이터 대상으로 하면 날짜 정렬 꼬일 수 있음)
+          if (sortOrder === "default") {
+            filteredItems.sort(
+              (a, b) =>
+                new Date(b.updated_at).getTime() -
+                new Date(a.updated_at).getTime()
+            );
+          } else if (sortOrder === "desc") {
+            filteredItems.sort(
+              (a, b) => Math.abs(b.change_rate) - Math.abs(a.change_rate)
+            );
+          } else if (sortOrder === "asc") {
+            filteredItems.sort(
+              (a, b) => Math.abs(a.change_rate) - Math.abs(b.change_rate)
+            );
+          }
 
-    // 변동률 상승/하락 필터
-    if (filter === "up") {
-      list = list.filter((item) => item.change_rate > 0);
-    } else if (filter === "down") {
-      list = list.filter((item) => item.change_rate < 0);
-    }
-
-    // 최근 거래순 정렬
-    if (sortOrder === "default") {
-      list.sort(
-        (a, b) =>
-          new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
-      );
-    } else if (sortOrder === "desc") {
-      // 변동률 정렬
-      list.sort((a, b) => Math.abs(b.change_rate) - Math.abs(a.change_rate));
-    } else if (sortOrder === "asc") {
-      list.sort((a, b) => Math.abs(a.change_rate) - Math.abs(b.change_rate));
-    }
-
-    return list;
-  }, [items, filter, sortOrder]);
+          return {
+            date,
+            items: filteredItems,
+          };
+        })
+        // 아이템 없는 날짜는 일별 그룹 제거
+        .filter((group) => group.items.length > 0)
+    );
+  }, [dailyGroups, filter, sortOrder]);
 
   return (
     <>
@@ -152,7 +162,7 @@ export default function ItemPriceChangesTable({
             </thead>
 
             <tbody className="divide-y">
-              {dailyGroups.map(({ date, items }) => {
+              {filteredDailyGroups.map(({ date, items }) => {
                 const isOpen = openDates.has(date);
 
                 return (
@@ -254,7 +264,7 @@ export default function ItemPriceChangesTable({
       {/* 테이블 본문 (태블릿, 모바일) */}
       <div className="block md:hidden">
         <ItemPriceChangesMobileAccordion
-          dailyGroups={dailyGroups}
+          dailyGroups={filteredDailyGroups}
           openDates={openDates}
           toggleDate={toggleDate}
           isLoading={isLoading}
