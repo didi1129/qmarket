@@ -11,7 +11,7 @@ export async function getItemPriceChanges({
 }) {
   const nextWeekStart = addWeeks(startDate, 1);
 
-  // KST 날짜 문자열을 만들고, 이를 UTC timestamp로 변환
+  // KST 날짜 문자열을 만들고, 이를 UTC timestamp로 변환 (서버 저장 형식은 UTC로 통일하기 위함)
   const startKST = `${formatDateYMD(startDate)}T00:00:00+09:00`;
   const endKST = `${formatDateYMD(nextWeekStart)}T00:00:00+09:00`;
 
