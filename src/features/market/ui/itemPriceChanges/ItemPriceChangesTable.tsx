@@ -202,10 +202,11 @@ export default function ItemPriceChangesTable({
                             .toISOString()
                             .split("T")[0];
 
-                          const isNewItem =
-                            !item.prev_price || item.prev_price === 0;
+                          const isNewItem = !item.prev_price;
                           const isTodayChange =
-                            !isNewItem && today === itemLogDate;
+                            !isNewItem &&
+                            today === itemLogDate &&
+                            item.days_since_last_sale === 0;
 
                           return (
                             <tr key={item.id} className="text-sm">
