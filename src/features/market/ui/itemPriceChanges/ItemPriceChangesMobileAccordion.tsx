@@ -65,8 +65,11 @@ export default function ItemPriceChangesMobileAccordion({
                     .toISOString()
                     .split("T")[0];
 
-                  const isNewItem = !item.prev_price || item.prev_price === 0;
-                  const isTodayChange = !isNewItem && today === itemLogDate;
+                  const isNewItem = !item.prev_price;
+                  const isTodayChange =
+                    !isNewItem &&
+                    today === itemLogDate &&
+                    item.days_since_last_sale === 0;
 
                   return (
                     <li key={item.id} className="p-4">
