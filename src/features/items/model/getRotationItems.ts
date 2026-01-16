@@ -1,18 +1,20 @@
 import { FetchError } from "@/shared/config/types";
 
+interface Props {
+  dateFormat: string;
+  nextYear: number;
+  nextMonth: number;
+  gender: string;
+  source: string;
+}
+
 const getRotationItems = async ({
   dateFormat,
   nextYear,
   nextMonth,
   gender,
   source,
-}: {
-  dateFormat: string;
-  nextYear: number;
-  nextMonth: number;
-  gender: string;
-  source: string;
-}) => {
+}: Props) => {
   const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
@@ -46,7 +48,9 @@ const getRotationItems = async ({
         apikey: ANON_KEY,
         Authorization: `Bearer ${ANON_KEY}`,
       },
-      cache: "no-store", // 빌드 시 변경
+      next: {
+        tags: [`rotation-${dateFormat}`], // ⭐ on-demand ISR
+      },
     });
 
     if (!response.ok) {
