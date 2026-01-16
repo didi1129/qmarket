@@ -55,7 +55,7 @@ export default function AdminDirectPriceForm() {
           ITEM_SOURCES_MAP[values.item_source as keyof typeof ITEM_SOURCES_MAP],
         category:
           ITEM_CATEGORY_MAP[values.category as keyof typeof ITEM_CATEGORY_MAP],
-        image: values.image,
+        image: values.image || "/images/empty.png",
         price: values.price,
         is_sold: true,
         created_at: date.toISOString(), // db에 UTC로 변환해서 저장
