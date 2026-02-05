@@ -1,44 +1,49 @@
 # 📊 Q-Market
+
 ```
 메이플스토리 월드의 샌드박스(유저 제작) 게임 '큐플레이 아카이브'의 실시간 아이템 거래 현황, 시세 정보를 제공합니다.
 ```
+
 ---
 
 ## 🔗 배포 링크
-https://q-market.vercel.app
+
+https://q-market.kr
 
 ---
 
-## ✨ 주요 기능 
+## ✨ 주요 기능
 
 - 아이템 판매/구매 게시글 CRUD
-- 아이템 시세 변동 내역 데이터 시각화 
+- 아이템 시세 변동 내역 데이터 시각화
 - 실거래 완료 데이터 기반 아이템별 시세 집계
 - 디스코드 간편 로그인
 
 ---
 
-## 📚 기술 스택 
-| 기술 | 카테고리 | 용도 |
-|------------|----------|---------------------|
-| <img src="https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white"> | 프레임워크 | 멀티 렌더링 전략을 통한 렌더링 성능 최적화, SEO |
-| <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black"> | UI 개발 | 컴포넌트 기반 선언적 UI 개발 |
-| <img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white"> | 언어 | 정적 타이핑을 통한 코드 안정성 확보 및 런타임 에러 방지 |
-| <img src="https://img.shields.io/badge/react hook form-EC5990?style=for-the-badge&logo=reacthookform&logoColor=black"> | 폼 관리 | 비제어 컴포넌트 기반 폼 상태 관리 및 렌더링 최적화 |
-| <img src="https://img.shields.io/badge/zod-408AFF?style=for-the-badge&logo=zod&logoColor=white"> | 유효성 검사 | 스키마 기반 검사 로직 분리로 관심사 분리 및 TS 타입 추론 |
-| <img src="https://img.shields.io/badge/TanStack Query-FF4154?style=for-the-badge&logo=reactquery&logoColor=white"> | 데이터 페칭 | 서버 데이터 캐싱, 동기화 및 선언적 데이터 상태 관리 |
-| <img src="https://img.shields.io/badge/tailwindcss-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white"> | 스타일 | Utility-first 기반 스타일 생산성 향상 |
-| <img src="https://img.shields.io/badge/shadcn/ui-000000?style=for-the-badge&logo=shadcnui&logoColor=white"> | UI 컴포넌트 | 공용 컴포넌트 개발 속도, 생산성, 접근성 확보 |
-| <img src="https://img.shields.io/badge/swiper-6332F6?style=for-the-badge&logo=swiper&logoColor=white"> | UI 컴포넌트 | 캐러셀 구현 편의성 도구 |
-| <img src="https://img.shields.io/badge/date fns-770C56?style=for-the-badge&logo=datefns&logoColor=white"> | 유틸리티 | `new Date()`보다 경량화된 날짜 데이터 처리 |
-| <img src="https://img.shields.io/badge/supabase-3FCF8E?style=for-the-badge&logo=supabase&logoColor=white"> | Database | PostgreSQL, Storage |
-| <img src="https://img.shields.io/badge/upstash-00E5C3?style=for-the-badge&logo=upstash&logoColor=black"> | Redis Upstash | 일일 아이템 등록 제한 관리, 인기 검색어 순위 집계 |
-| <img src="https://img.shields.io/badge/Amazon%20S3-FF9900?style=for-the-badge&logo=amazons3&logoColor=white"/> | Cloud Storage | 유저 업로드 이미지 저장 |
-| <img src="https://img.shields.io/badge/vercel-000?style=for-the-badge&logo=vercel&logoColor=white"> | 배포 | GitHub 연동 CI/CD 자동화 |
+## 📚 기술 스택
+
+| 기술                                                                                                                   | 카테고리      | 용도                                                     |
+| ---------------------------------------------------------------------------------------------------------------------- | ------------- | -------------------------------------------------------- |
+| <img src="https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white">             | 프레임워크    | 멀티 렌더링 전략을 통한 렌더링 성능 최적화, SEO          |
+| <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black">                   | UI 개발       | 컴포넌트 기반 선언적 UI 개발                             |
+| <img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white">         | 언어          | 정적 타이핑을 통한 코드 안정성 확보 및 런타임 에러 방지  |
+| <img src="https://img.shields.io/badge/react hook form-EC5990?style=for-the-badge&logo=reacthookform&logoColor=black"> | 폼 관리       | 비제어 컴포넌트 기반 폼 상태 관리 및 렌더링 최적화       |
+| <img src="https://img.shields.io/badge/zod-408AFF?style=for-the-badge&logo=zod&logoColor=white">                       | 유효성 검사   | 스키마 기반 검사 로직 분리로 관심사 분리 및 TS 타입 추론 |
+| <img src="https://img.shields.io/badge/TanStack Query-FF4154?style=for-the-badge&logo=reactquery&logoColor=white">     | 데이터 페칭   | 서버 데이터 캐싱, 동기화 및 선언적 데이터 상태 관리      |
+| <img src="https://img.shields.io/badge/tailwindcss-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white">       | 스타일        | Utility-first 기반 스타일 생산성 향상                    |
+| <img src="https://img.shields.io/badge/shadcn/ui-000000?style=for-the-badge&logo=shadcnui&logoColor=white">            | UI 컴포넌트   | 공용 컴포넌트 개발 속도, 생산성, 접근성 확보             |
+| <img src="https://img.shields.io/badge/swiper-6332F6?style=for-the-badge&logo=swiper&logoColor=white">                 | UI 컴포넌트   | 캐러셀 구현 편의성 도구                                  |
+| <img src="https://img.shields.io/badge/date fns-770C56?style=for-the-badge&logo=datefns&logoColor=white">              | 유틸리티      | `new Date()`보다 경량화된 날짜 데이터 처리               |
+| <img src="https://img.shields.io/badge/supabase-3FCF8E?style=for-the-badge&logo=supabase&logoColor=white">             | Database      | PostgreSQL, Storage                                      |
+| <img src="https://img.shields.io/badge/upstash-00E5C3?style=for-the-badge&logo=upstash&logoColor=black">               | Redis Upstash | 일일 아이템 등록 제한 관리, 인기 검색어 순위 집계        |
+| <img src="https://img.shields.io/badge/Amazon%20S3-FF9900?style=for-the-badge&logo=amazons3&logoColor=white"/>         | Cloud Storage | 유저 업로드 이미지 저장                                  |
+| <img src="https://img.shields.io/badge/vercel-000?style=for-the-badge&logo=vercel&logoColor=white">                    | 배포          | GitHub 연동 CI/CD 자동화                                 |
 
 ---
 
 ## 📁 프로젝트 구조
+
 ```
 src/
 ├── app/                       # Next.js App Router (라우팅 계층)
@@ -70,11 +75,13 @@ src/
 
 ---
 
-## 🧭 주요 디렉토리 
+## 🧭 주요 디렉토리
 
 ### `src/app/`
+
 Next.js 14+ App Router를 사용하는 라우팅 구조입니다.<br/>
 괄호로 묶인 폴더는 라우트 그룹으로, URL에 영향을 주지 않고 레이아웃을 공유합니다.
+
 - **(auth)**: 인증 관련 페이지 (디스코드 OAuth 등)
 - **(event)**: 이벤트 페이지
 - **(global)**: 서비스 메인 기능 페이지
@@ -83,19 +90,23 @@ Next.js 14+ App Router를 사용하는 라우팅 구조입니다.<br/>
 - **api**: Next.js API Routes (RESTful 엔드포인트)
 
 ### `src/features/`
+
 Feature-Sliced Design(FSD) 개념을 참고하여, 도메인 단위로 기능을 분리한 구조입니다.
+
 - **auth**: 인증 (디스코드 로그인, 세션 관리)
 - **item**: 개별 아이템 상세 정보 및 관리
 - **items**: 아이템 목록 및 필터링
-- **market**: 시세 집계 
+- **market**: 시세 집계
 - **user**: 사용자 프로필, 회원 기능
 
 ### `src/shared/`
+
 프로젝트 전반 '공유 리소스' 폴더입니다.<br/>
 UI 컴포넌트, 유틸리티 함수, API 클라이언트 등이 포함됩니다.
+
 - **api**: Supabase, Redis 등 외부 서비스 클라이언트
-- **assets**: svgr 이미지 컴포넌트 
-- **config**: 상수, 폰트 공용 설정 
+- **assets**: svgr 이미지 컴포넌트
+- **config**: 상수, 폰트 공용 설정
 - **hooks**: React Custom Hooks
 - **lib**: 유틸리티 함수 및 헬퍼
 - **providers**: 전역 상태, 데이터 패칭 Provider
@@ -103,15 +114,18 @@ UI 컴포넌트, 유틸리티 함수, API 클라이언트 등이 포함됩니다
 
 ---
 
-## 🏗️ 구조 설계 
+## 🏗️ 구조 설계
+
 **Feature-Sliced Design (FSD)** 아키텍처를 적용했으나, 프로젝트 규모에 맞춰 일부 수정했습니다.
+
 1. **app/**: 라우팅 및 페이지 레이아웃
 2. **features/**: 비즈니스 로직이 포함된 기능 모듈
 3. **shared/**: 공통으로 사용되는 리소스
-+ **model**, **ui**: 필요에 따라 상태·비즈니스 로직과 프레젠테이션 레이어 분리
 
+- **model**, **ui**: 필요에 따라 상태·비즈니스 로직과 프레젠테이션 레이어 분리
 
 ## DB, Storage 설정
+
 ```
 - Supabase: 메인 DB (아이템 판매/구매 현황, 아이템 등록 요청 목록, 거래 내역, 유저 데이터, 게임 아이템 정보 등)
   - Supabase Storage: 아이템 미리보기 이미지
@@ -120,6 +134,7 @@ UI 컴포넌트, 유틸리티 함수, API 클라이언트 등이 포함됩니다
 ```
 
 ## Getting Started
+
 ```bash
 npm run dev
 # or
@@ -135,9 +150,11 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
 ## Contribute
+
 [@asksa1256](https://github.com/asksa1256)
 
 ## Powered by
+
 [![Powered by Vercel](https://github.com/user-attachments/assets/105c05d3-6559-4701-ae10-eac6bb7668bb)](https://vercel.com/)
 <svg width="212" height="44" viewBox="0 0 212 44" fill="none" xmlns="http://www.w3.org/2000/svg">
 <rect width="212" height="44" rx="8" fill="black"/>
