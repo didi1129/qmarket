@@ -3,6 +3,45 @@ import { supabaseServer } from "@/shared/api/supabase-server";
 import RequestItemModal from "@/features/item/ui/RequestItemModal";
 import { getItemMarketPrice } from "@/features/item/model/getItemMarketPrice";
 import getDesiredPrice from "@/features/item/model/getDesiredPrice";
+import type { Metadata } from "next";
+import { ITEM_GENDER_MAP } from "@/shared/config/constants";
+
+type PageProps = {
+  params: Promise<{ itemName: string; itemGender: string }>;
+};
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { itemName, itemGender } = await params;
+  const decodedName = decodeURIComponent(itemName);
+  const decodedGender = decodeURIComponent(itemGender);
+  const genderLabel = ITEM_GENDER_MAP[decodedGender as keyof typeof ITEM_GENDER_MAP] ?? decodedGender;
+
+  const { data: item } = await supabaseServer
+    .from("items_info")
+    .select("image")
+    .eq("name", decodedName)
+    .eq("item_gender", decodedGender)
+    .single();
+
+  const title = `${decodedName} (${genderLabel})`;
+  const description = `${decodedName} (${genderLabel}) 아이템 시세, 거래 현황, 상세 정보 - Q-Market`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      ...(item?.image && { images: [{ url: item.image }] }),
+    },
+    twitter: {
+      card: item?.image ? "summary_large_image" : "summary",
+      title,
+      description,
+      ...(item?.image && { images: [item.image] }),
+    },
+  };
+}
 
 export default async function ItemDetailPage({
   params,

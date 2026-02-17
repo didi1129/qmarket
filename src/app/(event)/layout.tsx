@@ -7,9 +7,27 @@ import { QueryProvider } from "@/shared/providers/QueryProvider";
 import "@/globals.css";
 
 export const metadata: Metadata = {
-  title: "큐마켓 | 2025 베스트 드레서 컨테스트",
+  metadataBase: new URL("https://q-market.kr"),
+  title: {
+    default: "큐마켓 | 2025 베스트 드레서 컨테스트",
+    template: "%s | Q-Market 이벤트",
+  },
   description:
     "2025 큐플레이 베스트 드레서 컨테스트에 참가하고 기프티콘도 받자!",
+  openGraph: {
+    siteName: "Q-Market",
+    type: "website",
+    locale: "ko_KR",
+    title: "큐마켓 | 2025 베스트 드레서 컨테스트",
+    description:
+      "2025 큐플레이 베스트 드레서 컨테스트에 참가하고 기프티콘도 받자!",
+  },
+  twitter: {
+    card: "summary",
+    title: "큐마켓 | 2025 베스트 드레서 컨테스트",
+    description:
+      "2025 큐플레이 베스트 드레서 컨테스트에 참가하고 기프티콘도 받자!",
+  },
 };
 
 export default async function EventPageLayout({

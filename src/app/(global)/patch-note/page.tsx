@@ -7,6 +7,12 @@ import {
 import ButtonToMain from "@/shared/ui/LinkButton/ButtonToMain";
 import SectionTitle from "@/shared/ui/SectionTitle";
 import Image from "next/image";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "패치노트",
+  description: "큐마켓 업데이트 내역 및 패치노트. 새로운 기능과 변경 사항을 확인하세요.",
+};
 
 export default function PatchNotePage() {
   return (

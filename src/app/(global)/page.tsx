@@ -13,6 +13,13 @@ import GoToItemsButton from "@/features/items/ui/GoToItemsButton";
 import GoToMyItemsButton from "@/features/user/ui/GoToMyItemsButton";
 import GoToItemPriceChangesButton from "@/features/market/ui/itemPriceChanges/GoToItemPriceChangesButton";
 import ItemPriceChangesContainer from "@/features/market/ui/itemPriceChanges/ItemPriceChangesContainer";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Q-Market | 큐플레이 아이템 거래 시세 조회",
+  description:
+    "큐플레이 아이템 거래 현황, 실시간 시세 조회, 카테고리별 아이템 검색. 판매·구매 등록부터 시세 변동까지 한눈에 확인하세요.",
+};
 
 export default async function Home() {
   const now = new Date();

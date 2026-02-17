@@ -8,6 +8,20 @@ import {
 import CategoryItemAccordion from "@/features/items/ui/CategoryItemAccordion";
 import CategoryItemFilteredList from "@/features/items/ui/CategoryItemFilteredList";
 import ButtonToBack from "@/shared/ui/LinkButton/ButtonToBack";
+import type { Metadata } from "next";
+
+type PageProps = {
+  params: Promise<{ category: ItemCategory }>;
+};
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { category } = await params;
+  const categoryLabel = ITEM_CATEGORY_MAP[category] ?? category;
+  const title = `${categoryLabel} 아이템 거래`;
+  const description = `큐플레이 ${categoryLabel} 카테고리 아이템 판매·구매 목록 및 전체 아이템 정보`;
+
+  return { title, description };
+}
 
 export async function generateStaticParams() {
   const categories = await getItemCategories();

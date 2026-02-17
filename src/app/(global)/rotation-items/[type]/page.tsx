@@ -3,6 +3,29 @@ import SectionTitle from "@/shared/ui/SectionTitle";
 import NewItemsClient from "@/features/items/ui/NewItemsClient";
 import { notFound } from "next/navigation";
 import ButtonToBack from "@/shared/ui/LinkButton/ButtonToBack";
+import type { Metadata } from "next";
+
+type PageProps = {
+  params: Promise<{ type: string }>;
+};
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { type } = await params;
+
+  if (type !== "new" && type !== "last") {
+    return { title: "로테이션 아이템" };
+  }
+
+  const now = new Date();
+  const targetDate = type === "new" ? now : new Date(now.getFullYear(), now.getMonth() - 1);
+  const year = targetDate.getFullYear();
+  const month = targetDate.getMonth() + 1;
+
+  const title = `${year}년 ${month}월 로테이션 아이템`;
+  const description = `큐플레이 ${year}년 ${month}월 로테이션 뽑기·요술상자 아이템 목록`;
+
+  return { title, description };
+}
 
 export default async function RotationItemsPage({
   params,

@@ -7,6 +7,13 @@ import {
 import LinkToOpenInquiryModal from "@/features/inquiry/ui/LinkToOpenInquiryModal";
 import ButtonToMain from "@/shared/ui/LinkButton/ButtonToMain";
 import SectionTitle from "@/shared/ui/SectionTitle";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "자주 묻는 질문 (FAQ)",
+  description:
+    "큐마켓 이용 관련 자주 묻는 질문과 답변. 아이템 등록, 시세 계산 방식, 디스코드 연동 안내.",
+};
 
 export default function FAQPage() {
   return (

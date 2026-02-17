@@ -14,9 +14,27 @@ import {
 } from "@tanstack/react-query";
 
 export const metadata: Metadata = {
-  title: "Q-Market",
+  metadataBase: new URL("https://q-market.kr"),
+  title: {
+    default: "Q-Market | 큐플레이 아이템 거래",
+    template: "%s | Q-Market",
+  },
   description:
     "큐플레이 아이템 거래 현황 및 시세 조회, 아이템 거래 등록, 아이템 상세 정보",
+  openGraph: {
+    siteName: "Q-Market",
+    type: "website",
+    locale: "ko_KR",
+    title: "Q-Market | 큐플레이 아이템 거래",
+    description:
+      "큐플레이 아이템 거래 현황 및 시세 조회, 아이템 거래 등록, 아이템 상세 정보",
+  },
+  twitter: {
+    card: "summary",
+    title: "Q-Market | 큐플레이 아이템 거래",
+    description:
+      "큐플레이 아이템 거래 현황 및 시세 조회, 아이템 거래 등록, 아이템 상세 정보",
+  },
 };
 
 export default async function RootLayout({

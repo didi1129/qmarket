@@ -5,6 +5,13 @@ import EntryList from "@/features/best-dresser/ui/EntryList";
 import BestDresserSection from "@/features/best-dresser/ui/BestDresserSection";
 import Link from "next/link";
 import { ExternalLink } from "lucide-react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "2025 베스트 드레서 컨테스트",
+  description:
+    "2025 큐플레이 베스트 드레서 컨테스트. 최고의 패셔니스타에 투표하고 기프티콘도 받자!",
+};
 
 function isContestClosed(): boolean {
   // 현재 UTC 시간
