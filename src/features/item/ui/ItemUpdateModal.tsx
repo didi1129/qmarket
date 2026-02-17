@@ -43,6 +43,7 @@ export default function ItemUpdateModal({ item }: ItemUpdateModalProps) {
         </DialogHeader>
 
         <ItemForm
+          mode="update"
           initialData={item}
           isForSale={item.is_for_sale}
           onSuccess={() => setOpen(false)}

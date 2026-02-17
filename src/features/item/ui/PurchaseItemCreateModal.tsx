@@ -88,8 +88,9 @@ export default function PurchaseItemCreateModal({
         </DialogHeader>
 
         <ItemForm
+          mode="create"
           isForSale={false}
-          initialItem={initialItem}
+          initialData={initialItem}
           onSuccess={() => setOpen(false)}
           onClose={() => setOpen(false)}
         />
