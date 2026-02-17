@@ -12,6 +12,7 @@ import { Heart, MessageCircleMoreIcon, Pencil, Trash2 } from "lucide-react";
 import HeartFill from "@/shared/ui/Icon/HeartFill";
 import { formatRelativeTime } from "@/shared/lib/formatters";
 import Link from "next/link";
+import Image from "next/image";
 import EntryEditModal from "./EntryEditModal";
 import { deleteS3Image } from "@/app/actions/best-dresser-actions";
 import { restoreEntryCountAction } from "@/app/actions/best-dresser-actions";
@@ -242,9 +243,11 @@ export default function EntryCard({
 
           {/* 이미지 */}
           <div className="relative w-[184px] h-[236px] mx-auto">
-            <img
+            <Image
               src={data.image_url}
               alt="Avatar"
+              fill
+              sizes="184px"
               className="object-contain w-full h-full rounded-xl overflow-hidden"
             />
           </div>

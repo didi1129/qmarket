@@ -97,9 +97,11 @@ const ItemCard = ({ item, userId }: ItemCardProps) => {
                     <div className="mb-1">
                       <hr className="my-2 opacity-50" />
                       <span className="block mb-2">✅ 거래 완료 인증샷:</span>
-                      <img
+                      <Image
                         src={item.transaction_image}
                         alt="거래 인증 이미지"
+                        width={300}
+                        height={300}
                         className="max-w-[300px] object-contain"
                       />
                     </div>

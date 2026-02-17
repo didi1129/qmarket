@@ -18,6 +18,7 @@ import { Button } from "@/shared/ui/button";
 import { Label } from "@/shared/ui/label";
 import { Textarea } from "@/shared/ui/textarea";
 import { BestDresserEntry, EntryFormValues } from "../model/bestDresserType";
+import Image from "next/image";
 
 interface EntryEditModalProps {
   open: boolean;
@@ -84,9 +85,11 @@ export default function EntryEditModal({
             <div className="flex flex-col gap-2">
               <Label>아바타 이미지</Label>
               <div className="relative w-[70%] mx-auto mt-2 p-2 rounded-xl">
-                <img
+                <Image
                   src={data.image_url}
                   alt="미리보기"
+                  width={300}
+                  height={400}
                   className="rounded-lg w-full h-auto"
                 />
                 {isSucceeded && (

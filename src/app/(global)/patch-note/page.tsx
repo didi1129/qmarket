@@ -6,6 +6,7 @@ import {
 } from "@/shared/ui/accordion";
 import ButtonToMain from "@/shared/ui/LinkButton/ButtonToMain";
 import SectionTitle from "@/shared/ui/SectionTitle";
+import Image from "next/image";
 
 export default function PatchNotePage() {
   return (
@@ -43,9 +44,11 @@ export default function PatchNotePage() {
                   1️⃣ 메인 - 시세 변동 내역 섹션 추가
                 </h5>
 
-                <img
+                <Image
                   src="/images/patch-price-changes-1.png"
                   alt="메인 페이지 시세 변동 내역 섹션 미리보기"
+                  width={600}
+                  height={400}
                   className="object-contain my-4"
                 />
 
@@ -62,9 +65,11 @@ export default function PatchNotePage() {
                   2️⃣ 시세 변동 내역 페이지 추가
                 </h5>
 
-                <img
+                <Image
                   src="/images/patch-price-changes-2.png"
                   alt="시세 변동 내역 페이지 미리보기"
+                  width={600}
+                  height={400}
                   className="object-contain my-4"
                 />
 
@@ -77,9 +82,11 @@ export default function PatchNotePage() {
                   확인할 수 있습니다.
                 </p>
 
-                <img
+                <Image
                   src="/images/patch-price-changes-3.png"
                   alt="시세 변동 요약 미리보기"
+                  width={600}
+                  height={400}
                   className="object-contain my-4"
                 />
 
@@ -111,9 +118,11 @@ export default function PatchNotePage() {
             <p className="leading-relaxed">
               - 이제 구매/판매 완료 시 거래 인증샷을 첨부하실 수 있습니다.
             </p>
-            <img
+            <Image
               src="/images/patch-1-1.jpg"
               alt="거래 완료 모달 - 인증샷 첨부 필드"
+              width={600}
+              height={400}
               className="object-contain my-4"
             />
             <p className="leading-relaxed">
@@ -124,17 +133,21 @@ export default function PatchNotePage() {
               - 등록하신 인증샷은 거래 완료 아이템의 메시지 툴팁에서 확인하실 수
               있습니다. (모든 유저가 확인 가능)
             </p>
-            <img
+            <Image
               src="/images/patch-1-2.jpg"
               alt="인증샷 확인 화면"
+              width={600}
+              height={400}
               className="object-contain my-4"
             />
             <p className="leading-relaxed">
               - 유저 프로필에 인증 횟수와 거래 완료 횟수가 모두 표시됩니다.
             </p>
-            <img
+            <Image
               src="/images/patch-1-3.png"
               alt="유저 프로필 - 거래 인증/완료 횟수"
+              width={600}
+              height={400}
               className="object-contain my-4"
             />
             <p className="leading-relaxed">

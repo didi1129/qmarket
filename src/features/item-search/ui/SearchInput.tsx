@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 import { Input } from "@/shared/ui/input";
 import {
   ChangeEvent,
@@ -178,9 +180,11 @@ export default function SearchInput({
                           onSelect={() => handleSelect(s)}
                           className="flex items-center text-left text-xs md:text-sm gap-3 py-1 cursor-pointer"
                         >
-                          <img
+                          <Image
                             src={s.image || "/images/empty.png"}
                             alt=""
+                            width={40}
+                            height={48}
                             className="w-10 h-12 object-contain"
                           />
                           <span>
@@ -222,9 +226,11 @@ export default function SearchInput({
                           onSelect={() => handleSelect(s)}
                           className="flex items-center text-left text-xs md:text-sm gap-3 py-1 cursor-pointer group"
                         >
-                          <img
+                          <Image
                             src={s.image || "/images/empty.png"}
                             alt=""
+                            width={40}
+                            height={48}
                             className="w-10 h-12 object-contain"
                           />
                           <div className="flex items-start gap-1">

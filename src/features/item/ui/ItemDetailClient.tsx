@@ -12,6 +12,7 @@ import ButtonToBack from "@/shared/ui/LinkButton/ButtonToBack";
 import ItemList from "@/features/items/ui/ItemList";
 import ItemsFilter from "@/features/item-search/ui/ItemsFilter";
 import { useState } from "react";
+import Image from "next/image";
 import LoadingSpinner from "@/shared/ui/LoadingSpinner";
 import SectionTitle from "@/shared/ui/SectionTitle";
 import SellingItemCreateModal from "./SellingItemCreateModal";
@@ -64,9 +65,11 @@ export default function ItemDetailClient({
             <SectionTitle>아이템 정보</SectionTitle>
 
             <div className="flex flex-col items-center">
-              <img
+              <Image
                 src={item.image || "/images/empty.png"}
                 alt={item.name}
+                width={144}
+                height={160}
                 className="w-36 h-40 object-cover rounded-xl border border-gray-200 p-1 mb-4"
               />
 

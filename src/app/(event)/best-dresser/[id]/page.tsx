@@ -1,6 +1,7 @@
 import { supabaseServer } from "@/shared/api/supabase-server";
 import CommentSection from "@/features/comment/ui/CommentSection";
 import ButtonToBack from "@/shared/ui/LinkButton/ButtonToBack";
+import Image from "next/image";
 
 export default async function EntryDetailPage({
   params,
@@ -22,9 +23,11 @@ export default async function EntryDetailPage({
       <ButtonToBack className="hover:bg-pink-100" />
 
       <div className="mb-8 flex flex-col justify-center items-center">
-        <img
+        <Image
           src={entry.image_url}
           alt={entry.nickname}
+          width={320}
+          height={400}
           className="w-[320px] rounded-2xl mb-8"
         />
         <h2 className="text-2xl font-bold mb-2">
